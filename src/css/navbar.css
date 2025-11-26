@@ -1,0 +1,17 @@
+.show_nav_links_desktop {
+  display: none;
+}
+
+.show_nav_links_mobile {
+  display: flex;
+}
+
+@media screen and (min-width: 1150px) {
+  .show_nav_links_desktop {
+    display: flex;
+  }
+  .show_nav_links_mobile {
+    display: none;
+  }
+}
+
