@@ -30,14 +30,14 @@ export const router = createBrowserRouter([
     path: "/",
     element: <Navigate to="/login" replace />,
   },
-  // {
-  //   path: "/login",
-  //   element: withSuspense(<LoginController />),
-  // },
   {
     path: "/login",
-    element: withSuspense(<Login2 />),
+    element: withSuspense(<LoginController />),
   },
+  // {
+  //   path: "/login",
+  //   element: withSuspense(<Login2 />),
+  // },
   {
     path: "/superadmin/dashboard",
     element: withSuspense(
