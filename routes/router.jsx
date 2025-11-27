@@ -8,7 +8,7 @@ const SuperAdminDashboard = lazy(() => import("../src/pages/superadmin_dashboard
 const ManageDispute = lazy(() => import("../src/pages/superadmin_dashboard/manage_dispute"));
 const ReviewPage = lazy(() => import("../src/pages/superadmin_dashboard/review-page"));
 import AuthRoute from '../utils/authRoute';
-import ManageUsers from "../src/pages/superadmin_dashboard/manage_users";
+import ManageUsers from "../src/pages/superadmin_dashboard/bccd_members";
 import Manage_freelancers from "../src/pages/superadmin_dashboard/manage_freelancers";
 import Manage_gigs from "../src/pages/superadmin_dashboard/manage_gigs";
 import AdminManageDisputes from "../src/pages/superadmin_dashboard/manage_disputes";
@@ -24,6 +24,9 @@ import Login2 from "../src/component/login/login2";
 import Login3 from "../src/component/login/login3";
 import Login4 from "../src/component/login/login4";
 import ModalButton from "../src/component/modal/modal";
+import Contacts from "../src/pages/superadmin_dashboard/contacts";
+import Poc_countries from "../src/pages/superadmin_dashboard/poc_countries";
+import Bccd_members from "../src/pages/superadmin_dashboard/bccd_members";
 
 export const router = createBrowserRouter([
   {
@@ -90,11 +93,21 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/superadmin/manage-users",
+    path: "/superadmin/contacts",
     element: withSuspense(
       // <AuthRoute>
       <AdminTemplate isShowFooter={false}>
-        <ManageUsers />
+        <Contacts />
+      </AdminTemplate>
+      // </AuthRoute>
+    ),
+  },
+  {
+    path: "/superadmin/bccd-members",
+    element: withSuspense(
+      // <AuthRoute>
+      <AdminTemplate isShowFooter={false}>
+        <Bccd_members />
       </AdminTemplate>
       // </AuthRoute>
     ),
@@ -144,17 +157,17 @@ export const router = createBrowserRouter([
     element: withSuspense(
       // <AuthRoute>
       <AdminTemplate isShowFooter={false}>
-        <Manage_freelancers />
+        <Contacts />
       </AdminTemplate>
       // </AuthRoute>
     ),
   },
   {
-    path: "/superadmin/manage-gigs",
+    path: "/superadmin/poc-country",
     element: withSuspense(
       // <AuthRoute>
       <AdminTemplate isShowFooter={false}>
-        <Manage_gigs />
+        <Poc_countries />
       </AdminTemplate>
       // </AuthRoute>
     ),

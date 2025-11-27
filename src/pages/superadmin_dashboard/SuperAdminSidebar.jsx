@@ -34,13 +34,13 @@ const AdminSidebar = ({
 
   const menuItems = [
     { icon: Home, label: "Dashboard", path: "/superadmin/dashboard" },
-    { icon: Users, label: "Users", path: "/superadmin/manage-users" },
+    { icon: Users, label: "BCCD Members", path: "/superadmin/bccd-members" },
     {
       icon: ShoppingCart,
-      label: "Active Freelancers",
-      path: "/superadmin/active-freelancers",
+      label: "Contacts",
+      path: "/superadmin/contacts",
     },
-    { icon: Briefcase, label: "Active Gigs", path: "/superadmin/manage-gigs" },
+    { icon: Briefcase, label: "POC Country", path: "/superadmin/poc-country" },
     {
       icon: ClipboardList,
       label: "Active Projects",
