@@ -1,34 +1,27 @@
-import { useState, memo, useEffect } from "react";
-import { Search, Users, User, TrendingUp, Sparkles } from "lucide-react";
-import { useGetAllUsers } from "../../../api/client/superadmin";
-import DataError from "./DataError";
-import useDebounce from "../../../hooks/useDebounce";
+import { useState, memo } from "react";
 import DataLoader from "./DataLoader";
-import { formatDate, getRelativeTime } from "../../../functions/timeFormat";
-import Pagination from "../../component/pagination";
+import { Users, User } from "lucide-react";
 import ICCDError from "../../component/ICCDError";
+import Pagination from "../../component/pagination";
+import useDebounce from "../../../hooks/useDebounce";
+import { useGetAllContacts } from "../../../api/client/contact";
 import TableHeader from "../../component/super_admin/table_header";
-
-const SORT_OPTIONS = [
-  { value: "name", label: "Name" },
-  { value: "email", label: "Email" },
-  { value: "created_at", label: "Registration Date" },
-  { value: "updated_at", label: "Last Update" },
-];
-
-const FILTER_OPTIONS = [
-  { value: "all", label: "All Users" },
-  { value: "recent", label: "Recent (Last 30 days)" },
-  { value: "active", label: "Active Users" },
-  { value: "inactive", label: "Inactive Users" },
-];
+import Search_and_filters from "../../component/Search_and_filters";
+import { contactFilter } from "../../../data/flitersData";
+import ReactSelect from "../../component/buttonSelect";
 
 function Contacts() {
 
-  const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [filterVal, setFilterVal] = useState({
+    name: "",
+    age: ""
+  })
 
-  const { data, totalPages, isLoading, isError, error } = useGetAllUsers({ search: useDebounce(search), page });
+  const { data, totalPages, isLoading, isError, error } = useGetAllContacts({ search: useDebounce(search), page });
+
+  console.log("filter value: ", filterVal)
 
   if (isLoading) return <DataLoader />;
   if (isError) return <ICCDError />
@@ -36,6 +29,7 @@ function Contacts() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="px-4 sm:px-6 lg:px-8 py-8 max-w-7xl mx-auto">
+
         {/* Header */}
         <TableHeader
           icon={<Users className="w-8 h-8 text-white" />}
@@ -45,6 +39,30 @@ function Contacts() {
           search={search}
           setSearch={setSearch}
         />
+
+        {/* Filters */}
+        <Search_and_filters
+          search={search}
+          setSearch={setSearch}
+          inptPlaceholder="Search Name..."
+          children={<>
+            <ReactSelect
+              selectedOption={filterVal.name}
+              onChange={(selectedOption) => setFilterVal({ ...filterVal, name: selectedOption ? selectedOption.value : '' })}
+              option={contactFilter}
+              placeholder='Select Name'
+              value={contactFilter.find(option => option.value === filterVal.name) || null}
+            />
+            {/* <ReactSelect
+              selectedOption={value}
+              onChange={(selectedOption) => setValue(selectedOption?.value || '')}
+              option={contactFilter}
+              placeholder='Select Age'
+              value={contactFilter.find(option => option.value === value) || null}
+            /> */}
+          </>}
+        />
+
         {/* Table */}
         <div className="mt-5 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-x-auto">
           {data?.length > 0 ? (
@@ -67,13 +85,13 @@ function Contacts() {
                     onClick={() => handleSort("created_at")}
                     className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
                   >
-                    Joined
+                    Number
                   </th>
                   <th
                     onClick={() => handleSort("updated_at")}
                     className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
                   >
-                    Last Active
+                    Designation
                   </th>
                 </tr>
               </thead>
@@ -97,13 +115,13 @@ function Contacts() {
                     </td>
 
                     <td className="px-4 py-3 text-sm text-slate-600">
-                      {user.email}
+                      {user.email || <p className="text-red-500">N/A</p>}
                     </td>
                     <td className="px-4 py-3 text-sm text-slate-600">
-                      {formatDate(user.created_at)}
+                      {user?.contact_number || <p className="text-red-500">N/A</p>}
                     </td>
                     <td className="px-4 py-3 text-sm text-slate-600">
-                      {getRelativeTime(user.updated_at)}
+                      {user?.designation || <p className="text-red-500">N/A</p>}
                     </td>
                   </tr>
                 ))}

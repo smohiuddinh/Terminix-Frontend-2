@@ -1,6 +1,5 @@
 import { useState, memo, useEffect } from "react";
 import { Search, Users, User, TrendingUp, Sparkles } from "lucide-react";
-import { useGetAllUsers } from "../../../api/client/superadmin";
 import DataError from "./DataError";
 import useDebounce from "../../../hooks/useDebounce";
 import DataLoader from "./DataLoader";
@@ -8,6 +7,7 @@ import { formatDate, getRelativeTime } from "../../../functions/timeFormat";
 import Pagination from "../../component/pagination";
 import ICCDError from "../../component/ICCDError";
 import TableHeader from "../../component/super_admin/table_header";
+import { useGetAllContacts } from "../../../api/client/contact";
 
 const SORT_OPTIONS = [
   { value: "name", label: "Name" },
@@ -23,12 +23,12 @@ const FILTER_OPTIONS = [
   { value: "inactive", label: "Inactive Users" },
 ];
 
-function Bccd_Members() {
+function International_Organization() {
 
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
-  const { data, totalPages, isLoading, isError, error } = useGetAllUsers({ search: useDebounce(search), page });
+  const { data, totalPages, isLoading, isError, error } = useGetAllContacts({ search: useDebounce(search), page });
 
   if (isLoading) return <DataLoader />;
   if (isError) return <ICCDError />
@@ -39,8 +39,8 @@ function Bccd_Members() {
         {/* Header */}
         <TableHeader
           icon={<Users className="w-8 h-8 text-white" />}
-          title={"BCCD Member"}
-          description={"This is BCCD Details"}
+          title={"International Organization"}
+          description={"This is contact Details"}
           inputPlaceHolder={"Search Member"}
           search={search}
           setSearch={setSearch}
@@ -67,13 +67,13 @@ function Bccd_Members() {
                     onClick={() => handleSort("created_at")}
                     className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
                   >
-                    Joined
+                    Number
                   </th>
                   <th
                     onClick={() => handleSort("updated_at")}
                     className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
                   >
-                    Last Active
+                    Designation
                   </th>
                 </tr>
               </thead>
@@ -97,13 +97,13 @@ function Bccd_Members() {
                     </td>
 
                     <td className="px-4 py-3 text-sm text-slate-600">
-                      {user.email}
+                      {user.email || <p className="text-red-500">N/A</p>}
                     </td>
                     <td className="px-4 py-3 text-sm text-slate-600">
-                      {formatDate(user.created_at)}
+                      {user?.contact_number || <p className="text-red-500">N/A</p>}
                     </td>
                     <td className="px-4 py-3 text-sm text-slate-600">
-                      {getRelativeTime(user.updated_at)}
+                      {user?.designation || <p className="text-red-500">N/A</p>}
                     </td>
                   </tr>
                 ))}
@@ -135,4 +135,4 @@ function Bccd_Members() {
   );
 }
 
-export default memo(Bccd_Members);
+export default memo(International_Organization);

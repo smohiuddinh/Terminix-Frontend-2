@@ -33,28 +33,33 @@ const AdminSidebar = ({
   const logout = useLogout();
 
   const menuItems = [
-    { icon: Home, label: "Dashboard", path: "/superadmin/dashboard" },
-    { icon: Users, label: "BCCD Members", path: "/superadmin/bccd-members" },
+    // { icon: Home, label: "Dashboard", path: "/superadmin/dashboard" },
+    // { icon: Users, label: "BCCD Members", path: "/superadmin/bccd-members" },
     {
       icon: ShoppingCart,
       label: "Contacts",
       path: "/superadmin/contacts",
     },
-    { icon: Briefcase, label: "POC Country", path: "/superadmin/poc-country" },
-    {
-      icon: ClipboardList,
-      label: "Active Projects",
-      path: "/superadmin/manage-projects",
+     {
+      icon: ShoppingCart,
+      label: "International Organization",
+      path: "/superadmin/international-organization",
     },
-    { icon: BriefcaseBusiness, label: "Active Jobs", path: "/superadmin/manage-jobs" },
-    { icon: Settings, label: "Disputes", path: "/superadmin/manage-disputes" },
-    {
-      icon: MessageSquare,
-      label: "Contact Form",
-      path: "/superadmin/manage-contactform",
-    },
-    { icon: ThumbsUp, label: "Feedbacks", path: "/superadmin/manage-feedbacks" },
-    { icon: Flag, label: "Reports", path: "/superadmin/manage-reports" },
+    // { icon: Briefcase, label: "POC Country", path: "/superadmin/poc-country" },
+    // {
+    //   icon: ClipboardList,
+    //   label: "Active Projects",
+    //   path: "/superadmin/manage-projects",
+    // },
+    // { icon: BriefcaseBusiness, label: "Active Jobs", path: "/superadmin/manage-jobs" },
+    // { icon: Settings, label: "Disputes", path: "/superadmin/manage-disputes" },
+    // {
+    //   icon: MessageSquare,
+    //   label: "Contact Form",
+    //   path: "/superadmin/manage-contactform",
+    // },
+    // { icon: ThumbsUp, label: "Feedbacks", path: "/superadmin/manage-feedbacks" },
+    // { icon: Flag, label: "Reports", path: "/superadmin/manage-reports" },
   ];
 
   const getActiveItem = () => {

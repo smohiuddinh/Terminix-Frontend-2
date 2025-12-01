@@ -15,9 +15,9 @@ import {
   Bell,
   ChevronRight,
 } from "lucide-react";
-import { useGetAllOrderByAdmin } from "../../../api/client/order";
+// import { useGetAllOrderByAdmin } from "../../../api/client/order";
 // import OverviewChart from "../../component/freelancer_dashboard/overview";
-import { useGetAllFreelancers, useGetAllGigs, useGetAllProjects, useGetAllUsers } from "../../../api/client/superadmin";
+// import { useGetAllFreelancers, useGetAllGigs, useGetAllProjects, useGetAllUsers } from "../../../api/client/superadmin";
 
 const SuperAdminDashboard = () => {
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
@@ -72,9 +72,6 @@ const SuperAdminDashboard = () => {
       return total;
     }, 0);
   }, [orders]);
-
-
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50">

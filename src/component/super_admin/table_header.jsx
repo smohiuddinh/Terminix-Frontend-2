@@ -29,7 +29,7 @@ function TableHeader({ icon, title, description, inputPlaceHolder, search, setSe
                 </div>
 
                 {/* Search Bar */}
-                <div className="relative group lg:min-w-96">
+                {/* <div className="relative group lg:min-w-96">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                         <Search className="h-5 w-5 text-slate-400 group-focus-within:text-[#4EB5AE] transition-colors" />
                     </div>
@@ -43,7 +43,7 @@ function TableHeader({ icon, title, description, inputPlaceHolder, search, setSe
                              transition-all duration-300 shadow-sm hover:shadow-md font-medium"
                         placeholder={inputPlaceHolder}
                     />
-                </div>
+                </div> */}
             </div>
 
             {/* Stats Bar */}

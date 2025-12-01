@@ -52,7 +52,7 @@ export function useLogin() {
     mutationFn: (data) => api.post(API_ROUTE.user.login, data),
     onSuccess: (response) => {
       if (response?.data?.data?.email === 'admin@gmail.com') {
-        navigate("/superadmin/dashboard");
+        navigate("/superadmin/contacts");
         setToken(response?.data?.token);
       } else {
         setToken(response?.data?.token);
