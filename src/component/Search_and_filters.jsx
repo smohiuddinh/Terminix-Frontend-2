@@ -23,7 +23,7 @@ function Search_and_filters({ search, setSearch, inptPlaceholder = '', children 
                 </div>
                 <button
                     onClick={() => setShowFilters(!showFilters)}
-                    className="inline-flex items-center gap-2 px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 hover:border-slate-300 transition-all font-medium text-slate-700"
+                    className="cursor-pointer inline-flex items-center gap-2 px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 hover:border-slate-300 transition-all font-medium text-slate-700"
                 >
                     <Filter className="w-4 h-4" />
                     Filters

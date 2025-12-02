@@ -35,3 +35,17 @@ export function useGetAllContacts(params = {}) {
   });
   return { data: data?.data?.data, totalPages: data?.data?.totalPages, error, isLoading, isError };
 }
+
+export function useGetAllIntOrg(params = {}) {
+  const constructQueryString = (params) => {
+    const query = new URLSearchParams(params).toString();
+    return query ? `&${query}` : "";
+  };
+  const queryKey = [API_ROUTE.contact.getAllIntOrg, params];
+  const { data, error, isLoading, isError } = useQuery({
+    queryKey,
+    queryFn: () =>
+      api.get(`${API_ROUTE.contact.getAllIntOrg}?${constructQueryString(params)}`),
+  });
+  return { data: data?.data?.data, totalPages: data?.data?.totalPages, error, isLoading, isError };
+}

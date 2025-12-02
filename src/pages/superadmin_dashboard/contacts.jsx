@@ -65,7 +65,7 @@ function Contacts() {
               placeholder='Select Department'
               value={departmentFilter.find(option => option.value === filterVal.department) || null}
             />
-             <ReactSelect
+            <ReactSelect
               selectedOption={filterVal.country}
               onChange={(selectedOption) => setFilterVal({ ...filterVal, country: selectedOption ? selectedOption.value : '' })}
               option={countryFilter}
@@ -120,17 +120,9 @@ function Contacts() {
                     <tr key={user.id} className="hover:bg-slate-50">
 
                       <td className="px-4 py-3 text-sm font-medium text-slate-800 flex items-center gap-2">
-                        {user?.fileUrl ? (
-                          <img
-                            src={user.fileUrl}
-                            alt={user.name}
-                            className="w-8 h-8 rounded-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center">
-                            <User className="w-4 h-4 text-slate-500" />
-                          </div>
-                        )}
+                        <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center">
+                          <User className="w-4 h-4 text-slate-500" />
+                        </div>
                         {user.name || <p className="text-red-500">N/A</p>}
                       </td>
 

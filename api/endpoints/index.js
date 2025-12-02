@@ -1,57 +1,11 @@
 const API_ROUTE = {
   user: {
-    login: "signIn",
-    signUp: "signUp",
-    sendOtp: "sendOtp",
-    submitOtp: "submitOtp",
-    checkapi: "checkapi",
-    changePasword: "changePasword"
-  },
-  project: {
-    getAllProject: "/project/getAllProject",
-    getProjectByClient: "/project/getProjectByClient",
-    addProject: "/project/addProject",
-    getProjectById: "/project/getProjectById",
-    submitProposals: "/project/submitProposals",
-    getProjectPropsalByClient: '/project/getProjectPropsalByClient',
-    editProject: '/project/editProject'
-  
-  },
-  job: {
-    getAllJob: "/job/getAllJob",
-    getJobById: "/job/getJobById",
-    getJobByIdFreelancer: "/job/getJobByIdFreelancer",
-    addJob: "/job/addJob",
-    getJobsByClient: '/job/getJobsByClient',
-    editJob: '/job/editJob',
-    applyjob: "/job/applyJob",
-    getJobPropsalByClient: "/job/getJobPropsalByClient",
-    closejob: "/job/closeJob",
-    jobProposalAction:"/job/jobProposalAction",
-    getJobShortListCandidate : "/job/getAllJobs/shortlist"
-    
-  },
-  gigs: {
-    getGigs: "/gigs/getGigs",
-    getGigsById: "/gigs/getGigsById",
-    addGigs: "/gigs/addGigs",
-    getSingleGigs: "/gigs/getSingleGigs",
-    getGigsByUserId: "/gigs/getGigsByUser",
-    getGigsPackages: "/gigs/getPackages",
-    editGigs: "/gigs/editGigs",
-    getGigsFiles: '/gigs/getGigsFiles',
-    editGigsFiles: '/gigs/editGigsFiles'
-  },
-  freelancer: {
-    checkIsFreelancer: '/freelancer/checkIsFreelancer',
-    getFreelancerProfile: '/freelancer/getFreelancerProfile',
-    addProfile: '/freelancer/addProfile',
-    editProfile: '/freelancer/editProfile',
-    getFreelancerDashboardData: '/freelancer/getFreelancerDashboardData'
-  },
-  client: {
-    getClientDashboardData: '/client/getClientDashboardData',
-    clientEditProfile: '/client/clientEditProfile'
+    login: "/user/signIn",
+    signUp: "/user/signUp",
+    sendOtp: "/user/sendOtp",
+    submitOtp: "/user/submitOtp",
+    checkapi: "/user/checkapi",
+    changePasword: "/user/changePasword"
   },
 
   superadmin: {
@@ -109,6 +63,7 @@ const API_ROUTE = {
   },
    contact: {
     getAllContacts: '/api/contact/getAllContact',
+    getAllIntOrg: '/api/contact/getAllInterOrg',
     addContacts: '/api/contact/addContacts'
   } 
 };

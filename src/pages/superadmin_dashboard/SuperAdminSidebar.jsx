@@ -14,6 +14,7 @@ import {
   ThumbsUp,
   Flag,
   BriefcaseBusiness,
+  Building
 } from "lucide-react";
 
 import { useNavigate, useLocation } from "react-router-dom";
@@ -41,7 +42,7 @@ const AdminSidebar = ({
       path: "/superadmin/contacts",
     },
      {
-      icon: ShoppingCart,
+      icon: Building,
       label: "International Organization",
       path: "/superadmin/international-organization",
     },

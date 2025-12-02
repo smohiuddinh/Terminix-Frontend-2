@@ -9,6 +9,7 @@ import Login1 from "../src/component/login/login1";
 import Login2 from "../src/component/login/login2";
 import Login3 from "../src/component/login/login3";
 import Login4 from "../src/component/login/login4";
+import Login5 from "../src/component/login/login5";
 import ModalButton from "../src/component/modal/modal";
 import Contacts from "../src/pages/superadmin_dashboard/contacts";
 import International_Organization from "../src/pages/superadmin_dashboard/international_organization";
@@ -18,14 +19,14 @@ export const router = createBrowserRouter([
     path: "/",
     element: <Navigate to="/login" replace />,
   },
-  {
-    path: "/login",
-    element: withSuspense(<LoginController />),
-  },
   // {
   //   path: "/login",
-  //   element: withSuspense(<Login2 />),
+  //   element: withSuspense(<LoginController />),
   // },
+  {
+    path: "/login",
+    element: withSuspense(<Login5 />),
+  },
   {
     path: "/superadmin/dashboard",
     element: withSuspense(
