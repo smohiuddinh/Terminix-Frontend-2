@@ -44,7 +44,7 @@ const Login5 = () => {
                             </div>
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-3xl font-bold text-white tracking-tight">ICCD</span>
+                            <span className="text-3xl font-bold text-white tracking-tight">ICCDS</span>
                             <span className="text-sm text-gray-300 font-medium tracking-wide">DASHBOARD</span>
                         </div>
                     </div>
