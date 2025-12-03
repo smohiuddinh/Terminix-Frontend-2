@@ -17,7 +17,7 @@ import {
   ChevronRight,
   DollarSign,
 } from "lucide-react";
-import { useGetAllFreelancers, useGetAllGigs, useGetAllProjects, useGetAllUsers, useGetStatisticsData } from "../../../api/client/superadmin";
+// import { useGetAllFreelancers, useGetAllGigs, useGetAllProjects, useGetAllUsers, useGetStatisticsData } from "../../../api/client/superadmin";
 // import OverviewChart from '../../component/freelancer_dashboard/overview';
 import { useGetAllOrderByAdmin } from "../../../api/client/order";
 import DataLoader from "./DataLoader";

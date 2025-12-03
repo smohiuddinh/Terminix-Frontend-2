@@ -27,16 +27,16 @@ export const router = createBrowserRouter([
     path: "/login",
     element: withSuspense(<Login5 />),
   },
-  {
-    path: "/superadmin/dashboard",
-    element: withSuspense(
-      // <AuthRoute>
-      <AdminTemplate isShowFooter={false}>
-        <SuperAdminDashboard />
-      </AdminTemplate>
-      // </AuthRoute>
-    ),
-  },
+  // {
+  //   path: "/superadmin/dashboard",
+  //   element: withSuspense(
+  //     <AuthRoute>
+  //     <AdminTemplate isShowFooter={false}>
+  //       <SuperAdminDashboard />
+  //     </AdminTemplate>
+  //     </AuthRoute>
+  //   ),
+  // },
   {
     path: "/superadmin/contacts",
     element: withSuspense(
