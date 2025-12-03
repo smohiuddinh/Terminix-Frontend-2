@@ -28,25 +28,16 @@ const Login5 = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#44A4AD] via-[#2E7A81] to-[#1C4C50] flex">
+        <div className="min-h-screen bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 flex">
 
             {/* Left Side - Dashboard Preview/Branding */}
             <div className="hidden lg:flex lg:w-1/2 xl:w-3/5 relative overflow-hidden p-12 flex-col justify-between">
                 <div className="relative z-10">
                     {/* Logo/Brand Section */}
                     <div className="flex items-center space-x-4 mb-12">
-                        <div className="relative group">
-                            <div className="absolute inset-0 bg-white/30 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300" />
-                            <div className="relative w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-2xl transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                                <img
-                                    src={logo}
-                                    alt="ICCD Logo"
-                                    className="w-16 h-16 object-contain"
-                                />
-                            </div>
-                        </div>
+                     
                         <div className="flex flex-col">
-                            <span className="text-3xl font-bold text-white tracking-tight">ICCD</span>
+                            <span className="text-3xl font-bold text-white tracking-tight">Super Admin</span>
                             <span className="text-sm text-gray-300 font-medium tracking-wide">DASHBOARD</span>
                         </div>
                     </div>
@@ -179,7 +170,7 @@ const Login5 = () => {
                                 isLoading={isPending}
                                 onClick={handleSubmit}
                                 type="submit"
-                                className="w-full cursor-pointer bg-gradient-to-r from-[#44A4AD] via-[#2E7A81] to-[#1C4C50] 
+                                className="w-full cursor-pointer bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700
                                 text-white py-3.5 rounded-xl font-semibold shadow-lg 
                                 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 
                                 transition-all duration-300 

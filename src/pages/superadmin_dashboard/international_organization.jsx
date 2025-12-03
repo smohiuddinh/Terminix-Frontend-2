@@ -1,6 +1,6 @@
 import { useState, memo } from "react";
 import DataLoader from "../../component/DataLoader";
-import { Users, User } from "lucide-react";
+import { Users, User, Building2, Mail, Phone, Briefcase } from "lucide-react";
 import ICCDError from "../../component/ICCDError";
 import Pagination from "../../component/pagination";
 import useDebounce from "../../../hooks/useDebounce";
@@ -32,24 +32,27 @@ function International_Organization() {
   if (isError) return <ICCDError />
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
       <div className="px-4 sm:px-6 lg:px-8 py-8 max-w-7xl mx-auto">
 
-        {/* Header */}
-        <TableHeader
-          icon={<Users className="w-8 h-8 text-white" />}
-          title={"International Organization"}
-          description={"This is contact Details"}
-          inputPlaceHolder={"Search Member"}
-          search={search}
-          setSearch={setSearch}
-        />
+        {/* Header with gradient background */}
+        <div className="mb-8 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 rounded-3xl shadow-xl p-8 text-white">
+          <div className="flex items-center gap-4 mb-3">
+            <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-sm">
+              <Building2 className="w-8 h-8" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold">International Organizations</h1>
+              <p className="text-indigo-100 mt-1">Manage and explore global organization contacts</p>
+            </div>
+          </div>
+        </div>
 
         {/* Filters */}
         <Search_and_filters
           search={search}
           setSearch={setSearch}
-          inptPlaceholder="Search Name..."
+          inptPlaceholder="Search organizations..."
           children={<>
             <ReactSelect
               selectedOption={filterVal.category}
@@ -75,85 +78,103 @@ function International_Organization() {
           </>}
         />
 
-        {/* Table */}
+        {/* Table with modern card design */}
         {isLoading ? <DataLoader /> :
-          <div className="mt-5 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-x-auto">
+          <div className="mt-6">
             {data?.length > 0 ? (
-              <table className="min-w-full divide-y divide-slate-200">
-                <thead className="bg-slate-50">
-                  <tr>
-                    <th
-                      onClick={() => handleSort("name")}
-                      className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
-                    >
-                      Organization Name
-                    </th>
-                    <th
-                      onClick={() => handleSort("email")}
-                      className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
-                    >
-                      Email
-                    </th>
-                    <th
-                      onClick={() => handleSort("created_at")}
-                      className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
-                    >
-                      Number
-                    </th>
-                    <th
-                      onClick={() => handleSort("updated_at")}
-                      className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
-                    >
-                      Designation
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-200">
-                  {data?.map((user) => (
-                    <tr key={user.id} className="hover:bg-slate-50">
-
-                      <td className="px-4 py-3 text-sm font-medium text-slate-800 flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center">
-                          <User className="w-4 h-4 text-slate-500" />
+              <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-purple-100 overflow-hidden">
+                <table className="min-w-full">
+                  <thead>
+                    <tr className="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 text-white">
+                      <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                        <div className="flex items-center gap-2">
+                          <Building2 className="w-4 h-4" />
+                          Organization
                         </div>
-                        {user.organization || <p className="text-red-500">N/A</p>}
-                      </td>
-
-                      <td className="px-4 py-3 text-sm text-slate-600">
-                        {user.email || <p className="text-red-500">N/A</p>}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-slate-600">
-                        {user?.contact_number || <p className="text-red-500">N/A</p>}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-slate-600">
-                        {user?.designation || <p className="text-red-500">N/A</p>}
-                      </td>
+                      </th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                        <div className="flex items-center gap-2">
+                          <Mail className="w-4 h-4" />
+                          Email
+                        </div>
+                      </th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                        <div className="flex items-center gap-2">
+                          <Phone className="w-4 h-4" />
+                          Contact
+                        </div>
+                      </th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                        <div className="flex items-center gap-2">
+                          <Briefcase className="w-4 h-4" />
+                          Designation
+                        </div>
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-purple-100">
+                    {data?.map((user, index) => (
+                      <tr 
+                        key={user.id} 
+                        className="hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 transition-all duration-200"
+                      >
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 flex items-center justify-center shadow-md">
+                              <User className="w-6 h-6 text-white" />
+                            </div>
+                            <span className="text-sm font-semibold text-gray-800">
+                              {user.organization || <span className="text-rose-500 font-normal">N/A</span>}
+                            </span>
+                          </div>
+                        </td>
+
+                        <td className="px-6 py-4 text-sm text-gray-700">
+                          {user.email || <span className="text-rose-500">N/A</span>}
+                        </td>
+                        
+                        <td className="px-6 py-4 text-sm text-gray-700 font-medium">
+                          {user?.contact_number || <span className="text-rose-500">N/A</span>}
+                        </td>
+                        
+                        <td className="px-6 py-4">
+                          {user?.designation ? (
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800 border border-indigo-200">
+                              {user.designation}
+                            </span>
+                          ) : (
+                            <span className="text-rose-500 text-sm">N/A</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             ) : (
-              <div className="p-12 text-center">
-                <Users className="w-16 h-16 text-slate-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-slate-800 mb-2">
-                  No users found
+              <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-purple-100 p-16 text-center">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center mx-auto mb-6">
+                  <Users className="w-12 h-12 text-indigo-500" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-800 mb-3">
+                  No Organizations Found
                 </h3>
-                <p className="text-slate-600 mb-4">
+                <p className="text-gray-600 text-lg">
                   {search
-                    ? `No users match "${search}"`
-                    : "No users in the system yet"}
+                    ? `No results matching "${search}"`
+                    : "Start by adding organizations to the system"}
                 </p>
               </div>
             )}
           </div>
         }
+        
         <Pagination
           currentPage={page}
           totalPages={totalPages}
           onPageChange={(newPage) => setPage(newPage)}
         />
       </div>
-      )
     </div>
   );
 }
