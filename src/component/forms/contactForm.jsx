@@ -1,8 +1,6 @@
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import backgroundd from "../../assets/client_dashboard/Group.png";
 import Select from "react-select";
-// import RichTextEditor from "./text_editor";
 import { useAddJob } from "../../../api/client/job";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -61,14 +59,7 @@ function ContactForm() {
     })) : [];
 
     const onSubmit = (data) => {
-        if (pathName.includes('edit-job')) {
-            editJob(data)
-        } else {
-            addjob(data)
-
-        }
-        navigate('/client/jobs')
-
+        addjob(data)
     };
 
     return (
