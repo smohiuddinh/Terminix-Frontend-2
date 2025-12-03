@@ -25,7 +25,7 @@ const AdminSidebar = ({
   onToggleCollapse,
   showMobile,
   onCloseMobile,
-  activeItem,
+  activeItem, 
   onMenuItemClick,
   quickStats = null,
 }) => {
@@ -211,7 +211,7 @@ const AdminSidebar = ({
           <button
             onClick={logout}
             className={`
-              w-full flex items-center px-4 py-3 rounded-xl
+              w-full cursor-pointer flex items-center px-4 py-3 rounded-xl
               text-red-600 hover:bg-red-50 hover:text-red-700 
               transition-all duration-200 group
               active:scale-95 hover:shadow-md hover:shadow-red-500/10
