@@ -20,7 +20,7 @@ import {
 import { useGetAllFreelancers, useGetAllGigs, useGetAllProjects, useGetAllUsers, useGetStatisticsData } from "../../../api/client/superadmin";
 // import OverviewChart from '../../component/freelancer_dashboard/overview';
 import { useGetAllOrderByAdmin } from "../../../api/client/order";
-import DataLoader from "./DataLoader";
+import DataLoader from "../../component/DataLoader";
 
 // // Mock hooks for demonstration
 // const useGetAllOrderByAdmin = () => ({

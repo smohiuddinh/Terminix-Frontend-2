@@ -7,6 +7,7 @@ import {
   TrendingUp,
   Activity,
 } from "lucide-react";
+import Dialog from "../dialog";
 
 const Sidebar = ({
   showMobileSidebar,

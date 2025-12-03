@@ -40,21 +40,21 @@ export const router = createBrowserRouter([
   {
     path: "/superadmin/contacts",
     element: withSuspense(
-      // <AuthRoute>
-      <AdminTemplate isShowFooter={false}>
-        <Contacts />
-      </AdminTemplate>
-      // </AuthRoute>
+      <AuthRoute>
+        <AdminTemplate isShowFooter={false}>
+          <Contacts />
+        </AdminTemplate>
+      </AuthRoute>
     ),
   },
   {
     path: "/superadmin/international-organization",
     element: withSuspense(
-      // <AuthRoute>
-      <AdminTemplate isShowFooter={false}>
-        <International_Organization />
-      </AdminTemplate>
-      // </AuthRoute>
+      <AuthRoute>
+        <AdminTemplate isShowFooter={false}>
+          <International_Organization />
+        </AdminTemplate>
+      </AuthRoute>
     ),
   },
   {

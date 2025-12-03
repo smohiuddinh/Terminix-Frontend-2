@@ -1,18 +1,22 @@
 import { useState, memo } from "react";
-import DataLoader from "./DataLoader";
 import { Users, User } from "lucide-react";
+import Button from "../../component/button";
+import Modal from "../../component/modal/modal2";
 import ICCDError from "../../component/ICCDError";
+import DataLoader from "../../component/DataLoader";
 import Pagination from "../../component/pagination";
 import useDebounce from "../../../hooks/useDebounce";
+import ReactSelect from "../../component/buttonSelect";
 import { useGetAllContacts } from "../../../api/client/contact";
 import TableHeader from "../../component/super_admin/table_header";
 import Search_and_filters from "../../component/Search_and_filters";
 import { countryFilter, categoryFilter, departmentFilter } from "../../../data/flitersData";
-import ReactSelect from "../../component/buttonSelect";
+import ContactForm from '../../component/forms/contactForm'
 
 function Contacts() {
 
   const [page, setPage] = useState(1);
+  const [open, setOpen] = useState(false)
   const [search, setSearch] = useState("");
   const [filterVal, setFilterVal] = useState({
     category: "",
@@ -72,15 +76,19 @@ function Contacts() {
               placeholder='Select Country'
               value={countryFilter.find(option => option.value === filterVal.country) || null}
             />
-            {/* <ReactSelect
-              selectedOption={value}
-              onChange={(selectedOption) => setValue(selectedOption?.value || '')}
-              option={contactFilter}
-              placeholder='Select Age'
-              value={contactFilter.find(option => option.value === value) || null}
-            /> */}
           </>}
         />
+
+        {/* Add Contact Form button*/}
+        <div className="flex justify-end">
+          <Button text="+ Add Contact" isLoading={false} onClick={() => setOpen(true)} type="button"
+            className="px-4 py-2 rounded-md" />
+        </div>
+
+        {/* Contact Form */}
+        <Modal isOpen={open} onClose={() => setOpen(false)} title="Add New Contacts">
+          <ContactForm />
+        </Modal>
 
         {/* Table */}
         {isLoading ? <DataLoader /> :

@@ -10,6 +10,7 @@ import Button from "../../component/button";
 import { Mail, Lock, ArrowRight } from "lucide-react";
 
 function Login({ handleSwitch }) {
+
   const navigate = useNavigate();
   const { userLogin, isSuccess, isPending, isError, reset, error } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
@@ -123,7 +124,7 @@ function Login({ handleSwitch }) {
 
             {/* Forgot Password */}
             <div className="text-center">
-          
+
             </div>
           </div>
 

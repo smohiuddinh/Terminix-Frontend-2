@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AdminSidebar from '../pages/superadmin_dashboard/SuperAdminSidebar';
+import AdminSidebar from '../component/super_admin/SuperAdminSidebar';
 
 function AdminTemplate({ 
   children, 

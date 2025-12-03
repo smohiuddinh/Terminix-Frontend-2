@@ -1,4 +1,5 @@
 import { Search, Users, User, TrendingUp, Sparkles } from "lucide-react";
+import { memo } from "react";
 
 function TableHeader({ icon, title, description, inputPlaceHolder, search, setSearch }) {
     return (
@@ -70,4 +71,4 @@ function TableHeader({ icon, title, description, inputPlaceHolder, search, setSe
     )
 }
 
-export default TableHeader
+export default memo(TableHeader)

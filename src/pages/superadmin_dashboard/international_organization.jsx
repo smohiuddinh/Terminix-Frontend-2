@@ -1,5 +1,5 @@
 import { useState, memo } from "react";
-import DataLoader from "./DataLoader";
+import DataLoader from "../../component/DataLoader";
 import { Users, User } from "lucide-react";
 import ICCDError from "../../component/ICCDError";
 import Pagination from "../../component/pagination";
@@ -72,13 +72,6 @@ function International_Organization() {
               placeholder='Select Country'
               value={countryFilter.find(option => option.value === filterVal.country) || null}
             />
-            {/* <ReactSelect
-              selectedOption={value}
-              onChange={(selectedOption) => setValue(selectedOption?.value || '')}
-              option={contactFilter}
-              placeholder='Select Age'
-              value={contactFilter.find(option => option.value === value) || null}
-            /> */}
           </>}
         />
 

@@ -41,7 +41,7 @@ const AdminSidebar = ({
       label: "Contacts",
       path: "/superadmin/contacts",
     },
-     {
+    {
       icon: Building,
       label: "International Organization",
       path: "/superadmin/international-organization",
@@ -138,9 +138,6 @@ const AdminSidebar = ({
           </button>
         </div>
 
-        {/* Profile Section */}
-
-
         {/* Navigation */}
         <nav className="flex-1 p-3 overflow-y-auto overflow-x-hidden space-y-1.5 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400">
           {menuItems.map((item, index) => {
@@ -157,8 +154,8 @@ const AdminSidebar = ({
                     ? "bg-gradient-to-r from-[#3C9299] to-[#2DD4BF] text-white shadow-lg shadow-teal-500/30 scale-[1.02]"
                     : "text-gray-700 hover:bg-gray-100 hover:scale-[1.01] active:scale-[0.99]"
                   }
-        ${collapsed ? "justify-center px-0" : ""}
-      `}
+                  ${collapsed ? "justify-center px-0" : ""}
+                `}
                 title={collapsed ? item.label : ""}
               >
                 {isActive && !collapsed && (

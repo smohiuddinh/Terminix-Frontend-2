@@ -5,7 +5,6 @@ export default function Dialog() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle save logic here
     setIsOpen(false);
   };
 

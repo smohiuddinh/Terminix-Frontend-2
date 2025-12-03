@@ -1,6 +1,8 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { memo } from "react";
 
-export default function Pagination({ currentPage, totalPages, onPageChange }) {
+function Pagination({ currentPage, totalPages, onPageChange }) {
+
   const isFirst = currentPage === 1;
   const isLast = currentPage === totalPages;
 
@@ -43,3 +45,5 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
     </div>
   );
 }
+
+export default memo(Pagination)

@@ -1,4 +1,5 @@
 import Select from 'react-select';
+import { memo } from 'react';
 
 function ReactSelect({ selectedOption = null, onChange, option = [], placeholder = 'select', value }) {
     const customStyles = {
@@ -40,4 +41,4 @@ function ReactSelect({ selectedOption = null, onChange, option = [], placeholder
     )
 }
 
-export default ReactSelect
+export default memo(ReactSelect)

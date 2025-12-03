@@ -1,6 +1,7 @@
 import { Loader2 } from "lucide-react";
+import { memo } from "react";
 
-export default function Button({
+function Button({
   text = "Submit",
   isLoading = false,
   onClick,
@@ -12,8 +13,8 @@ export default function Button({
       type={type}
       onClick={onClick}
       disabled={isLoading}
-      className={`flex gap-2 items-center justify-center font-semibold text-white bg-[#15A9B2] rounded-full transition
-        ${isLoading ? "opacity-70 cursor-not-allowed" : "hover:bg-[#05929c] cursor-pointer"} ${className}`}
+      className={` ${className} flex gap-2 items-center justify-center font-semibold text-white bg-[#15A9B2] rounded-full transition
+        ${isLoading ? "opacity-70 cursor-not-allowed" : "hover:bg-[#05929c] cursor-pointer"}`}
     >
       {isLoading ? (
         <>
@@ -26,3 +27,5 @@ export default function Button({
     </button>
   );
 }
+
+export default memo(Button)

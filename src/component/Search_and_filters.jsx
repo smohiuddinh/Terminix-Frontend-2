@@ -2,7 +2,7 @@ import React from 'react'
 import { Search, Filter, ChevronDown } from 'lucide-react'
 import { useState } from 'react';
 import ReactSelect from './buttonSelect';
-
+import { memo } from 'react';
 
 function Search_and_filters({ search, setSearch, inptPlaceholder = '', children }) {
 
@@ -12,13 +12,13 @@ function Search_and_filters({ search, setSearch, inptPlaceholder = '', children 
         <div className="mt-4 bg-white/80 backdrop-blur-xl rounded-2xl border border-slate-200/60 mb-6 shadow-lg shadow-slate-200/50">
             <div className="p-5 border-b border-slate-200/60 flex items-center justify-between gap-4">
                 <div className="flex-1 max-w-md relative group">
-                    <Search className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-blue-500 transition-colors" />
+                    <Search className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-[#44A4AD] transition-colors" />
                     <input
                         type="text"
                         placeholder={inptPlaceholder}
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all outline-none"
+                        className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-[#44A4AD] focus:ring-3 focus:ring-[#44A4AD]/30 transition-all outline-none"
                     />
                 </div>
                 <button
@@ -40,4 +40,4 @@ function Search_and_filters({ search, setSearch, inptPlaceholder = '', children 
     )
 }
 
-export default Search_and_filters
+export default memo(Search_and_filters)
