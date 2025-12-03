@@ -1,14 +1,14 @@
-import { useForm, Controller, useWatch } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import Select from "react-select";
-import { useAddJob } from "../../../api/client/job";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import Button from "../button";
-import { oicCountries } from "../../../data/oic_contries";
-import { contactFormDchema } from "../formSchema/schema";
 import { memo } from "react";
 import Input from "../input";
+import Button from "../button";
+import Select from "react-select";
+import { useParams } from "react-router-dom";
+import { useAddJob } from "../../../api/client/job";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { oicCountries } from "../../../data/oic_contries";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useForm, Controller, useWatch } from "react-hook-form";
+import { contactFormDchema } from "../formSchema/schema";
 
 const locationOptions = oicCountries.map(item => ({
     value: item.country,
