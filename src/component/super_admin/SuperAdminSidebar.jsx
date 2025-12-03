@@ -211,7 +211,11 @@ const AdminSidebar = ({
           <button
             onClick={logout}
             className={`
+<<<<<<< HEAD
               w-full cursor-pointer flex items-center px-4 py-3 rounded-xl
+=======
+              w-full flex items-center px-4 py-3 rounded-xl
+>>>>>>> parent of 2c8e6dd (changes)
               text-red-600 hover:bg-red-50 hover:text-red-700 
               transition-all duration-200 group
               active:scale-95 hover:shadow-md hover:shadow-red-500/10
