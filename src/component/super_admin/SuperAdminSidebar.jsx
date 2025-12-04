@@ -18,20 +18,20 @@ import {
 } from "lucide-react";
 
 import { useNavigate, useLocation } from "react-router-dom";
-import useLogout from "../../../hooks/useLogout";
+import { useLogout } from "../../../api/client/user";
 
 const AdminSidebar = ({
   collapsed,
   onToggleCollapse,
   showMobile,
   onCloseMobile,
-  activeItem, 
+  activeItem,
   onMenuItemClick,
   quickStats = null,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const logout = useLogout();
+  const { mutate: logout, isPending } = useLogout();
 
   const menuItems = [
     // { icon: Home, label: "Dashboard", path: "/superadmin/dashboard" },
@@ -209,23 +209,24 @@ const AdminSidebar = ({
         {/* Logout */}
         <div className="p-4 border-t border-gray-200/80 bg-white/60 flex-shrink-0">
           <button
-            onClick={logout}
+            onClick={() => logout()}
+            disabled={isPending}
             className={`
-<<<<<<< HEAD
-              w-full cursor-pointer flex items-center px-4 py-3 rounded-xl
-=======
-              w-full flex items-center px-4 py-3 rounded-xl
->>>>>>> parent of 2c8e6dd (changes)
-              text-red-600 hover:bg-red-50 hover:text-red-700 
-              transition-all duration-200 group
-              active:scale-95 hover:shadow-md hover:shadow-red-500/10
-              ${collapsed ? "justify-center px-0" : "space-x-3"}
-            `}
+        w-full flex items-center px-4 py-3 rounded-xl
+        text-red-600 hover:bg-red-50 hover:text-red-700 
+        transition-all duration-200 group
+        active:scale-95 hover:shadow-md hover:shadow-red-500/10
+        ${collapsed ? "justify-center px-0" : "space-x-3"}
+        ${isPending ? "opacity-50 cursor-not-allowed" : ""}
+      `}
             title={collapsed ? "Logout" : ""}
           >
             <LogOut className="w-5 h-5 flex-shrink-0 transition-transform duration-200 group-hover:-translate-x-0.5" />
+
             {!collapsed && (
-              <span className="text-sm font-medium">Logout</span>
+              <span className="text-sm font-medium">
+                {isPending ? "Logging out..." : "Logout"}
+              </span>
             )}
           </button>
         </div>

@@ -9,6 +9,7 @@ const api = axios.create({
   // live database
   // baseURL: 'https://iccd.freelanceserver.matzsolutions.com/',
   baseURL: "http://localhost:22306/",
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },

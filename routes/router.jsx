@@ -58,6 +58,12 @@ export const router = createBrowserRouter([
     ),
   },
   {
+    path: "/*",
+    element: withSuspense(
+      <div>No route found</div>
+    ),
+  },
+  {
     path: "/test",
     element: withSuspense(
       // <AuthRoute>

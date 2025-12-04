@@ -31,7 +31,7 @@ export function useGetAllContacts(params = {}) {
   const { data, error, isLoading, isError } = useQuery({
     queryKey,
     queryFn: () =>
-      api.get(`${API_ROUTE.contact.getAllContacts}?${constructQueryString(params)}`),
+      api.get(`${API_ROUTE.contact.getAllContacts}?${constructQueryString(params)}`, { withCredentials: true }),
   });
   return { data: data?.data?.data, totalPages: data?.data?.totalPages, error, isLoading, isError };
 }
@@ -45,7 +45,7 @@ export function useGetAllIntOrg(params = {}) {
   const { data, error, isLoading, isError } = useQuery({
     queryKey,
     queryFn: () =>
-      api.get(`${API_ROUTE.contact.getAllIntOrg}?${constructQueryString(params)}`),
+      api.get(`${API_ROUTE.contact.getAllIntOrg}?${constructQueryString(params)}`, { withCredentials: true }),
   });
   return { data: data?.data?.data, totalPages: data?.data?.totalPages, error, isLoading, isError };
 }

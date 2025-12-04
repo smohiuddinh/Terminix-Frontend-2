@@ -145,7 +145,7 @@ const Login5 = () => {
                                         id="password"
                                         {...register('password')}
                                         placeholder="Enter your password"
-                                        className={`w-full pl-12 pr-4 py-3.5 bg-gray-50 border-2 rounded-xl focus:outline-none focus:bg-white transition-all duration-300 text-gray-800 ${errors.email
+                                        className={`w-full pl-12 pr-4 py-3.5 bg-gray-50 border-2 rounded-xl focus:outline-none focus:bg-white transition-all duration-300 text-gray-800 ${errors.password
                                             ? 'border-red-500 focus:border-red-500 focus:ring-4 focus:ring-red-100'
                                             : 'border-gray-200 focus:border-[#44A4AD] focus:ring-4 focus:ring-[#44A4AD]/30'
                                             }`}

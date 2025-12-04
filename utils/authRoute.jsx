@@ -1,14 +1,17 @@
 // src/routes/AuthRoute.tsx
 import { Navigate } from "react-router-dom";
+import { useUser } from "../api/client/user";
 
 const AuthRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
 
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
+  const { data: user, isLoading } = useUser();
+  console.log("user: ", user)
 
-  return <>{children}</>;
+  if (isLoading) return <p>Loading...</p>;
+  if (!user) return <Navigate to="/login" />;
+
+  return children;
 };
+
 
 export default AuthRoute;
