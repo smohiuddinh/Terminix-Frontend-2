@@ -26,36 +26,74 @@ const Login5 = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 flex">
+        <div className="min-h-screen bg-gradient-to-br from-[#44A4AD] via-[#2E7A81] to-[#1C4C50] flex">
 
             {/* Left Side - Dashboard Preview/Branding */}
-            <div className="hidden lg:flex lg:w-1/2 xl:w-3/5 relative overflow-hidden p-12 flex-col justify-between">
+               {/* Left Side - Branding */}
+            <div className="lg:w-1/2 xl:w-3/5 relative overflow-hidden flex flex-col justify-between p-6 sm:p-8 lg:p-12">
+                
+                {/* Animated Background Elements */}
+                <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl animate-pulse"></div>
+                    <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse delay-700"></div>
+                </div>
+
                 <div className="relative z-10">
-                    {/* Logo/Brand Section */}
-                    <div className="flex items-center space-x-4 mb-12">
-                     
+                    {/* Logo Section */}
+                    <div className="flex items-center space-x-3 sm:space-x-4 mb-8 sm:mb-12 lg:mb-16">
+                        <div className="relative group">
+                            <div className="absolute inset-0 bg-white/20 rounded-2xl sm:rounded-3xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
+                            <div className="relative w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl flex items-center justify-center shadow-2xl transform group-hover:scale-105 transition-all duration-300">
+  <img
+                                    src={logo}
+                                    alt="ICCD Logo"
+                                    className="w-16 h-16 object-contain"
+                                />                            </div>
+                        </div>
                         <div className="flex flex-col">
-                            <span className="text-3xl font-bold text-white tracking-tight">Super Admin</span>
-                            <span className="text-sm text-gray-300 font-medium tracking-wide">DASHBOARD</span>
+                            <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight">ICCD</span>
+                            <span className="text-xs sm:text-sm text-white/80 font-medium tracking-wider">DASHBOARD</span>
                         </div>
                     </div>
 
-                    {/* Main Headline */}
-                    <div className="mt-2">
-                        <h1 className="text-5xl xl:text-6xl font-bold text-white mb-6 leading-tight">
-                            Empower
+                    {/* Main Content */}
+                    <div className="max-w-2xl">
+                        <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight">
+                            Streamline Your
                             <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">
-                                Your Organization
+                            <span className="text-white/90">
+                                Organization's Future
                             </span>
                         </h1>
-                        <p className="text-lg text-gray-300 max-w-lg leading-relaxed">
-                            Access real-time insights, track departmental performance, and drive strategic decisions through our integrated dashboard system.
+                        <p className="text-sm sm:text-base lg:text-lg text-white/80 leading-relaxed max-w-xl">
+                            Experience seamless data management with real-time analytics, comprehensive reporting, and intuitive controls designed for modern organizations.
                         </p>
+
+                        {/* Feature Pills - Hidden on small mobile */}
+                        <div className="hidden sm:flex flex-wrap gap-3 mt-8 lg:mt-12">
+                            {['Real-time Analytics', 'Secure Access', 'Multi-Department'].map((feature) => (
+                                <div key={feature} className="px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white text-sm font-medium">
+                                    {feature}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </div>
 
+                {/* Bottom Stats - Hidden on mobile */}
+                <div className="hidden lg:grid grid-cols-3 gap-6 relative z-10">
+                    {[
+                        { label: 'Secure', value: '100%' },
+                        { label: 'Departments', value: '2+' },
+                        { label: 'Uptime', value: '99.9%' }
+                    ].map((stat) => (
+                        <div key={stat.label} className="text-center">
+                            <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
+                            <div className="text-sm text-white/70">{stat.label}</div>
+                        </div>
+                    ))}
+                </div>
+            </div>
             {/* Right Side - Login Form */}
             <div className="w-full lg:w-1/2 xl:w-2/5 flex items-center justify-center p-8">
                 <div className="w-full max-w-md">
@@ -168,7 +206,7 @@ const Login5 = () => {
                                 isLoading={isPending}
                                 onClick={handleSubmit}
                                 type="submit"
-                                className="w-full cursor-pointer bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700
+                                className="w-full cursor-pointer bg-gradient-to-r from-[#44A4AD] via-[#2E7A81] to-[#1C4C50] 
                                 text-white py-3.5 rounded-xl font-semibold shadow-lg 
                                 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 
                                 transition-all duration-300 

@@ -1,244 +1,273 @@
-import {
-  X,
-  ChevronLeft,
-  ChevronRight,
-  Home,
-  ShoppingCart,
-  Briefcase,
-  Settings,
-  LogOut,
-  Users,
-  FileText,
-  ClipboardList,
-  MessageSquare,
-  ThumbsUp,
-  Flag,
-  BriefcaseBusiness,
-  Building,
-  Sparkles
-} from "lucide-react";
+import React, { useState } from 'react';
+import { Eye, EyeOff, Mail, Lock, ArrowRight, Sparkles } from 'lucide-react';
 
-import { useNavigate, useLocation } from "react-router-dom";
-import useLogout from "../../../hooks/useLogout";
+// Mock imports - replace with your actual imports
+const Button = ({ text, isLoading, onClick, type, className }) => (
+  <button type={type} onClick={onClick} disabled={isLoading} className={className}>
+    {isLoading ? (
+      <div className="flex items-center justify-center space-x-2">
+        <div className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin" />
+        <span>Processing...</span>
+      </div>
+    ) : (
+      text
+    )}
+  </button>
+);
 
-const AdminSidebar = ({
-  collapsed,
-  onToggleCollapse,
-  showMobile,
-  onCloseMobile,
-  activeItem, 
-  onMenuItemClick,
-  quickStats = null,
-}) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const logout = useLogout();
+// Replace these with your actual hooks
+const useForm = (config) => {
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState({});
 
-  const menuItems = [
-    // { icon: Home, label: "Dashboard", path: "/superadmin/dashboard" },
-    // { icon: Users, label: "BCCD Members", path: "/superadmin/bccd-members" },
-    {
-      icon: ShoppingCart,
-      label: "Contacts",
-      path: "/superadmin/contacts",
-    },
-    {
-      icon: Building,
-      label: "International Organization",
-      path: "/superadmin/international-organization",
-    },
-    // { icon: Briefcase, label: "POC Country", path: "/superadmin/poc-country" },
-    // {
-    //   icon: ClipboardList,
-    //   label: "Active Projects",
-    //   path: "/superadmin/manage-projects",
-    // },
-    // { icon: BriefcaseBusiness, label: "Active Jobs", path: "/superadmin/manage-jobs" },
-    // { icon: Settings, label: "Disputes", path: "/superadmin/manage-disputes" },
-    // {
-    //   icon: MessageSquare,
-    //   label: "Contact Form",
-    //   path: "/superadmin/manage-contactform",
-    // },
-    // { icon: ThumbsUp, label: "Feedbacks", path: "/superadmin/manage-feedbacks" },
-    // { icon: Flag, label: "Reports", path: "/superadmin/manage-reports" },
-  ];
+  const register = (name) => ({
+    name,
+    value: formData[name],
+    onChange: (e) => setFormData({ ...formData, [name]: e.target.value })
+  });
 
-  const getActiveItem = () => {
-    if (activeItem) return activeItem;
-    const currentPath = location.pathname;
-    const activeMenuItem = menuItems.find((item) => item.path === currentPath);
-    return activeMenuItem ? activeMenuItem.label : "Dashboard";
+  const handleSubmit = (onSubmit) => (e) => {
+    if (e) e.preventDefault();
+    onSubmit(formData);
   };
 
-  const currentActiveItem = getActiveItem();
-  const currentPath = location.pathname;
+  return { register, handleSubmit, formState: { errors } };
+};
 
-  const handleMenuClick = (item) => {
-    navigate(item.path);
-    if (onMenuItemClick) {
-      onMenuItemClick(item);
-    }
-    if (onCloseMobile) {
-      onCloseMobile();
-    }
+const useLogin = () => {
+  const [isPending, setIsPending] = useState(false);
+  
+  const userLogin = async (data) => {
+    setIsPending(true);
+    // Your actual API call here
+    setTimeout(() => setIsPending(false), 2000);
+  };
+
+  return { userLogin, isPending };
+};
+
+const Login5 = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [focusedField, setFocusedField] = useState(null);
+  const { userLogin, isPending } = useLogin();
+
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    mode: 'onChange'
+  });
+
+  const onSubmit = async (data) => {
+    userLogin(data);
   };
 
   return (
-    <>
-      {/* Mobile Overlay */}
-      {showMobile && (
-        <div
-          className="fixed inset-0 bg-gradient-to-br from-slate-900/90 via-blue-900/90 to-slate-900/90 backdrop-blur-md z-40 lg:hidden"
-          onClick={onCloseMobile}
-        />
-      )}
+    <div className="min-h-screen bg-gradient-to-br from-[#44A4AD] via-[#2E7A81] to-[#1C4C50] flex items-center justify-center p-4 relative overflow-hidden">
+      
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-white/5 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#1C4C50]/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-white/3 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '2s' }} />
+      </div>
 
-      {/* Sidebar */}
-      <aside
-        className={`
-          fixed top-0 left-0 h-screen 
-          bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900
-          border-r border-purple-500/20 shadow-2xl shadow-purple-500/20
-          z-50 transition-all duration-300 ease-in-out
-          ${collapsed ? "w-20" : "w-72"}
-          ${showMobile ? "translate-x-0" : "-translate-x-full"}
-          lg:translate-x-0
-          flex flex-col
-        `}
-      >
-        {/* Header */}
-        <div className="h-20 flex items-center justify-between px-6 border-b border-purple-500/20 bg-gradient-to-r from-purple-600/10 to-pink-600/10 backdrop-blur-xl flex-shrink-0">
-          {!collapsed && (
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 flex items-center justify-center shadow-lg shadow-purple-500/50">
-                <Sparkles className="w-5 h-5 text-white" />
+      {/* Main Container */}
+      <div className="w-full max-w-6xl mx-auto relative z-10">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          
+          {/* Left Side - Branding & Features */}
+          <div className="hidden lg:block space-y-12 px-8">
+            
+            {/* Logo Section */}
+            <div className="space-y-6">
+              <div className="inline-flex items-center space-x-4 bg-white/10 backdrop-blur-sm px-6 py-4 rounded-2xl border border-white/20">
+                <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                  <div className="w-10 h-10 bg-gradient-to-br from-[#44A4AD] to-[#1C4C50] rounded-lg" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-white">ICCD</div>
+                  <div className="text-xs text-gray-300 tracking-widest">DASHBOARD</div>
+                </div>
               </div>
-              <div>
-                <h2 className="text-lg font-bold bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 bg-clip-text text-transparent">
-                  Admin Panel
-                </h2>
-                <p className="text-xs text-slate-400">Control Center</p>
+
+              <div className="space-y-4">
+                <h1 className="text-5xl font-bold text-white leading-tight">
+                  Your Organization's
+                  <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-gray-300">
+                    Command Center
+                  </span>
+                </h1>
+                <p className="text-lg text-gray-200 max-w-md leading-relaxed">
+                  Real-time analytics, seamless collaboration, and intelligent insights all in one unified platform.
+                </p>
               </div>
             </div>
-          )}
 
-          <button
-            onClick={onToggleCollapse}
-            className="hidden lg:flex p-2.5 hover:bg-purple-500/10 rounded-xl transition-all duration-200 ml-auto group border border-transparent hover:border-purple-500/30"
-            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          >
-            {collapsed ? (
-              <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-purple-400 transition-colors" />
-            ) : (
-              <ChevronLeft className="w-5 h-5 text-slate-400 group-hover:text-purple-400 transition-colors" />
-            )}
-          </button>
-          <button
-            onClick={onCloseMobile}
-            className="lg:hidden p-2.5 hover:bg-red-500/10 rounded-xl transition-all duration-200 group border border-transparent hover:border-red-500/30"
-            aria-label="Close sidebar"
-          >
-            <X className="w-5 h-5 text-slate-400 group-hover:text-red-400 transition-colors" />
-          </button>
-        </div>
-
-        {/* Navigation */}
-        <nav className="flex-1 p-4 overflow-y-auto overflow-x-hidden space-y-2 scrollbar-thin scrollbar-thumb-purple-500/20 scrollbar-track-transparent hover:scrollbar-thumb-purple-500/40">
-          {menuItems.map((item, index) => {
-            const isActive = currentPath === item.path;
-
-            return (
-              <button
-                key={index}
-                onClick={() => handleMenuClick(item)}
-                className={`
-                  cursor-pointer w-full flex items-center px-4 py-3.5 rounded-xl 
-                  transition-all duration-300 group relative overflow-hidden
-                  ${isActive
-                    ? "bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 text-white shadow-lg shadow-purple-500/50 scale-[1.02]"
-                    : "text-slate-300 hover:bg-slate-800/50 hover:text-white hover:scale-[1.01] active:scale-[0.99] border border-transparent hover:border-purple-500/20"
-                  }
-                  ${collapsed ? "justify-center px-0" : ""}
-                `}
-                title={collapsed ? item.label : ""}
-              >
-                {isActive && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-pink-400/20 animate-pulse rounded-xl" />
-                )}
-                <div
-                  className={`flex items-center relative z-10 ${collapsed ? "" : "space-x-3"
-                    }`}
+            {/* Feature Pills */}
+            <div className="space-y-3">
+              {[
+                { icon: '📊', text: 'Real-time Analytics & Reporting' },
+                { icon: '🔒', text: 'Enterprise-Grade Security' },
+                { icon: '⚡', text: 'Lightning-Fast Performance' },
+                { icon: '🌐', text: 'Cloud-Based Accessibility' }
+              ].map((feature, idx) => (
+                <div 
+                  key={idx}
+                  className="flex items-center space-x-3 bg-white/5 backdrop-blur-sm px-5 py-3 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300"
                 >
-                  <div className={`${isActive ? "bg-white/20 p-2 rounded-lg" : ""}`}>
-                    <item.icon
-                      className={`w-5 h-5 flex-shrink-0 transition-transform duration-300 ${isActive ? "" : "group-hover:scale-110 group-hover:rotate-3"
-                        }`}
-                    />
-                  </div>
-                  {!collapsed && (
-                    <span className="font-semibold text-sm truncate">
-                      {item.label}
-                    </span>
-                  )}
+                  <span className="text-2xl">{feature.icon}</span>
+                  <span className="text-white font-medium">{feature.text}</span>
                 </div>
-                {isActive && !collapsed && (
-                  <div className="absolute right-4 w-2 h-2 bg-white rounded-full shadow-lg shadow-white/50" />
-                )}
-              </button>
-            );
-          })}
-        </nav>
+              ))}
+            </div>
+          </div>
 
-        {/* Quick Stats */}
-        {!collapsed && quickStats && quickStats.length > 0 && (
-          <div className="p-4 border-t border-purple-500/20 bg-slate-800/50 flex-shrink-0">
-            <div className="bg-gradient-to-br from-purple-900/40 to-pink-900/40 rounded-xl p-4 space-y-3 border border-purple-500/20 shadow-lg">
-              <h4 className="text-sm font-semibold text-white flex items-center">
-                <div className="w-1 h-5 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full mr-3 shadow-lg shadow-purple-500/50" />
-                Quick Stats
-              </h4>
-              <div className="space-y-2">
-                {quickStats.map((stat, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between text-xs bg-slate-800/50 rounded-lg px-3 py-2.5 border border-purple-500/10"
-                  >
-                    <span className="text-slate-300 font-medium">
-                      {stat.label}
-                    </span>
-                    <span className="font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                      {stat.value}
-                    </span>
+          {/* Right Side - Login Form */}
+          <div className="w-full max-w-md mx-auto lg:mx-0">
+            
+            {/* Mobile Logo */}
+            <div className="lg:hidden text-center mb-8">
+              <div className="inline-flex items-center space-x-3 bg-white/10 backdrop-blur-sm px-5 py-3 rounded-2xl border border-white/20 mb-6">
+                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                  <div className="w-8 h-8 bg-gradient-to-br from-[#44A4AD] to-[#1C4C50] rounded-lg" />
+                </div>
+                <div>
+                  <div className="text-xl font-bold text-white">ICCD</div>
+                  <div className="text-xs text-gray-300 tracking-widest">DASHBOARD</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Login Card */}
+            <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-10 border border-gray-100 relative overflow-hidden">
+              
+              {/* Decorative Corner */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#44A4AD]/10 to-transparent rounded-bl-full" />
+              
+              <div className="relative">
+                {/* Header */}
+                <div className="mb-8">
+                  <div className="flex items-center space-x-2 mb-3">
+                    <Sparkles className="w-6 h-6 text-[#44A4AD]" />
+                    <h2 className="text-3xl font-bold text-gray-900">
+                      Welcome Back
+                    </h2>
                   </div>
-                ))}
+                  <p className="text-gray-600">
+                    Enter your credentials to access your dashboard
+                  </p>
+                </div>
+
+                {/* Form Fields */}
+                <div className="space-y-5">
+                  
+                  {/* Email Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
+                      Email Address
+                    </label>
+                    <div className="relative group">
+                      <Mail className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${
+                        focusedField === 'email' ? 'text-[#44A4AD]' : 'text-gray-400'
+                      }`} />
+                      <input
+                        type="email"
+                        id="email"
+                        {...register('email')}
+                        onFocus={() => setFocusedField('email')}
+                        onBlur={() => setFocusedField(null)}
+                        placeholder="you@company.com"
+                        className={`w-full pl-12 pr-4 py-4 bg-gray-50 border-2 rounded-2xl focus:outline-none focus:bg-white transition-all duration-300 text-gray-800 ${
+                          errors.email
+                            ? 'border-red-500 focus:border-red-500'
+                            : 'border-transparent focus:border-[#44A4AD] focus:shadow-lg focus:shadow-[#44A4AD]/20'
+                        }`}
+                      />
+                    </div>
+                    {errors.email && (
+                      <p className="text-red-500 text-sm flex items-center space-x-1">
+                        <span>⚠</span>
+                        <span>{errors.email.message}</span>
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Password Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="password" className="block text-sm font-semibold text-gray-700">
+                      Password
+                    </label>
+                    <div className="relative group">
+                      <Lock className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${
+                        focusedField === 'password' ? 'text-[#44A4AD]' : 'text-gray-400'
+                      }`} />
+                      <input
+                        type={showPassword ? 'text' : 'password'}
+                        id="password"
+                        {...register('password')}
+                        onFocus={() => setFocusedField('password')}
+                        onBlur={() => setFocusedField(null)}
+                        placeholder="Enter your password"
+                        className={`w-full pl-12 pr-12 py-4 bg-gray-50 border-2 rounded-2xl focus:outline-none focus:bg-white transition-all duration-300 text-gray-800 ${
+                          errors.password
+                            ? 'border-red-500 focus:border-red-500'
+                            : 'border-transparent focus:border-[#44A4AD] focus:shadow-lg focus:shadow-[#44A4AD]/20'
+                        }`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#44A4AD] transition-colors"
+                      >
+                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                      </button>
+                    </div>
+                    {errors.password && (
+                      <p className="text-red-500 text-sm flex items-center space-x-1">
+                        <span>⚠</span>
+                        <span>{errors.password.message}</span>
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Forgot Password */}
+                  <div className="flex justify-end">
+                    <a
+                      href="#"
+                      className="text-sm text-[#44A4AD] hover:text-[#2E7A81] font-semibold transition-colors flex items-center space-x-1 group"
+                    >
+                      <span>Forgot Password?</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                  </div>
+
+                  {/* Submit Button */}
+                  <Button
+                    text="Sign In to Dashboard"
+                    isLoading={isPending}
+                    onClick={handleSubmit(onSubmit)}
+                    type="button"
+                    className="w-full bg-gradient-to-r from-[#44A4AD] via-[#2E7A81] to-[#1C4C50] 
+                      text-white py-4 rounded-2xl font-semibold shadow-lg shadow-[#44A4AD]/30
+                      hover:shadow-xl hover:shadow-[#44A4AD]/40 hover:-translate-y-1 
+                      active:translate-y-0 transition-all duration-300 
+                      disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 
+                      flex items-center justify-center space-x-2 group"
+                  />
+                </div>
+
+                {/* Divider */}
+                <div className="mt-8 pt-6 border-t border-gray-100">
+                  <p className="text-center text-sm text-gray-600">
+                    Protected by enterprise-grade security 🔒
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        )}
-
-        {/* Logout */}
-        <div className="p-4 border-t border-purple-500/20 bg-slate-800/50 flex-shrink-0">
-          <button
-            onClick={logout}
-            className={`
-              w-full flex items-center px-4 py-3 rounded-xl
-              text-red-600 hover:bg-red-50 hover:text-red-700 
-              transition-all duration-200 group
-              active:scale-95 hover:shadow-md hover:shadow-red-500/10
-              ${collapsed ? "justify-center px-0" : "space-x-3"}
-            `}
-            title={collapsed ? "Logout" : ""}
-          >
-            <LogOut className="w-5 h-5 flex-shrink-0 transition-transform duration-300 group-hover:rotate-12" />
-            {!collapsed && (
-              <span className="text-sm font-semibold">Logout</span>
-            )}
-          </button>
         </div>
-      </aside>
-    </>
+      </div>
+    </div>
   );
 };
 
-export default AdminSidebar;
+export default Login5;
