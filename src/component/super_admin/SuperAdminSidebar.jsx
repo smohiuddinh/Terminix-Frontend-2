@@ -1,273 +1,258 @@
-import React, { useState } from 'react';
-import { Eye, EyeOff, Mail, Lock, ArrowRight, Sparkles } from 'lucide-react';
+import {
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Home,
+  ShoppingCart,
+  Briefcase,
+  Settings,
+  LogOut,
+  Users,
+  FileText,
+  ClipboardList,
+  MessageSquare,
+  ThumbsUp,
+  Flag,
+  BriefcaseBusiness,
+  Building
+} from "lucide-react";
 
-// Mock imports - replace with your actual imports
-const Button = ({ text, isLoading, onClick, type, className }) => (
-  <button type={type} onClick={onClick} disabled={isLoading} className={className}>
-    {isLoading ? (
-      <div className="flex items-center justify-center space-x-2">
-        <div className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin" />
-        <span>Processing...</span>
-      </div>
-    ) : (
-      text
-    )}
-  </button>
-);
+import { useNavigate, useLocation } from "react-router-dom";
+import useLogout from "../../../hooks/useLogout";
 
-// Replace these with your actual hooks
-const useForm = (config) => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const [errors, setErrors] = useState({});
+const AdminSidebar = ({
+  collapsed,
+  onToggleCollapse,
+  showMobile,
+  onCloseMobile,
+  activeItem, 
+  onMenuItemClick,
+  quickStats = null,
+}) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const logout = useLogout();
 
-  const register = (name) => ({
-    name,
-    value: formData[name],
-    onChange: (e) => setFormData({ ...formData, [name]: e.target.value })
-  });
+  const menuItems = [
+    {
+      icon: ShoppingCart,
+      label: "Contacts",
+      path: "/superadmin/contacts",
+    },
+    {
+      icon: Building,
+      label: "International Organization",
+      path: "/superadmin/international-organization",
+    },
+  ];
 
-  const handleSubmit = (onSubmit) => (e) => {
-    if (e) e.preventDefault();
-    onSubmit(formData);
+  const getActiveItem = () => {
+    if (activeItem) return activeItem;
+    const currentPath = location.pathname;
+    const activeMenuItem = menuItems.find((item) => item.path === currentPath);
+    return activeMenuItem ? activeMenuItem.label : "Dashboard";
   };
 
-  return { register, handleSubmit, formState: { errors } };
-};
+  const currentActiveItem = getActiveItem();
+  const currentPath = location.pathname;
 
-const useLogin = () => {
-  const [isPending, setIsPending] = useState(false);
-  
-  const userLogin = async (data) => {
-    setIsPending(true);
-    // Your actual API call here
-    setTimeout(() => setIsPending(false), 2000);
-  };
-
-  return { userLogin, isPending };
-};
-
-const Login5 = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [focusedField, setFocusedField] = useState(null);
-  const { userLogin, isPending } = useLogin();
-
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    mode: 'onChange'
-  });
-
-  const onSubmit = async (data) => {
-    userLogin(data);
+  const handleMenuClick = (item) => {
+    navigate(item.path);
+    if (onMenuItemClick) {
+      onMenuItemClick(item);
+    }
+    if (onCloseMobile) {
+      onCloseMobile();
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#44A4AD] via-[#2E7A81] to-[#1C4C50] flex items-center justify-center p-4 relative overflow-hidden">
-      
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-white/5 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#1C4C50]/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-white/3 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '2s' }} />
-      </div>
+    <>
+      {/* Mobile Overlay with blur */}
+      {showMobile && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-md z-40 lg:hidden animate-in fade-in duration-200"
+          onClick={onCloseMobile}
+        />
+      )}
 
-      {/* Main Container */}
-      <div className="w-full max-w-6xl mx-auto relative z-10">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          
-          {/* Left Side - Branding & Features */}
-          <div className="hidden lg:block space-y-12 px-8">
-            
-            {/* Logo Section */}
-            <div className="space-y-6">
-              <div className="inline-flex items-center space-x-4 bg-white/10 backdrop-blur-sm px-6 py-4 rounded-2xl border border-white/20">
-                <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center shadow-lg">
-                  <div className="w-10 h-10 bg-gradient-to-br from-[#44A4AD] to-[#1C4C50] rounded-lg" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-white">ICCD</div>
-                  <div className="text-xs text-gray-300 tracking-widest">DASHBOARD</div>
-                </div>
+      {/* Sidebar */}
+      <aside
+        className={`
+           fixed top-0 left-0 h-screen 
+          bg-gradient-to-b from-white via-white to-gray-50/80 
+          backdrop-blur-xl border-r border-gray-200/80 shadow-2xl shadow-gray-200/50
+          z-50 transition-all duration-300 ease-in-out
+          ${collapsed ? "w-25" : "w-65"}
+          ${showMobile ? "translate-x-0" : "-translate-x-full"}
+          lg:translate-x-0
+          flex flex-col
+
+        `}
+      >
+        {/* Header with modern spacing */}
+        <div className="h-[72px] flex items-center justify-between px-6 border-b border-gray-200/60 flex-shrink-0">
+          {!collapsed && (
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#3C9299] to-[#2DD4BF] flex items-center justify-center shadow-lg shadow-[#3C9299]/20">
+                <Settings className="w-5 h-5 text-white" />
               </div>
-
-              <div className="space-y-4">
-                <h1 className="text-5xl font-bold text-white leading-tight">
-                  Your Organization's
-                  <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-gray-300">
-                    Command Center
-                  </span>
-                </h1>
-                <p className="text-lg text-gray-200 max-w-md leading-relaxed">
-                  Real-time analytics, seamless collaboration, and intelligent insights all in one unified platform.
+              <div>
+                <h2 className="text-base font-semibold text-gray-900">
+                  Admin Panel
+                </h2>
+                <p className="text-[11px] text-gray-500 font-medium">
+                  Management Console
                 </p>
               </div>
             </div>
+          )}
 
-            {/* Feature Pills */}
-            <div className="space-y-3">
-              {[
-                { icon: '📊', text: 'Real-time Analytics & Reporting' },
-                { icon: '🔒', text: 'Enterprise-Grade Security' },
-                { icon: '⚡', text: 'Lightning-Fast Performance' },
-                { icon: '🌐', text: 'Cloud-Based Accessibility' }
-              ].map((feature, idx) => (
-                <div 
-                  key={idx}
-                  className="flex items-center space-x-3 bg-white/5 backdrop-blur-sm px-5 py-3 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300"
-                >
-                  <span className="text-2xl">{feature.icon}</span>
-                  <span className="text-white font-medium">{feature.text}</span>
-                </div>
-              ))}
+          {collapsed && (
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#3C9299] to-[#2DD4BF] flex items-center justify-center shadow-lg shadow-[#3C9299]/20 mx-auto">
+              <Settings className="w-5 h-5 text-white" />
             </div>
-          </div>
+          )}
 
-          {/* Right Side - Login Form */}
-          <div className="w-full max-w-md mx-auto lg:mx-0">
-            
-            {/* Mobile Logo */}
-            <div className="lg:hidden text-center mb-8">
-              <div className="inline-flex items-center space-x-3 bg-white/10 backdrop-blur-sm px-5 py-3 rounded-2xl border border-white/20 mb-6">
-                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
-                  <div className="w-8 h-8 bg-gradient-to-br from-[#44A4AD] to-[#1C4C50] rounded-lg" />
-                </div>
-                <div>
-                  <div className="text-xl font-bold text-white">ICCD</div>
-                  <div className="text-xs text-gray-300 tracking-widest">DASHBOARD</div>
-                </div>
-              </div>
+          <button
+            onClick={onToggleCollapse}
+            className="hidden lg:flex p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 ml-auto group absolute right-4"
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {collapsed ? (
+              <ChevronRight className="w-4 h-4 text-gray-600 group-hover:text-[#3C9299] transition-colors" />
+            ) : (
+              <ChevronLeft className="w-4 h-4 text-gray-600 group-hover:text-[#3C9299] transition-colors" />
+            )}
+          </button>
+
+          <button
+            onClick={onCloseMobile}
+            className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 group"
+            aria-label="Close sidebar"
+          >
+            <X className="w-5 h-5 text-gray-600 group-hover:text-red-600 transition-colors" />
+          </button>
+        </div>
+
+        {/* Navigation with modern spacing */}
+        <nav className="flex-1 p-4 overflow-y-auto overflow-x-hidden space-y-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400">
+          {!collapsed && (
+            <div className="px-3 mb-4">
+              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
+                Navigation
+              </p>
             </div>
+          )}
 
-            {/* Login Card */}
-            <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-10 border border-gray-100 relative overflow-hidden">
-              
-              {/* Decorative Corner */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#44A4AD]/10 to-transparent rounded-bl-full" />
-              
-              <div className="relative">
-                {/* Header */}
-                <div className="mb-8">
-                  <div className="flex items-center space-x-2 mb-3">
-                    <Sparkles className="w-6 h-6 text-[#44A4AD]" />
-                    <h2 className="text-3xl font-bold text-gray-900">
-                      Welcome Back
-                    </h2>
-                  </div>
-                  <p className="text-gray-600">
-                    Enter your credentials to access your dashboard
-                  </p>
-                </div>
+          {menuItems.map((item, index) => {
+            const isActive = currentPath === item.path;
 
-                {/* Form Fields */}
-                <div className="space-y-5">
-                  
-                  {/* Email Field */}
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
-                      Email Address
-                    </label>
-                    <div className="relative group">
-                      <Mail className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${
-                        focusedField === 'email' ? 'text-[#44A4AD]' : 'text-gray-400'
-                      }`} />
-                      <input
-                        type="email"
-                        id="email"
-                        {...register('email')}
-                        onFocus={() => setFocusedField('email')}
-                        onBlur={() => setFocusedField(null)}
-                        placeholder="you@company.com"
-                        className={`w-full pl-12 pr-4 py-4 bg-gray-50 border-2 rounded-2xl focus:outline-none focus:bg-white transition-all duration-300 text-gray-800 ${
-                          errors.email
-                            ? 'border-red-500 focus:border-red-500'
-                            : 'border-transparent focus:border-[#44A4AD] focus:shadow-lg focus:shadow-[#44A4AD]/20'
-                        }`}
-                      />
-                    </div>
-                    {errors.email && (
-                      <p className="text-red-500 text-sm flex items-center space-x-1">
-                        <span>⚠</span>
-                        <span>{errors.email.message}</span>
-                      </p>
-                    )}
-                  </div>
+            return (
+              <button
+                key={index}
+                onClick={() => handleMenuClick(item)}
+                className={`
+                  cursor-pointer w-full flex items-center gap-3 px-3 py-2.5 rounded-xl 
+                  transition-all duration-200 group relative
+                  ${isActive
+                    ? "bg-gradient-to-r from-[#3C9299] to-[#2DD4BF] text-white shadow-lg shadow-[#3C9299]/25"
+                    : "text-gray-700 hover:bg-gray-100/80"
+                  }
+                  ${collapsed ? "justify-center px-0" : ""}
+                `}
+                title={collapsed ? item.label : ""}
+              >
+                {/* Active indicator */}
+                {isActive && !collapsed && (
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-white rounded-r-full" />
+                )}
 
-                  {/* Password Field */}
-                  <div className="space-y-2">
-                    <label htmlFor="password" className="block text-sm font-semibold text-gray-700">
-                      Password
-                    </label>
-                    <div className="relative group">
-                      <Lock className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${
-                        focusedField === 'password' ? 'text-[#44A4AD]' : 'text-gray-400'
-                      }`} />
-                      <input
-                        type={showPassword ? 'text' : 'password'}
-                        id="password"
-                        {...register('password')}
-                        onFocus={() => setFocusedField('password')}
-                        onBlur={() => setFocusedField(null)}
-                        placeholder="Enter your password"
-                        className={`w-full pl-12 pr-12 py-4 bg-gray-50 border-2 rounded-2xl focus:outline-none focus:bg-white transition-all duration-300 text-gray-800 ${
-                          errors.password
-                            ? 'border-red-500 focus:border-red-500'
-                            : 'border-transparent focus:border-[#44A4AD] focus:shadow-lg focus:shadow-[#44A4AD]/20'
-                        }`}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#44A4AD] transition-colors"
-                      >
-                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                      </button>
-                    </div>
-                    {errors.password && (
-                      <p className="text-red-500 text-sm flex items-center space-x-1">
-                        <span>⚠</span>
-                        <span>{errors.password.message}</span>
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Forgot Password */}
-                  <div className="flex justify-end">
-                    <a
-                      href="#"
-                      className="text-sm text-[#44A4AD] hover:text-[#2E7A81] font-semibold transition-colors flex items-center space-x-1 group"
-                    >
-                      <span>Forgot Password?</span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </a>
-                  </div>
-
-                  {/* Submit Button */}
-                  <Button
-                    text="Sign In to Dashboard"
-                    isLoading={isPending}
-                    onClick={handleSubmit(onSubmit)}
-                    type="button"
-                    className="w-full bg-gradient-to-r from-[#44A4AD] via-[#2E7A81] to-[#1C4C50] 
-                      text-white py-4 rounded-2xl font-semibold shadow-lg shadow-[#44A4AD]/30
-                      hover:shadow-xl hover:shadow-[#44A4AD]/40 hover:-translate-y-1 
-                      active:translate-y-0 transition-all duration-300 
-                      disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 
-                      flex items-center justify-center space-x-2 group"
+                {/* Icon container */}
+                <div className={`
+                  flex items-center justify-center w-9 h-9 rounded-lg
+                  transition-all duration-200 flex-shrink-0
+                  ${isActive 
+                    ? "bg-white/20" 
+                    : "group-hover:bg-gray-200/50"
+                  }
+                `}>
+                  <item.icon
+                    className={`w-[18px] h-[18px] transition-transform duration-200 ${
+                      isActive ? "" : "group-hover:scale-110"
+                    }`}
                   />
                 </div>
 
-                {/* Divider */}
-                <div className="mt-8 pt-6 border-t border-gray-100">
-                  <p className="text-center text-sm text-gray-600">
-                    Protected by enterprise-grade security 🔒
-                  </p>
-                </div>
+                {/* Label */}
+                {!collapsed && (
+                  <span className="font-medium text-[13.5px] truncate flex-1 text-left">
+                    {item.label}
+                  </span>
+                )}
+
+                {/* Chevron indicator for collapsed state */}
+                {!collapsed && !isActive && (
+                  <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-40 transition-opacity" />
+                )}
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* Quick Stats with modern card design */}
+        {!collapsed && quickStats && quickStats.length > 0 && (
+          <div className="p-4 border-t border-gray-200/60 flex-shrink-0">
+            <div className="bg-gradient-to-br from-[#F0FDFA] to-[#ECFDF5] rounded-2xl p-4 space-y-3 border border-[#3C9299]/10">
+              <h4 className="text-xs font-semibold text-gray-700 flex items-center gap-2">
+                <div className="w-1 h-4 bg-gradient-to-b from-[#3C9299] to-[#2DD4BF] rounded-full" />
+                Quick Overview
+              </h4>
+              <div className="space-y-2">
+                {quickStats.map((stat, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between text-xs bg-white/60 backdrop-blur-sm rounded-xl px-3 py-2.5 border border-gray-100"
+                  >
+                    <span className="text-gray-600 font-medium">
+                      {stat.label}
+                    </span>
+                    <span className="font-bold text-[#3C9299] text-sm">
+                      {stat.value}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
+        )}
+
+        {/* Logout with modern styling */}
+        <div className="p-4 border-t border-gray-200/60 flex-shrink-0">
+          <button
+            onClick={logout}
+            className={`
+              w-full cursor-pointer flex items-center gap-3 px-3 py-2.5 rounded-xl
+              text-red-600 hover:bg-red-50 
+              transition-all duration-200 group
+              border border-transparent hover:border-red-100
+              ${collapsed ? "justify-center px-0" : ""}
+            `}
+            title={collapsed ? "Logout" : ""}
+          >
+            <div className="flex items-center justify-center w-9 h-9 rounded-lg group-hover:bg-red-100 transition-all duration-200">
+              <LogOut className="w-[18px] h-[18px] flex-shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
+            </div>
+            {!collapsed && (
+              <span className="text-[13.5px] font-medium flex-1 text-left">
+                Logout
+              </span>
+            )}
+          </button>
         </div>
-      </div>
-    </div>
+      </aside>
+    </>
   );
 };
 
-export default Login5;
+export default AdminSidebar;
