@@ -102,6 +102,11 @@ const Login5 = () => {
 
                         {/* Login Form */}
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                            {error && (
+                                <div className="w-full py-3 text-red-600 bg-red-100 border border-red-400 rounded-md px-3">
+                                    {error}
+                                </div>
+                            )}
                             {/* Email Input */}
                             <div className="space-y-2">
                                 <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
