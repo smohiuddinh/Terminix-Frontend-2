@@ -18,7 +18,7 @@ function ReactSelect({ selectedOption = null, onChange, option = [], placeholder
         indicatorSeparator: () => ({ display: "none" }),
         menu: (provided) => ({
             ...provided,
-            zIndex: 9999, // ensure on top
+            zIndex: 9999, 
         }),
         menuPortal: (base) => ({
             ...base,
@@ -35,7 +35,7 @@ function ReactSelect({ selectedOption = null, onChange, option = [], placeholder
             value={value}
             isClearable={true}
             styles={customStyles}
-            menuPortalTarget={typeof document !== 'undefined' ? document.body : null} // portal dropdown to body
+            menuPortalTarget={typeof document !== 'undefined' ? document.body : null} 
             theme={(theme) => ({
                 ...theme,
                 colors: {
