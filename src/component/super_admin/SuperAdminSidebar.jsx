@@ -2,18 +2,9 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  Home,
   ShoppingCart,
-  Briefcase,
   Settings,
   LogOut,
-  Users,
-  FileText,
-  ClipboardList,
-  MessageSquare,
-  ThumbsUp,
-  Flag,
-  BriefcaseBusiness,
   Building
 } from "lucide-react";
 
@@ -108,15 +99,11 @@ const AdminSidebar = ({
             </div>
           )}
 
-          {collapsed && (
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#3C9299] to-[#2DD4BF] flex items-center justify-center shadow-lg shadow-[#3C9299]/20 mx-auto">
-              <Settings className="w-5 h-5 text-white" />
-            </div>
-          )}
+       
 
           <button
             onClick={onToggleCollapse}
-            className="hidden lg:flex p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 ml-auto group absolute right-4"
+            className="hidden lg:flex p-2 hover:bg-gray-100 mr-4 rounded-lg transition-all duration-200 ml-auto group absolute right-4"
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {collapsed ? (
