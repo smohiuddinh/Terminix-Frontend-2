@@ -62,7 +62,7 @@ const AdminSidebar = ({
       {/* Mobile Overlay with blur */}
       {showMobile && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-md z-40 lg:hidden animate-in fade-in duration-200"
+          className="fixed inset-0 bg-black/60  backdrop-blur-md z-40 lg:hidden animate-in fade-in duration-200"
           onClick={onCloseMobile}
         />
       )}
