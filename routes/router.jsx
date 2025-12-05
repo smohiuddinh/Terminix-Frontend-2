@@ -12,6 +12,7 @@ import Login5 from "../src/component/login/login5";
 import ModalButton from "../src/component/modal/modal";
 import Contacts from "../src/pages/superadmin_dashboard/contacts";
 import International_Organization from "../src/pages/superadmin_dashboard/international_organization";
+import PageNotFound from "../src/component/pageNotFound";
 
 export const router = createBrowserRouter([
   {
@@ -59,7 +60,7 @@ export const router = createBrowserRouter([
   {
     path: "/*",
     element: withSuspense(
-      <div>No route found</div>
+      <PageNotFound />
     ),
   },
   {
