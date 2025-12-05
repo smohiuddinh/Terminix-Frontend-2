@@ -16,7 +16,7 @@ function TableHeader({ icon, title, description, buttonName, buttonIcon, setOpen
                 </div>
                 <button
                     onClick={() => setOpen(true)}
-                    className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white text-[#2F7A80] px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold hover:bg-emerald-50 transition-all duration-200 shadow-lg hover:shadow-xl text-sm sm:text-base"
+                    className="cursor-pointer w-full sm:w-auto flex items-center justify-center gap-2 bg-white text-[#2F7A80] px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold hover:bg-emerald-50 transition-all duration-200 shadow-lg hover:shadow-xl text-sm sm:text-base"
                 >
                     {buttonIcon}
                     {buttonName}
