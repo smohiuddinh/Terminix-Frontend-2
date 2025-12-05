@@ -4,7 +4,6 @@ import { withSuspense } from "../utils/withSuspense";
 const SuperAdminDashboard = lazy(() => import("../src/pages/superadmin_dashboard/dashboard"));
 import AuthRoute from '../utils/authRoute';
 import AdminTemplate from '../src/templates/adminTemplate';
-import LoginController from "../src/component/loginController";
 import Login1 from "../src/component/login/login1";
 import Login2 from "../src/component/login/login2";
 import Login3 from "../src/component/login/login3";
