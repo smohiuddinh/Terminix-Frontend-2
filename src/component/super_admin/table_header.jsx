@@ -1,4 +1,3 @@
-import { Search, Users, User, TrendingUp, Sparkles, UserPlus } from "lucide-react";
 import { memo } from "react";
 
 function TableHeader({ icon, title, description, buttonName, buttonIcon, setOpen }) {
