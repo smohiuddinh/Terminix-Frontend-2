@@ -9,6 +9,9 @@ import TableHeader from "../../component/super_admin/table_header";
 import Search_and_filters from "../../component/Search_and_filters";
 import { countryFilter, categoryFilter, departmentFilter } from "../../../data/flitersData";
 import ReactSelect from "../../component/buttonSelect";
+import Modal from "../../component/modal/modal2";
+import ContactForm from '../../component/forms/contactForm'
+
 
 function International_Organization() {
 
@@ -75,6 +78,10 @@ function International_Organization() {
             />
           </>}
         />
+
+        <Modal isOpen={open} onClose={() => setOpen(false)} title="Add New Contacts">
+          <ContactForm />
+        </Modal>
 
         {/* Table */}
         {isLoading ? <DataLoader /> :
