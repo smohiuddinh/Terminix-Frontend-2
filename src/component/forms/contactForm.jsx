@@ -5,16 +5,15 @@ import Select from "react-select";
 import { useParams } from "react-router-dom";
 import { useAddJob } from "../../../api/client/job";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { contactFormDchema } from "../formSchema/schema";
 import { oicCountries } from "../../../data/oic_contries";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm, Controller, useWatch } from "react-hook-form";
-import { contactFormDchema } from "../formSchema/schema";
 
 const locationOptions = oicCountries.map(item => ({
     value: item.country,
     label: item.country
 }));
-
 
 function ContactForm() {
 
@@ -84,7 +83,7 @@ function ContactForm() {
                     <div className="p-6 space-y-4">
                         {/* Job Title */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 font-semibold mb-1">
+                            <label className="block text-sm text-gray-700 font-semibold mb-1">
                                 Name
                             </label>
                             <Controller
@@ -105,7 +104,7 @@ function ContactForm() {
 
                         {/* Contact Number */}
                         <div>
-                            <label className="block text-sm font-medium font-semibold  text-gray-700 mb-1">
+                            <label className="block text-sm  font-semibold  text-gray-700 mb-1">
                                 Contact Number
                             </label>
                             <Controller
@@ -126,7 +125,7 @@ function ContactForm() {
 
                         {/* Designation */}
                         <div>
-                            <label className="block text-sm font-medium font-semibold text-gray-700 mb-1">
+                            <label className="block text-sm  font-semibold text-gray-700 mb-1">
                                 Designation
                             </label>
                             <Controller
@@ -147,7 +146,7 @@ function ContactForm() {
 
                         {/* Address */}
                         <div>
-                            <label className="block text-sm font-medium font-semibold text-gray-700 mb-1">
+                            <label className="block text-sm font-semibold text-gray-700 mb-1">
                                 Address
                             </label>
                             <Controller
@@ -168,7 +167,7 @@ function ContactForm() {
 
                         {/* Location */}
                         <div>
-                            <label className="block text-sm font-medium font-semibold text-gray-700 mb-1">
+                            <label className="block text-sm font-semibold text-gray-700 mb-1">
                                 Country
                             </label>
                             <Controller
@@ -191,7 +190,7 @@ function ContactForm() {
 
                         {/* Cities */}
                         <div>
-                            <label className="block text-sm font-medium font-semibold text-gray-700 mb-1">
+                            <label className="block text-sm font-semibold text-gray-700 mb-1">
                                 City
                             </label>
                             <Controller
@@ -231,7 +230,7 @@ function ContactForm() {
                     </div>
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-sm font-medium font-semibold text-gray-700 mb-1">
+                            <label className="block text-sm font-semibold text-gray-700 mb-1">
                                 Organization Name
                             </label>
                             <Controller
@@ -250,7 +249,7 @@ function ContactForm() {
                             )}
                         </div>
                         <div>
-                            <label className="block text-sm font-medium font-semibold text-gray-700 mb-1">
+                            <label className="block text-sm font-semibold text-gray-700 mb-1">
                                 Email
                             </label>
                             <Controller
@@ -269,7 +268,7 @@ function ContactForm() {
                             )}
                         </div>
                         <div>
-                            <label className="block text-sm font-medium font-semibold text-gray-700 mb-1">
+                            <label className="block text-sm font-semibold text-gray-700 mb-1">
                                 LinkedIn Profile
                             </label>
                             <Controller
@@ -288,7 +287,7 @@ function ContactForm() {
                             )}
                         </div>
                         <div>
-                            <label className="block text-sm font-medium font-semibold text-gray-700 mb-1">
+                            <label className="block text-sm font-semibold text-gray-700 mb-1">
                                 Website
                             </label>
                             <Controller

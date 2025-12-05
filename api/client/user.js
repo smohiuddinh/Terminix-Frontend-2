@@ -1,11 +1,9 @@
 import API_ROUTE from "../endPoints";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../axios/index";
-import { setToken } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "../../redux/slices/userSlice";
-import { setUserType } from "../../redux/slices/userType";
 
 export function useCheck() {
   const { data, error, isSuccess, isPending, isError } = useQuery({
@@ -53,7 +51,7 @@ export function useLogin() {
     mutationFn: (data) => api.post(API_ROUTE.user.login, data, { withCredentials: true }),
     onSuccess: async(response) => {
       if (response?.data?.data?.email === 'admin@gmail.com') {
-        
+
         const userData = response?.data?.data;
         dispatch(setUserDetails(userData));
         await queryClient.invalidateQueries({ queryKey: ["authUser"] });

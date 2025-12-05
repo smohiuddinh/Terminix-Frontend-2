@@ -1,8 +1,6 @@
 import axios from "axios";
-import { deleteToken } from "../../utils/auth";
-import { resetUserProfile } from "../../redux/slices/userProfileSlice";
-import { removeUserDetails } from "../../redux/slices/userSlice";
 import { store } from "../../redux/store";
+import { removeUserDetails } from "../../redux/slices/userSlice";
 
 
 const api = axios.create({
