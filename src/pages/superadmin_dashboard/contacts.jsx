@@ -1,5 +1,5 @@
 import { useState, memo } from "react";
-import { Users, User } from "lucide-react";
+import { Users, User, UserPlus } from "lucide-react";
 import Button from "../../component/button";
 import Modal from "../../component/modal/modal2";
 import ICCDError from "../../component/ICCDError";
@@ -44,9 +44,9 @@ function Contacts() {
           icon={<Users className="w-8 h-8 text-white" />}
           title={"Contacts"}
           description={"This is contact Details"}
-          inputPlaceHolder={"Search Member"}
-          search={search}
-          setSearch={setSearch}
+          buttonName="Add Contacts"
+          buttonIcon={<UserPlus className="w-4 h-4 sm:w-5 sm:h-5" />}
+          setOpen={setOpen}
         />
 
         {/* Filters */}
@@ -80,10 +80,10 @@ function Contacts() {
         />
 
         {/* Add Contact Form button*/}
-        <div className="flex justify-end">
+        {/* <div className="flex justify-end">
           <Button text="+ Add Contact" isLoading={false} onClick={() => setOpen(true)} type="button"
             className="px-4 py-2 rounded-md" />
-        </div>
+        </div> */}
 
         {/* Contact Form */}
         <Modal isOpen={open} onClose={() => setOpen(false)} title="Add New Contacts">

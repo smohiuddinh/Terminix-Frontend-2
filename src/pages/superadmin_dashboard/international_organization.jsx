@@ -1,6 +1,6 @@
 import { useState, memo } from "react";
 import DataLoader from "../../component/DataLoader";
-import { Users, User } from "lucide-react";
+import { Users, User, UserPlus } from "lucide-react";
 import ICCDError from "../../component/ICCDError";
 import Pagination from "../../component/pagination";
 import useDebounce from "../../../hooks/useDebounce";
@@ -13,6 +13,7 @@ import ReactSelect from "../../component/buttonSelect";
 function International_Organization() {
 
   const [page, setPage] = useState(1);
+  const [open, setOpen] = useState(false)
   const [search, setSearch] = useState("");
   const [filterVal, setFilterVal] = useState({
     category: "",
@@ -40,9 +41,9 @@ function International_Organization() {
           icon={<Users className="w-8 h-8 text-white" />}
           title={"International Organization"}
           description={"This is contact Details"}
-          inputPlaceHolder={"Search Member"}
-          search={search}
-          setSearch={setSearch}
+          buttonName="Add Contacts"
+          buttonIcon={<UserPlus className="w-4 h-4 sm:w-5 sm:h-5" />}
+          setOpen={setOpen}
         />
 
         {/* Filters */}
@@ -109,9 +110,8 @@ function International_Organization() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200">
-                  {data?.map((user) => (
-                    <tr key={user.id} className="hover:bg-slate-50">
-
+                  {data?.map((user, index) => (
+                    <tr key={index} className="hover:bg-slate-50">
                       <td className="px-4 py-3 text-sm font-medium text-slate-800 flex items-center gap-2">
                         <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center">
                           <User className="w-4 h-4 text-slate-500" />

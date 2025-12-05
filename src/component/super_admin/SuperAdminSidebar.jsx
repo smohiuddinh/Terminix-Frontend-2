@@ -2,18 +2,9 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  Home,
   ShoppingCart,
-  Briefcase,
   Settings,
   LogOut,
-  Users,
-  FileText,
-  ClipboardList,
-  MessageSquare,
-  ThumbsUp,
-  Flag,
-  BriefcaseBusiness,
   Building
 } from "lucide-react";
 
@@ -25,17 +16,15 @@ const AdminSidebar = ({
   onToggleCollapse,
   showMobile,
   onCloseMobile,
-  activeItem,
+  activeItem, 
   onMenuItemClick,
   quickStats = null,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { mutate: logout, isPending } = useLogout();
+    const { mutate: logout, isPending } = useLogout();
 
   const menuItems = [
-    // { icon: Home, label: "Dashboard", path: "/superadmin/dashboard" },
-    // { icon: Users, label: "BCCD Members", path: "/superadmin/bccd-members" },
     {
       icon: ShoppingCart,
       label: "Contacts",
@@ -46,21 +35,6 @@ const AdminSidebar = ({
       label: "International Organization",
       path: "/superadmin/international-organization",
     },
-    // { icon: Briefcase, label: "POC Country", path: "/superadmin/poc-country" },
-    // {
-    //   icon: ClipboardList,
-    //   label: "Active Projects",
-    //   path: "/superadmin/manage-projects",
-    // },
-    // { icon: BriefcaseBusiness, label: "Active Jobs", path: "/superadmin/manage-jobs" },
-    // { icon: Settings, label: "Disputes", path: "/superadmin/manage-disputes" },
-    // {
-    //   icon: MessageSquare,
-    //   label: "Contact Form",
-    //   path: "/superadmin/manage-contactform",
-    // },
-    // { icon: ThumbsUp, label: "Feedbacks", path: "/superadmin/manage-feedbacks" },
-    // { icon: Flag, label: "Reports", path: "/superadmin/manage-reports" },
   ];
 
   const getActiveItem = () => {
@@ -72,7 +46,6 @@ const AdminSidebar = ({
 
   const currentActiveItem = getActiveItem();
   const currentPath = location.pathname;
-
 
   const handleMenuClick = (item) => {
     navigate(item.path);
@@ -86,10 +59,10 @@ const AdminSidebar = ({
 
   return (
     <>
-      {/* Mobile Overlay */}
+      {/* Mobile Overlay with blur */}
       {showMobile && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 bg-black/60  backdrop-blur-md z-40 lg:hidden animate-in fade-in duration-200"
           onClick={onCloseMobile}
         />
       )}
@@ -97,38 +70,48 @@ const AdminSidebar = ({
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 h-screen 
+           fixed top-0 left-0 h-screen 
           bg-gradient-to-b from-white via-white to-gray-50/80 
           backdrop-blur-xl border-r border-gray-200/80 shadow-2xl shadow-gray-200/50
           z-50 transition-all duration-300 ease-in-out
-          ${collapsed ? "w-20" : "w-65"}
+          ${collapsed ? "w-25" : "w-65"}
           ${showMobile ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0
           flex flex-col
         `}
       >
-        {/* Header */}
-        <div className="h-16 flex items-center justify-between px-5 border-b border-gray-200/80 bg-white/60 backdrop-blur-md flex-shrink-0">
+        {/* Header with modern spacing */}
+        <div className="h-[72px] flex items-center justify-between px-6 border-b border-gray-200/60 flex-shrink-0">
           {!collapsed && (
-            <div className="flex items-center space-x-2">
-
-              <h2 className="text-lg font-bold bg-gradient-to-r from-[#3C9299] via-[#2DD4BF] to-[#3C9299] bg-clip-text text-transparent">
-                Admin Panel
-              </h2>
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#3C9299] to-[#2DD4BF] flex items-center justify-center shadow-lg shadow-[#3C9299]/20">
+                <Settings className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h2 className="text-base font-semibold text-gray-900">
+                  Admin Panel
+                </h2>
+                <p className="text-[11px] text-gray-500 font-medium">
+                  Management Console
+                </p>
+              </div>
             </div>
           )}
 
+       
+
           <button
             onClick={onToggleCollapse}
-            className="hidden lg:flex p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 ml-auto group"
+            className="hidden lg:flex p-2 hover:bg-gray-100 mr-4 rounded-lg transition-all duration-200 ml-auto group absolute right-4"
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {collapsed ? (
-              <ChevronRight className="w-5 h-5 text-gray-600 group-hover:text-[#3C9299] transition-colors" />
+              <ChevronRight className="w-4 h-4 text-gray-600 group-hover:text-[#3C9299] transition-colors" />
             ) : (
-              <ChevronLeft className="w-5 h-5 text-gray-600 group-hover:text-[#3C9299] transition-colors" />
+              <ChevronLeft className="w-4 h-4 text-gray-600 group-hover:text-[#3C9299] transition-colors" />
             )}
           </button>
+
           <button
             onClick={onCloseMobile}
             className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 group"
@@ -138,67 +121,91 @@ const AdminSidebar = ({
           </button>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 p-3 overflow-y-auto overflow-x-hidden space-y-1.5 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400">
+        {/* Navigation with modern spacing */}
+        <nav className="flex-1 p-4 overflow-y-auto overflow-x-hidden space-y-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400">
+          {!collapsed && (
+            <div className="px-3 mb-4">
+              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
+                Navigation
+              </p>
+            </div>
+          )}
+
           {menuItems.map((item, index) => {
-            const isActive = currentPath === item.path; // ✅ Directly check URL path
+            const isActive = currentPath === item.path;
 
             return (
               <button
                 key={index}
                 onClick={() => handleMenuClick(item)}
                 className={`
-                cursor-pointer w-full flex items-center justify-between px-4 py-3 rounded-xl 
-                transition-all duration-200 group relative overflow-hidden
-                ${isActive
-                    ? "bg-gradient-to-r from-[#3C9299] to-[#2DD4BF] text-white shadow-lg shadow-teal-500/30 scale-[1.02]"
-                    : "text-gray-700 hover:bg-gray-100 hover:scale-[1.01] active:scale-[0.99]"
+                  cursor-pointer w-full flex items-center gap-3 px-3 py-2.5 rounded-xl 
+                  transition-all duration-200 group relative
+                  ${isActive
+                    ? "bg-gradient-to-r from-[#3C9299] to-[#2DD4BF] text-white shadow-lg shadow-[#3C9299]/25"
+                    : "text-gray-700 hover:bg-gray-100/80"
                   }
                   ${collapsed ? "justify-center px-0" : ""}
                 `}
                 title={collapsed ? item.label : ""}
               >
+                {/* Active indicator */}
                 {isActive && !collapsed && (
-                  <div className="absolute inset-0 bg-white/20 animate-pulse rounded-xl" />
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-white rounded-r-full" />
                 )}
-                <div
-                  className={`flex items-center relative z-10 ${collapsed ? "" : "space-x-3"
-                    }`}
-                >
+
+                {/* Icon container */}
+                <div className={`
+                  flex items-center justify-center w-9 h-9 rounded-lg
+                  transition-all duration-200 flex-shrink-0
+                  ${isActive 
+                    ? "bg-white/20" 
+                    : "group-hover:bg-gray-200/50"
+                  }
+                `}>
                   <item.icon
-                    className={`w-5 h-5 flex-shrink-0 transition-transform duration-200 ${isActive ? "" : "group-hover:scale-110"
-                      }`}
+                    className={`w-[18px] h-[18px] transition-transform duration-200 ${
+                      isActive ? "" : "group-hover:scale-110"
+                    }`}
                   />
-                  {!collapsed && (
-                    <span className="font-medium text-sm truncate">
-                      {item.label}
-                    </span>
-                  )}
                 </div>
+
+                {/* Label */}
+                {!collapsed && (
+                  <span className="font-medium text-[13.5px] truncate flex-1 text-left">
+                    {item.label}
+                  </span>
+                )}
+
+                {/* Chevron indicator for collapsed state */}
+                {!collapsed && !isActive && (
+                  <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-40 transition-opacity" />
+                )}
               </button>
             );
           })}
-
         </nav>
 
-        {/* Quick Stats */}
+        {/* Quick Stats with modern card design */}
         {!collapsed && quickStats && quickStats.length > 0 && (
-          <div className="p-4 border-t border-gray-200/80 bg-white/40 flex-shrink-0">
-            <div className="bg-gradient-to-br from-[#E0F7FA] to-[#E0F2F1] rounded-xl p-4 space-y-3 shadow-sm">
-              <h4 className="text-sm font-semibold text-gray-800 flex items-center">
-                <div className="w-1 h-4 bg-gradient-to-b from-[#3C9299] to-[#2DD4BF] rounded-full mr-2" />
-                Quick Stats
+          <div className="p-4 border-t border-gray-200/60 flex-shrink-0">
+            <div className="bg-gradient-to-br from-[#F0FDFA] to-[#ECFDF5] rounded-2xl p-4 space-y-3 border border-[#3C9299]/10">
+              <h4 className="text-xs font-semibold text-gray-700 flex items-center gap-2">
+                <div className="w-1 h-4 bg-gradient-to-b from-[#3C9299] to-[#2DD4BF] rounded-full" />
+                Quick Overview
               </h4>
               <div className="space-y-2">
                 {quickStats.map((stat, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between text-xs bg-white/50 rounded-lg px-3 py-2"
+                    className="flex items-center justify-between text-xs bg-white/60 backdrop-blur-sm rounded-xl px-3 py-2.5 border border-gray-100"
                   >
                     <span className="text-gray-600 font-medium">
                       {stat.label}
                     </span>
-                    <span className="font-bold text-gray-900">{stat.value}</span>
+                    <span className="font-bold text-[#3C9299] text-sm">
+                      {stat.value}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -206,26 +213,25 @@ const AdminSidebar = ({
           </div>
         )}
 
-        {/* Logout */}
-        <div className="p-4 border-t border-gray-200/80 bg-white/60 flex-shrink-0">
+        {/* Logout with modern styling */}
+        <div className="p-4 border-t border-gray-200/60 flex-shrink-0">
           <button
             onClick={() => logout()}
-            disabled={isPending}
             className={`
-        w-full flex items-center px-4 py-3 rounded-xl
-        text-red-600 hover:bg-red-50 hover:text-red-700 
-        transition-all duration-200 group
-        active:scale-95 hover:shadow-md hover:shadow-red-500/10
-        ${collapsed ? "justify-center px-0" : "space-x-3"}
-        ${isPending ? "opacity-50 cursor-not-allowed" : ""}
-      `}
+              w-full cursor-pointer flex items-center gap-3 px-3 py-2.5 rounded-xl
+              text-red-600 hover:bg-red-50 
+              transition-all duration-200 group
+              border border-transparent hover:border-red-100
+              ${collapsed ? "justify-center px-0" : ""}
+            `}
             title={collapsed ? "Logout" : ""}
           >
-            <LogOut className="w-5 h-5 flex-shrink-0 transition-transform duration-200 group-hover:-translate-x-0.5" />
-
+            <div className="flex items-center justify-center w-9 h-9 rounded-lg group-hover:bg-red-100 transition-all duration-200">
+              <LogOut className="w-[18px] h-[18px] flex-shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
+            </div>
             {!collapsed && (
-              <span className="text-sm font-medium">
-                {isPending ? "Logging out..." : "Logout"}
+              <span className="text-[13.5px] font-medium flex-1 text-left">
+                Logout
               </span>
             )}
           </button>
