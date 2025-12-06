@@ -10,35 +10,37 @@ import ReactSelect from "../../component/buttonSelect";
 import { useGetAllContacts } from "../../../api/client/contact";
 import TableHeader from "../../component/super_admin/table_header";
 import Search_and_filters from "../../component/Search_and_filters";
-import { countryFilter, categoryFilter, departmentFilter } from "../../../data/flitersData";
-import ContactForm from '../../component/forms/contactForm'
+import {
+  countryFilter,
+  categoryFilter,
+  departmentFilter,
+} from "../../../data/flitersData";
+import ContactForm from "../../component/forms/contactForm";
 
 function Contacts() {
-
   const [page, setPage] = useState(1);
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [filterVal, setFilterVal] = useState({
     category: "",
     department: "",
     country: "",
-    city: ""
-  })
+    city: "",
+  });
 
   const { data, totalPages, isLoading, isError, error } = useGetAllContacts({
     search: useDebounce(search),
     category: filterVal.category,
     department: filterVal.department,
     country: filterVal.country,
-    page
+    page,
   });
 
-  if (isError) return <ICCDError />
+  if (isError) return <ICCDError />;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="px-4 sm:px-6 lg:px-8 py-8 max-w-7xl mx-auto">
-
         {/* Header */}
         <TableHeader
           icon={<Users className="w-8 h-8 text-white" />}
@@ -54,38 +56,73 @@ function Contacts() {
           search={search}
           setSearch={setSearch}
           inptPlaceholder="Search Name..."
-          children={<>
-            <ReactSelect
-              selectedOption={filterVal.category}
-              onChange={(selectedOption) => setFilterVal({ ...filterVal, category: selectedOption ? selectedOption.value : '' })}
-              option={categoryFilter}
-              placeholder='Select Category'
-              value={categoryFilter.find(option => option.value === filterVal.category) || null}
-            />
-            <ReactSelect
-              selectedOption={filterVal.department}
-              onChange={(selectedOption) => setFilterVal({ ...filterVal, department: selectedOption ? selectedOption.value : '' })}
-              option={departmentFilter}
-              placeholder='Select Department'
-              value={departmentFilter.find(option => option.value === filterVal.department) || null}
-            />
-            <ReactSelect
-              selectedOption={filterVal.country}
-              onChange={(selectedOption) => setFilterVal({ ...filterVal, country: selectedOption ? selectedOption.value : '' })}
-              option={countryFilter}
-              placeholder='Select Country'
-              value={countryFilter.find(option => option.value === filterVal.country) || null}
-            />
-          </>}
+          children={
+            <>
+              <ReactSelect
+                selectedOption={filterVal.category}
+                onChange={(selectedOption) =>
+                  setFilterVal({
+                    ...filterVal,
+                    category: selectedOption ? selectedOption.value : "",
+                  })
+                }
+                option={categoryFilter}
+                placeholder="Select Category"
+                value={
+                  categoryFilter.find(
+                    (option) => option.value === filterVal.category
+                  ) || null
+                }
+              />
+              <ReactSelect
+                selectedOption={filterVal.department}
+                onChange={(selectedOption) =>
+                  setFilterVal({
+                    ...filterVal,
+                    department: selectedOption ? selectedOption.value : "",
+                  })
+                }
+                option={departmentFilter}
+                placeholder="Select Department"
+                value={
+                  departmentFilter.find(
+                    (option) => option.value === filterVal.department
+                  ) || null
+                }
+              />
+              <ReactSelect
+                selectedOption={filterVal.country}
+                onChange={(selectedOption) =>
+                  setFilterVal({
+                    ...filterVal,
+                    country: selectedOption ? selectedOption.value : "",
+                  })
+                }
+                option={countryFilter}
+                placeholder="Select Country"
+                value={
+                  countryFilter.find(
+                    (option) => option.value === filterVal.country
+                  ) || null
+                }
+              />
+            </>
+          }
         />
 
         {/* Contact Form */}
-        <Modal isOpen={open} onClose={() => setOpen(false)} title="Add New Contacts">
+        <Modal
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          title="Add New Contacts"
+        >
           <ContactForm />
         </Modal>
 
         {/* Table */}
-        {isLoading ? <DataLoader /> :
+        {isLoading ? (
+          <DataLoader />
+        ) : (
           <div className="mt-5 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-x-auto">
             {data?.length > 0 ? (
               <>
@@ -133,15 +170,23 @@ function Contacts() {
                                   <User className="w-6 h-6 text-white" />
                                 </div>
                                 <span className="text-sm font-semibold text-gray-800">
-                                  {user.name || <span className="text-rose-500 font-normal">N/A</span>}
+                                  {user.name || (
+                                    <span className="text-rose-500 font-normal">
+                                      N/A
+                                    </span>
+                                  )}
                                 </span>
                               </div>
                             </td>
                             <td className="px-6 py-4 text-sm text-gray-700">
-                              {user.email || <span className="text-rose-500">N/A</span>}
+                              {user.email || (
+                                <span className="text-rose-500">N/A</span>
+                              )}
                             </td>
                             <td className="px-6 py-4 text-sm text-gray-700 font-medium">
-                              {user?.contact_number || <span className="text-rose-500">N/A</span>}
+                              {user?.contact_number || (
+                                <span className="text-rose-500">N/A</span>
+                              )}
                             </td>
                             <td className="px-6 py-4">
                               {user?.designation ? (
@@ -149,7 +194,9 @@ function Contacts() {
                                   {user.designation}
                                 </span>
                               ) : (
-                                <span className="text-rose-500 text-sm">N/A</span>
+                                <span className="text-rose-500 text-sm">
+                                  N/A
+                                </span>
                               )}
                             </td>
                           </tr>
@@ -174,7 +221,13 @@ function Contacts() {
                           </div>
                           <div className="flex-1 min-w-0">
                             <h3 className="text-white font-bold text-base sm:text-lg truncate">
-                              {user.name || <span className="text-rose-200">N/A</span>}
+                            
+                              {user?.name 
+  ? user.name.slice(0, 10) 
+  : <span className="text-rose-200">N/A</span>
+}
+
+                              
                             </h3>
                             {user?.designation && (
                               <span className="inline-block mt-1 px-2 py-1 rounded-full text-xs font-medium bg-white/20 text-white">
@@ -190,9 +243,13 @@ function Contacts() {
                         <div className="flex items-start gap-3">
                           <Mail className="w-5 h-5 text-teal-500 flex-shrink-0 mt-0.5" />
                           <div className="flex-1 min-w-0">
-                            <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Email</p>
+                            <p className="text-xs text-gray-500 uppercase font-semibold mb-1">
+                              Email
+                            </p>
                             <p className="text-sm text-gray-800 break-all">
-                              {user.email || <span className="text-rose-500">N/A</span>}
+                              {user.email || (
+                                <span className="text-rose-500">N/A</span>
+                              )}
                             </p>
                           </div>
                         </div>
@@ -200,9 +257,13 @@ function Contacts() {
                         <div className="flex items-start gap-3">
                           <Phone className="w-5 h-5 text-teal-500 flex-shrink-0 mt-0.5" />
                           <div className="flex-1 min-w-0">
-                            <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Contact</p>
+                            <p className="text-xs text-gray-500 uppercase font-semibold mb-1">
+                              Contact
+                            </p>
                             <p className="text-sm text-gray-800 font-medium">
-                              {user?.contact_number || <span className="text-rose-500">N/A</span>}
+                              {user?.contact_number || (
+                                <span className="text-rose-500">N/A</span>
+                              )}
                             </p>
                           </div>
                         </div>
@@ -225,7 +286,7 @@ function Contacts() {
               </div>
             )}
           </div>
-        }
+        )}
         <Pagination
           currentPage={page}
           totalPages={totalPages}
