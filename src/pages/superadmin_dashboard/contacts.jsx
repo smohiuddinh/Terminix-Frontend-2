@@ -90,7 +90,7 @@ function Contacts() {
             {data?.length > 0 ? (
               <table className="min-w-full divide-y divide-slate-200">
                 <thead>
-                  <tr className="bg-gradient-to-r from-[#47AAB3] via-[#2F7A80] to-[#1E4D52] text-white">
+                  <tr className="bg-gradient-to-r from-[#47AAB3] via-[#2a3131] to-[#1E4D52] text-white">
                     <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
                       <div className="flex items-center gap-2">
                         <User className="w-4 h-4" />
