@@ -1,11 +1,11 @@
 const API_ROUTE = {
   user: {
-    login: "/user/signIn",
-    signUp: "/user/signUp",
-    sendOtp: "/user/sendOtp",
-    submitOtp: "/user/submitOtp",
-    checkapi: "/user/checkapi",
-    changePasword: "/user/changePasword"
+    login: "/auth/signIn",
+    signUp: "/auth/signUp",
+    sendOtp: "/auth/sendOtp",
+    submitOtp: "/auth/submitOtp",
+    checkapi: "/auth/checkapi",
+    changePasword: "/auth/changePasword"
   },
 
   superadmin: {

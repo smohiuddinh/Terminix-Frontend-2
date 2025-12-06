@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 
 import { useNavigate, useLocation } from "react-router-dom";
-import useLogout from "../../../hooks/useLogout";
+import { useLogout } from "../../../api/client/user";
 
 const AdminSidebar = ({
   collapsed,
@@ -22,7 +22,7 @@ const AdminSidebar = ({
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const logout = useLogout();
+    const { mutate: logout, isPending } = useLogout();
 
   const menuItems = [
     {
@@ -78,7 +78,6 @@ const AdminSidebar = ({
           ${showMobile ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0
           flex flex-col
-
         `}
       >
         {/* Header with modern spacing */}
@@ -217,7 +216,7 @@ const AdminSidebar = ({
         {/* Logout with modern styling */}
         <div className="p-4 border-t border-gray-200/60 flex-shrink-0">
           <button
-            onClick={logout}
+            onClick={() => logout()}
             className={`
               w-full cursor-pointer flex items-center gap-3 px-3 py-2.5 rounded-xl
               text-red-600 hover:bg-red-50 

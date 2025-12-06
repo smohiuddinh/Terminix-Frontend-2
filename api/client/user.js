@@ -1,11 +1,9 @@
 import API_ROUTE from "../endPoints";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../axios/index";
-import { setToken } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "../../redux/slices/userSlice";
-import { setUserType } from "../../redux/slices/userType";
 
 export function useCheck() {
   const { data, error, isSuccess, isPending, isError } = useQuery({
@@ -39,6 +37,7 @@ export function useCheckIsFreelancer() {
 export function useLogin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const {
     mutate: userLogin,
@@ -49,21 +48,15 @@ export function useLogin() {
     error,
     data,
   } = useMutation({
-    mutationFn: (data) => api.post(API_ROUTE.user.login, data),
-    onSuccess: (response) => {
+    mutationFn: (data) => api.post(API_ROUTE.user.login, data, { withCredentials: true }),
+    onSuccess: async(response) => {
       if (response?.data?.data?.email === 'admin@gmail.com') {
+
+        const userData = response?.data?.data;
+        dispatch(setUserDetails(userData));
+        await queryClient.invalidateQueries({ queryKey: ["authUser"] });
         navigate("/superadmin/contacts");
-        setToken(response?.data?.token);
-      } else {
-        setToken(response?.data?.token);
-        dispatch(setUserDetails(response?.data?.data));
-        dispatch(setUserType({ id: response?.data?.data.id, type: 'client' }))
-        navigate("/client");
-        // if (localStorage.get("verify-otp") || localStorage.get("change_pass")) {
-        //   localStorage.removeItem("verify-otp");
-        //   localStorage.removeItem("change_pass");
-        // }
-      }
+      } 
     },
   });
 
@@ -77,6 +70,33 @@ export function useLogin() {
     data,
   };
 }
+
+export function useUser() {
+  return useQuery({
+    queryKey: ["authUser"],
+    queryFn: async () => {
+      const res = await api.get("/auth/verify", {
+        withCredentials: true,
+      });
+      return res.data.user;  // backend reads cookie
+    },
+    retry: false,
+  });
+}
+
+export function useLogout() {
+  const queryClient = useQueryClient()
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: () => api.post("/auth/logout", {}, { withCredentials: true }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["authUser"]);
+      navigate('/login')
+    }
+  });
+}
+
 
 export function useSignUp(options = {}) {
 

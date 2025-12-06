@@ -4,7 +4,6 @@ import { withSuspense } from "../utils/withSuspense";
 const SuperAdminDashboard = lazy(() => import("../src/pages/superadmin_dashboard/dashboard"));
 import AuthRoute from '../utils/authRoute';
 import AdminTemplate from '../src/templates/adminTemplate';
-import LoginController from "../src/component/loginController";
 import Login1 from "../src/component/login/login1";
 import Login2 from "../src/component/login/login2";
 import Login3 from "../src/component/login/login3";
@@ -13,6 +12,7 @@ import Login5 from "../src/component/login/login5";
 import ModalButton from "../src/component/modal/modal";
 import Contacts from "../src/pages/superadmin_dashboard/contacts";
 import International_Organization from "../src/pages/superadmin_dashboard/international_organization";
+import PageNotFound from "../src/component/pageNotFound";
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +55,12 @@ export const router = createBrowserRouter([
           <International_Organization />
         </AdminTemplate>
       </AuthRoute>
+    ),
+  },
+  {
+    path: "/*",
+    element: withSuspense(
+      <PageNotFound />
     ),
   },
   {
