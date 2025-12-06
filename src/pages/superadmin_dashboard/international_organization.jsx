@@ -1,6 +1,6 @@
 import { useState, memo } from "react";
 import DataLoader from "../../component/DataLoader";
-import { Users, User, UserPlus } from "lucide-react";
+import { Users, User, UserPlus, Mail, Phone, Briefcase } from "lucide-react";
 import ICCDError from "../../component/ICCDError";
 import Pagination from "../../component/pagination";
 import useDebounce from "../../../hooks/useDebounce";
@@ -88,31 +88,31 @@ function International_Organization() {
           <div className="mt-5 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-x-auto">
             {data?.length > 0 ? (
               <table className="min-w-full divide-y divide-slate-200">
-                <thead className="bg-slate-50">
-                  <tr>
-                    <th
-                      onClick={() => handleSort("name")}
-                      className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
-                    >
-                      Organization Name
+                <thead>
+                  <tr className="bg-gradient-to-r from-[#47AAB3] via-[#2F7A80] to-[#1E4D52] text-white">
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                      <div className="flex items-center gap-2">
+                        <User className="w-4 h-4" />
+                        Name
+                      </div>
                     </th>
-                    <th
-                      onClick={() => handleSort("email")}
-                      className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
-                    >
-                      Email
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                      <div className="flex items-center gap-2">
+                        <Mail className="w-4 h-4" />
+                        Email
+                      </div>
                     </th>
-                    <th
-                      onClick={() => handleSort("created_at")}
-                      className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
-                    >
-                      Number
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                      <div className="flex items-center gap-2">
+                        <Phone className="w-4 h-4" />
+                        Contact
+                      </div>
                     </th>
-                    <th
-                      onClick={() => handleSort("updated_at")}
-                      className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider cursor-pointer"
-                    >
-                      Designation
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                      <div className="flex items-center gap-2">
+                        <Briefcase className="w-4 h-4" />
+                        Designation
+                      </div>
                     </th>
                   </tr>
                 </thead>
