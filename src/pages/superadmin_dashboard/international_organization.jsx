@@ -132,7 +132,7 @@ function International_Organization() {
                                   <User className="w-6 h-6 text-white" />
                                 </div>
                                 <span className="text-sm font-semibold text-gray-800">
-                                  {user.name || <span className="text-rose-500 font-normal">N/A</span>}
+                                  {user.organization || <span className="text-rose-500 font-normal">N/A</span>}
                                 </span>
                               </div>
                             </td>
@@ -173,7 +173,7 @@ function International_Organization() {
                           </div>
                           <div className="flex-1 min-w-0">
                             <h3 className="text-white font-bold text-base sm:text-lg truncate">
-                              {user.name || <span className="text-rose-200">N/A</span>}
+                              {user.organization || <span className="text-rose-200">N/A</span>}
                             </h3>
                             {user?.designation && (
                               <span className="inline-block mt-1 px-2 py-1 rounded-full text-xs font-medium bg-white/20 text-white">
