@@ -7,18 +7,25 @@ function ReactSelect({ selectedOption = null, onChange, option = [], placeholder
             ...base,
             width: '100%',
         }),
-        option: (provided, state) => ({
+        option: (provided) => ({
             ...provided,
             cursor: "pointer",
-
         }),
-
-        control: (provided, state) => ({
+        control: (provided) => ({
             ...provided,
             minHeight: "45px",
         }),
+        menu: (base) => ({
+            ...base,
+            zIndex: 9999,
+        }),
+        menuPortal: (base) => ({
+            ...base,
+            zIndex: 9999,
+        }),
         indicatorSeparator: () => ({ display: "none" }),
     };
+
     return (
         <Select
             placeholder={placeholder}
@@ -28,6 +35,7 @@ function ReactSelect({ selectedOption = null, onChange, option = [], placeholder
             value={value}
             isClearable={true}
             styles={customStyles}
+            menuPortalTarget={document.body}   // 🔥 Key fix
             theme={(theme) => ({
                 ...theme,
                 colors: {
@@ -36,9 +44,8 @@ function ReactSelect({ selectedOption = null, onChange, option = [], placeholder
                     primary: "#01AEAD",
                 },
             })}
-
         />
-    )
+    );
 }
 
-export default memo(ReactSelect)
+export default memo(ReactSelect);
