@@ -87,58 +87,129 @@ function International_Organization() {
         {isLoading ? <DataLoader /> :
           <div className="mt-5 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-x-auto">
             {data?.length > 0 ? (
-              <table className="min-w-full divide-y divide-slate-200">
-                <thead>
-                  <tr className="bg-gradient-to-r from-[#47AAB3] via-[#2F7A80] to-[#1E4D52] text-white">
-                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
-                      <div className="flex items-center gap-2">
-                        <User className="w-4 h-4" />
-                        Name
-                      </div>
-                    </th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
-                      <div className="flex items-center gap-2">
-                        <Mail className="w-4 h-4" />
-                        Email
-                      </div>
-                    </th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
-                      <div className="flex items-center gap-2">
-                        <Phone className="w-4 h-4" />
-                        Contact
-                      </div>
-                    </th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
-                      <div className="flex items-center gap-2">
-                        <Briefcase className="w-4 h-4" />
-                        Designation
-                      </div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-200">
-                  {data?.map((user, index) => (
-                    <tr key={index} className="hover:bg-slate-50">
-                      <td className="px-4 py-3 text-sm font-medium text-slate-800 flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center">
-                          <User className="w-4 h-4 text-slate-500" />
-                        </div>
-                        {user.organization || <p className="text-red-500">N/A</p>}
-                      </td>
+               <>
+                {/* Desktop Table View - Hidden on mobile */}
+                <div className="hidden lg:block bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-teal-100 overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full">
+                      <thead>
+                        <tr className="bg-gradient-to-r from-[#47AAB3] via-[#2F7A80] to-[#1E4D52] text-white">
+                          <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                            <div className="flex items-center gap-2">
+                              <User className="w-4 h-4" />
+                              Name
+                            </div>
+                          </th>
+                          <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                            <div className="flex items-center gap-2">
+                              <Mail className="w-4 h-4" />
+                              Email
+                            </div>
+                          </th>
+                          <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                            <div className="flex items-center gap-2">
+                              <Phone className="w-4 h-4" />
+                              Contact
+                            </div>
+                          </th>
+                          <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                            <div className="flex items-center gap-2">
+                              <Briefcase className="w-4 h-4" />
+                              Designation
+                            </div>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-teal-100">
+                        {data?.map((user) => (
+                          <tr
+                            key={user.id}
+                            className="hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 transition-all duration-200"
+                          >
+                            <td className="px-6 py-4">
+                              <div className="flex items-center gap-3">
+                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-r from-[#47AAB3] via-[#2F7A80] to-[#1E4D52] flex items-center justify-center shadow-md">
+                                  <User className="w-6 h-6 text-white" />
+                                </div>
+                                <span className="text-sm font-semibold text-gray-800">
+                                  {user.name || <span className="text-rose-500 font-normal">N/A</span>}
+                                </span>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-700">
+                              {user.email || <span className="text-rose-500">N/A</span>}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-700 font-medium">
+                              {user?.contact_number || <span className="text-rose-500">N/A</span>}
+                            </td>
+                            <td className="px-6 py-4">
+                              {user?.designation ? (
+                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-800 border border-emerald-200">
+                                  {user.designation}
+                                </span>
+                              ) : (
+                                <span className="text-rose-500 text-sm">N/A</span>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
 
-                      <td className="px-4 py-3 text-sm text-slate-600">
-                        {user.email || <p className="text-red-500">N/A</p>}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-slate-600">
-                        {user?.contact_number || <p className="text-red-500">N/A</p>}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-slate-600">
-                        {user?.designation || <p className="text-red-500">N/A</p>}
-                      </td>
-                    </tr>
+                {/* Mobile/Tablet Card View - Visible on smaller screens */}
+                <div className="lg:hidden space-y-4">
+                  {data?.map((user) => (
+                    <div
+                      key={user.id}
+                      className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-teal-100 overflow-hidden hover:shadow-xl transition-shadow duration-200"
+                    >
+                      {/* Card Header */}
+                      <div className="bg-gradient-to-r from-[#47AAB3] via-[#2F7A80] to-[#1E4D52] p-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shadow-md">
+                            <User className="w-6 h-6 text-white" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-white font-bold text-base sm:text-lg truncate">
+                              {user.name || <span className="text-rose-200">N/A</span>}
+                            </h3>
+                            {user?.designation && (
+                              <span className="inline-block mt-1 px-2 py-1 rounded-full text-xs font-medium bg-white/20 text-white">
+                                {user.designation}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Card Body */}
+                      <div className="p-4 space-y-3">
+                        <div className="flex items-start gap-3">
+                          <Mail className="w-5 h-5 text-teal-500 flex-shrink-0 mt-0.5" />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Email</p>
+                            <p className="text-sm text-gray-800 break-all">
+                              {user.email || <span className="text-rose-500">N/A</span>}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3">
+                          <Phone className="w-5 h-5 text-teal-500 flex-shrink-0 mt-0.5" />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Contact</p>
+                            <p className="text-sm text-gray-800 font-medium">
+                              {user?.contact_number || <span className="text-rose-500">N/A</span>}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   ))}
-                </tbody>
-              </table>
+                </div>
+              </>
             ) : (
               <div className="p-12 text-center">
                 <Users className="w-16 h-16 text-slate-400 mx-auto mb-4" />
