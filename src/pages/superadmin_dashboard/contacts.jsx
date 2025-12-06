@@ -127,7 +127,7 @@ function Contacts() {
             {data?.length > 0 ? (
               <>
                 {/* Desktop Table View - Hidden on mobile */}
-                <div className="hidden lg:block bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-teal-100 overflow-hidden">
+                <div className="hidden lg:block bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-teal-200 overflow-hidden">
                   <div className="overflow-x-auto">
                     <table className="min-w-full">
                       <thead>
@@ -158,7 +158,7 @@ function Contacts() {
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-teal-100">
+                      <tbody className="divide-y divide-teal-200">
                         {data?.map((user) => (
                           <tr
                             key={user.id}
@@ -170,11 +170,30 @@ function Contacts() {
                                   <User className="w-6 h-6 text-white" />
                                 </div>
                                 <span className="text-sm font-semibold text-gray-800">
-                                  {user.name || (
-                                    <span className="text-rose-500 font-normal">
-                                      N/A
-                                    </span>
+                      
+
+                                    <span className="text-sm font-semibold text-gray-800 group relative cursor-pointer">
+                                  {user?.name ? (
+                                    <>
+                                      <span className="block">
+                                        {user.name.slice(0, 10)}
+                                        {user.name.length > 20 && "…"}
+                                      </span>
+                                      {user.name.length > 20 && (
+                                        <span
+                                          className="absolute left-0 top-full mt-1 hidden group-hover:block 
+                                            bg-gray-900 text-white text-xs p-2 rounded shadow-lg z-50
+                                            whitespace-normal max-w-xs"
+                                          role="tooltip"
+                                        >
+                                          {user.name}
+                                        </span>
+                                      )}
+                                    </>
+                                  ) : (
+                                    <span className="text-rose-500">N/A</span>
                                   )}
+                                </span>
                                 </span>
                               </div>
                             </td>
@@ -190,7 +209,7 @@ function Contacts() {
                             </td>
                             <td className="px-6 py-4">
                               {user?.designation ? (
-                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-800 border border-emerald-200">
+                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-emerald-200 to-teal-200 text-emerald-800 border border-emerald-200">
                                   {user.designation}
                                 </span>
                               ) : (
@@ -211,7 +230,7 @@ function Contacts() {
                   {data?.map((user) => (
                     <div
                       key={user.id}
-                      className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-teal-100 overflow-hidden hover:shadow-xl transition-shadow duration-200"
+                      className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-teal-200 overflow-hidden hover:shadow-xl transition-shadow duration-200"
                     >
                       {/* Card Header */}
                       <div className="bg-gradient-to-r from-[#47AAB3] via-[#2F7A80] to-[#1E4D52] p-4">
@@ -223,7 +242,7 @@ function Contacts() {
                             <h3 className="text-white font-bold text-base sm:text-lg truncate">
                             
                               {user?.name 
-  ? user.name.slice(0, 10) 
+  ? user.name.slice(0, 20) 
   : <span className="text-rose-200">N/A</span>
 }
 
