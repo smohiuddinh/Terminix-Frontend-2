@@ -14,6 +14,7 @@ export function useAddContact() {
           Authorization: api.defaults.headers.common["Authorization"],
         },
         timeout: 30000,
+
       }),
     onError: (error) => {
       toast.error("Error while submitting form.");
@@ -32,6 +33,7 @@ export function useGetAllContacts(params = {}) {
     queryKey,
     queryFn: () =>
       api.get(`${API_ROUTE.contact.getAllContacts}?${constructQueryString(params)}`, { withCredentials: true }),
+    retry: 2
   });
   return { data: data?.data?.data, totalPages: data?.data?.totalPages, error, isLoading, isError };
 }
@@ -46,6 +48,7 @@ export function useGetAllIntOrg(params = {}) {
     queryKey,
     queryFn: () =>
       api.get(`${API_ROUTE.contact.getAllIntOrg}?${constructQueryString(params)}`, { withCredentials: true }),
+    retry: 2
   });
   return { data: data?.data?.data, totalPages: data?.data?.totalPages, error, isLoading, isError };
 }
