@@ -132,7 +132,7 @@ function International_Organization() {
         ) : (
           <div className="mt-5 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-x-auto">
             {data?.length > 0 ? (
-              <>
+               <>
                 {/* Desktop Table View - Hidden on mobile */}
                 <div className="hidden lg:block bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-teal-100 overflow-hidden">
                   <div className="overflow-x-auto">
