@@ -1,16 +1,29 @@
 import { useState } from "react";
+import { Menu } from "lucide-react";
 import AdminSidebar from '../component/super_admin/SuperAdminSidebar';
 
-function AdminTemplate({ 
-  children, 
+function AdminTemplate({
+  children,
   activeMenuItem = "Dashboard",
-  quickStats = null 
+  quickStats = null
 }) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-50">
+
+      <header className="lg:hidden h-16 bg-white border-b border-gray-200  flex items-center px-4 shadow-sm">
+        <button
+          onClick={() => setShowMobileSidebar(true)}
+          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          aria-label="Open menu"
+        >
+          <Menu className="w-6 h-6 text-gray-700" />
+        </button>
+        <h1 className="ml-3 text-lg font-semibold text-gray-900">Dashboard</h1>
+      </header>
+
       {/* Mobile Overlay */}
       {showMobileSidebar && (
         <div
@@ -32,9 +45,8 @@ function AdminTemplate({
 
       {/* Main Content */}
       <main
-        className={`transition-all duration-300 ${
-          sidebarCollapsed ? "lg:ml-20" : "lg:ml-64"
-        }`}
+        className={`transition-all duration-300 ${sidebarCollapsed ? "lg:ml-20" : "lg:ml-64"
+          }`}
       >
         {children}
       </main>

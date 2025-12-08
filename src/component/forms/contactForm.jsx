@@ -16,10 +16,6 @@ const locationOptions = oicCountries.map(item => ({
 }));
 
 function ContactForm() {
-
-    const { id } = useParams()
-    const navigate = useNavigate();
-    const pathName = useLocation().pathname
     const { addjob, isSuccess, isPending, isError, error } = useAddJob()
 
     const {
@@ -63,12 +59,40 @@ function ContactForm() {
 
     return (
         <div className="bg-fixed bg-cover bg-center" >
+              <style>{`
+                /* Custom scrollbar styles */
+                ::-webkit-scrollbar {
+                    width: 12px;
+                    height: 12px;
+                }
+
+                ::-webkit-scrollbar-track {
+                    background: #f1f1f1;
+                    border-radius: 10px;
+                }
+
+                ::-webkit-scrollbar-thumb {
+                    background: #0d9488;
+                    border-radius: 10px;
+                    border: 2px solid #f1f1f1;
+                }
+
+                ::-webkit-scrollbar-thumb:hover {
+                    background: #0f766e;
+                }
+
+                /* Firefox scrollbar */
+                * {
+                    scrollbar-width: thin;
+                    scrollbar-color: #0d9488 #f1f1f1;
+                }
+            `}</style>
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="space-y-8"
+                className="space-y-8 "
             >
                 {/* Section 2 - Job Basics */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div className="bg-white  rounded-lg shadow-sm border border-gray-200">
                     <div className="px-6 py-4 border-b border-gray-200">
                         <h2 className="text-xl font-semibold flex items-center space-x-3">
                             <span className="w-8 h-8 bg-teal-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
