@@ -1,5 +1,6 @@
 import {
   X,
+  Users, 
   ChevronLeft,
   ChevronRight,
   ShoppingCart,
@@ -26,7 +27,7 @@ const AdminSidebar = ({
 
   const menuItems = [
     {
-      icon: ShoppingCart,
+      icon: Users,
       label: "Contacts",
       path: "/superadmin/contacts",
     },
