@@ -8,7 +8,7 @@ export function useAddContact() {
   const navigate = useNavigate();
   const { mutate: addContact, isSuccess, isPending, isError, error } = useMutation({
     mutationFn: async (data) =>
-      await api.post(`${API_ROUTE.contact.addContacts}`, data, {
+      await api.post(`${API_ROUTE.admin.addContacts}`, data, {
         headers: {
           "Content-Type": "application/json",
           Authorization: api.defaults.headers.common["Authorization"],
@@ -28,12 +28,13 @@ export function useGetAllContacts(params = {}) {
     const query = new URLSearchParams(params).toString();
     return query ? `&${query}` : "";
   };
-  const queryKey = [API_ROUTE.contact.getAllContacts, params];
+  const queryKey = [API_ROUTE.admin.getAllContacts, params];
   const { data, error, isLoading, isError } = useQuery({
     queryKey,
     queryFn: () =>
-      api.get(`${API_ROUTE.contact.getAllContacts}?${constructQueryString(params)}`, { withCredentials: true }),
-    retry: 2
+      api.get(`${API_ROUTE.admin.getAllContacts}?${constructQueryString(params)}`, { withCredentials: true }),
+    retry: 1,
+    refetchOnWindowFocus: false
   });
   return { data: data?.data?.data, totalPages: data?.data?.totalPages, error, isLoading, isError };
 }
@@ -43,12 +44,13 @@ export function useGetAllIntOrg(params = {}) {
     const query = new URLSearchParams(params).toString();
     return query ? `&${query}` : "";
   };
-  const queryKey = [API_ROUTE.contact.getAllIntOrg, params];
+  const queryKey = [API_ROUTE.admin.getAllIntOrg, params];
   const { data, error, isLoading, isError } = useQuery({
     queryKey,
     queryFn: () =>
-      api.get(`${API_ROUTE.contact.getAllIntOrg}?${constructQueryString(params)}`, { withCredentials: true }),
-    retry: 2
+      api.get(`${API_ROUTE.admin.getAllIntOrg}?${constructQueryString(params)}`, { withCredentials: true }),
+    retry: 1,
+    refetchOnWindowFocus: false
   });
   return { data: data?.data?.data, totalPages: data?.data?.totalPages, error, isLoading, isError };
 }

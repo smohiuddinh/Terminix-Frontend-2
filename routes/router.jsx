@@ -13,34 +13,22 @@ import ModalButton from "../src/component/modal/modal";
 import Contacts from "../src/pages/superadmin_dashboard/contacts";
 import International_Organization from "../src/pages/superadmin_dashboard/international_organization";
 import PageNotFound from "../src/component/pageNotFound";
+import Unauthorized from "../src/pages/Unauthorize";
+import Iccd_Users from "../src/pages/superadmin_dashboard/user";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Navigate to="/login" replace />,
   },
-  // {
-  //   path: "/login",
-  //   element: withSuspense(<LoginController />),
-  // },
   {
     path: "/login",
     element: withSuspense(<Login5 />),
   },
-  // {
-  //   path: "/superadmin/dashboard",
-  //   element: withSuspense(
-  //     <AuthRoute>
-  //     <AdminTemplate isShowFooter={false}>
-  //       <SuperAdminDashboard />
-  //     </AdminTemplate>
-  //     </AuthRoute>
-  //   ),
-  // },
   {
     path: "/superadmin/contacts",
     element: withSuspense(
-      <AuthRoute>
+      <AuthRoute allowedRoles={["admin"]}>
         <AdminTemplate isShowFooter={false}>
           <Contacts />
         </AdminTemplate>
@@ -50,7 +38,7 @@ export const router = createBrowserRouter([
   {
     path: "/superadmin/international-organization",
     element: withSuspense(
-      <AuthRoute>
+      <AuthRoute allowedRoles={["admin"]}>
         <AdminTemplate isShowFooter={false}>
           <International_Organization />
         </AdminTemplate>
@@ -58,18 +46,25 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/*",
+    path: "/superadmin/users",
     element: withSuspense(
-      <PageNotFound />
+      <AuthRoute allowedRoles={["admin"]}>
+        <AdminTemplate isShowFooter={false}>
+          <Iccd_Users />
+        </AdminTemplate>
+      </AuthRoute>
     ),
   },
   {
-    path: "/test",
+    path: "/unauthorized",
     element: withSuspense(
-      // <AuthRoute>
-      // <Login2 />
-      <ModalButton />
-      // </AuthRoute>
+      <Unauthorized />
+    ),
+  },
+  {
+    path: "/*",
+    element: withSuspense(
+      <PageNotFound />
     ),
   },
 ])

@@ -5,7 +5,8 @@ import {
   ShoppingCart,
   Settings,
   LogOut,
-  Building
+  Building,
+  UsersRound
 } from "lucide-react";
 
 import { useNavigate, useLocation } from "react-router-dom";
@@ -34,6 +35,11 @@ const AdminSidebar = ({
       icon: Building,
       label: "International Organization",
       path: "/superadmin/international-organization",
+    },
+     {
+      icon: UsersRound,
+      label: "Users",
+      path: "/superadmin/users",
     },
   ];
 

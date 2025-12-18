@@ -1,5 +1,5 @@
 import { useState, memo } from "react";
-import { Users, User, UserPlus, Mail, Phone, Briefcase } from "lucide-react";
+import { Users, User, UserPlus, Mail, Phone, Briefcase, UsersRound } from "lucide-react";
 import Button from "../../component/button";
 import Modal from "../../component/modal/modal2";
 import ICCDError from "../../component/ICCDError";
@@ -18,7 +18,7 @@ import {
 } from "../../../data/flitersData";
 import ContactForm from "../../component/forms/contactForm";
 
-function Contacts() {
+function Iccd_Users() {
 
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
@@ -45,12 +45,13 @@ function Contacts() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="px-4 sm:px-6 lg:px-8 py-8 max-w-7xl mx-auto">
+
         {/* Header */}
         <TableHeader
-          icon={<Users className="w-8 h-8 text-white" />}
-          title={"Contacts"}
-          description={"This is contact Details"}
-          buttonName="Add Contacts"
+          icon={<UsersRound className="w-8 h-8 text-white" />}
+          title={"Users"}
+          description={"This is users Details"}
+          buttonName="Add User"
           buttonIcon={<UserPlus className="w-4 h-4 sm:w-5 sm:h-5" />}
           setOpen={setOpen}
         />
@@ -395,4 +396,4 @@ function Contacts() {
   );
 }
 
-export default memo(Contacts);
+export default memo(Iccd_Users);
