@@ -1,5 +1,5 @@
 import api from "../axios";
-import API_ROUTE from "../endPoints";
+import API_ROUTE from "../endpoints";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from 'react-toastify';
 

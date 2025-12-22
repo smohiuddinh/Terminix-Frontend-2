@@ -3,7 +3,7 @@ import { Users, User, UserPlus, Mail, Phone, Briefcase } from "lucide-react";
 import Button from "../../component/button";
 import Modal from "../../component/modal/modal2";
 import ICCDError from "../../component/ICCDError";
-import DataLoader from "../../component/DataLoader";
+import DataLoader from "../../component/dataLoader";
 import Pagination from "../../component/pagination";
 import useDebounce from "../../../hooks/useDebounce";
 import ReactSelect from "../../component/buttonSelect";

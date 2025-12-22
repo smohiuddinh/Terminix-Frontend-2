@@ -1,5 +1,5 @@
 import { useState, memo, useCallback } from "react";
-import DataLoader from "../../component/DataLoader";
+import DataLoader from "../../component/dataLoader";
 import { Users, User, UserPlus, Mail, Phone, Briefcase, Building2, BookUser } from "lucide-react";
 import ICCDError from "../../component/ICCDError";
 import Pagination from "../../component/pagination";

@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import api from "../axios";
-import API_ROUTE from "../endPoints";
+import API_ROUTE from "../endpoints";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 

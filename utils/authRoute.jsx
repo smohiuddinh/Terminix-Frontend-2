@@ -1,7 +1,7 @@
 // src/routes/AuthRoute.tsx
 import { Navigate } from "react-router-dom";
 import { useUser } from "../api/client/user";
-import DataLoader from "../src/component/DataLoader";
+import DataLoader from "../src/component/dataLoader"
 
 const AuthRoute = ({ allowedRoles, children }) => {
 
