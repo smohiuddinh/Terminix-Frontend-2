@@ -35,6 +35,7 @@ export function useCheckIsFreelancer() {
 }
 
 export function useLogin() {
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
@@ -50,13 +51,16 @@ export function useLogin() {
   } = useMutation({
     mutationFn: (data) => api.post(API_ROUTE.user.login, data, { withCredentials: true }),
     onSuccess: async(response) => {
-      if (response?.data?.data?.email === 'admin@gmail.com') {
 
         const userData = response?.data?.data;
         dispatch(setUserDetails(userData));
-        await queryClient.invalidateQueries({ queryKey: ["authUser"] });
         navigate("/superadmin/contacts");
-      } 
+
+      // if (response?.data?.data?.email === 'admin@gmail.com') {
+      //   dispatch(setUserDetails(userData));
+      //   await queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      //   navigate("/superadmin/contacts");
+      // } 
     },
   });
 
@@ -81,6 +85,7 @@ export function useUser() {
       return res.data.user;  // backend reads cookie
     },
     retry: false,
+    refetchOnWindowFocus: false
   });
 }
 
@@ -96,7 +101,6 @@ export function useLogout() {
     }
   });
 }
-
 
 export function useSignUp(options = {}) {
 

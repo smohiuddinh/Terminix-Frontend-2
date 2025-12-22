@@ -61,10 +61,10 @@ const API_ROUTE = {
     getAllIssue: '/issue/getAllIssue',
     addIssue: '/issue/addIssue'
   },
-   contact: {
-    getAllContacts: '/api/contact/getAllContact',
-    getAllIntOrg: '/api/contact/getAllInterOrg',
-    addContacts: '/api/contact/addContacts'
+   admin: {
+    getAllContacts: "/api/admin/getAllContact",
+    getAllIntOrg: "/api/admin/getAllInterOrg",
+    addContacts: "/api/admin/addContacts"
   } 
 };
 

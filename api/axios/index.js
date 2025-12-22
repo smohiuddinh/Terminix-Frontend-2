@@ -2,7 +2,6 @@ import axios from "axios";
 import { store } from "../../redux/store";
 import { removeUserDetails } from "../../redux/slices/userSlice";
 
-
 const api = axios.create({
   // live database
   // baseURL: 'https://iccd.freelanceserver.matzsolutions.com/',
