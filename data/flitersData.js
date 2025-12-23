@@ -9,6 +9,10 @@ export const categoryFilter = [
   { label: "Government Invitiation", value: "Government Invitiation" },
 ];
 
+export const roleFilter = [
+  { label: "client", value: "client" },
+];
+
 export const departmentFilter = [
   { label: "E-commerce", value: "e-commerce" },
   { label: "Fintech", value: "fintech" },

@@ -64,7 +64,9 @@ const API_ROUTE = {
    admin: {
     getAllContacts: "/api/admin/getAllContact",
     getAllIntOrg: "/api/admin/getAllInterOrg",
-    addContacts: "/api/admin/addContacts"
+    getAllUser: "/api/admin/getAllUser",
+    addContacts: "/api/admin/addContacts",
+    addUser: "/api/admin/addUser",
   } 
 };
 

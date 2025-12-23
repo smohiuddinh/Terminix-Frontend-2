@@ -1,22 +1,17 @@
 import { useState, memo } from "react";
-import { Users, User, UserPlus, Mail, Phone, Briefcase, UsersRound } from "lucide-react";
-import Button from "../../component/button";
+import { Users, User, UserPlus, Mail, Phone, UsersRound } from "lucide-react";
 import Modal from "../../component/modal/modal2";
 import ICCDError from "../../component/ICCDError";
 import DataLoader from "../../component/dataLoader";
 import Pagination from "../../component/pagination";
 import useDebounce from "../../../hooks/useDebounce";
 import ReactSelect from "../../component/buttonSelect";
-import { useGetAllContacts } from "../../../api/client/admin";
+import { useGetAllUser } from "../../../api/client/admin";
 import TableHeader from "../../component/super_admin/table_header";
 import Search_and_filters from "../../component/Search_and_filters";
-import {
-  countryFilter,
-  categoryFilter,
-  departmentFilter,
-  sheetFilter
-} from "../../../data/flitersData";
+import { roleFilter } from "../../../data/flitersData";
 import ContactForm from "../../component/forms/contactForm";
+import UserForm from "../../component/forms/userForm";
 
 function Iccd_Users() {
 
@@ -25,18 +20,12 @@ function Iccd_Users() {
   const [search, setSearch] = useState("");
   const [filterVal, setFilterVal] = useState({
     category: "",
-    department: "",
-    country: "",
-    city: "",
-    sheets: ""
+    role: "",
   });
 
-  const { data, totalPages, isLoading, isError, error } = useGetAllContacts({
+  const { data, totalPages, isLoading, isError, error } = useGetAllUser({
     search: useDebounce(search),
-    category: filterVal.category,
-    department: filterVal.department,
-    country: filterVal.country,
-    sheets: filterVal.sheets,
+    role: filterVal.role,
     page,
   });
 
@@ -60,7 +49,7 @@ function Iccd_Users() {
         <Search_and_filters
           search={search}
           setSearch={setSearch}
-          inptPlaceholder="Search Name..."
+          inptPlaceholder="Search Role..."
           children={
             <>
               <ReactSelect
@@ -68,63 +57,14 @@ function Iccd_Users() {
                 onChange={(selectedOption) =>
                   setFilterVal({
                     ...filterVal,
-                    category: selectedOption ? selectedOption.value : "",
+                    role: selectedOption ? selectedOption.value : "",
                   })
                 }
-                option={categoryFilter}
-                placeholder="Select Category"
+                option={roleFilter}
+                placeholder="Select Role"
                 value={
-                  categoryFilter.find(
-                    (option) => option.value === filterVal.category
-                  ) || null
-                }
-              />
-              <ReactSelect
-                selectedOption={filterVal.department}
-                onChange={(selectedOption) =>
-                  setFilterVal({
-                    ...filterVal,
-                    department: selectedOption ? selectedOption.value : "",
-                  })
-                }
-                option={departmentFilter}
-                placeholder="Select Department"
-                value={
-                  departmentFilter.find(
-                    (option) => option.value === filterVal.department
-                  ) || null
-                }
-              />
-              <ReactSelect
-                selectedOption={filterVal.country}
-                onChange={(selectedOption) =>
-                  setFilterVal({
-                    ...filterVal,
-                    country: selectedOption ? selectedOption.value : "",
-                  })
-                }
-                option={countryFilter}
-                placeholder="Select Country"
-                value={
-                  countryFilter.find(
-                    (option) => option.value === filterVal.country
-                  ) || null
-                }
-              />
-
-              <ReactSelect
-                selectedOption={filterVal.sheets}
-                onChange={(selectedOption) =>
-                  setFilterVal({
-                    ...filterVal,
-                    sheets: selectedOption ? selectedOption.value : "",
-                  })
-                }
-                option={sheetFilter}
-                placeholder="Sheets"
-                value={
-                  sheetFilter.find(
-                    (option) => option.value === filterVal.sheets
+                  roleFilter.find(
+                    (option) => option.value === filterVal.role
                   ) || null
                 }
               />
@@ -136,9 +76,9 @@ function Iccd_Users() {
         <Modal
           isOpen={open}
           onClose={() => setOpen(false)}
-          title="Add New Contacts"
+          title="Add New User"
         >
-          <ContactForm />
+          <UserForm />
         </Modal>
 
         {/* Table */}
@@ -169,49 +109,7 @@ function Iccd_Users() {
                           <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
                             <div className="flex items-center gap-2">
                               <Phone className="w-4 h-4" />
-                              Contact
-                            </div>
-                          </th>
-                          <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
-                            <div className="flex items-center gap-2">
-                              <Phone className="w-4 h-4" />
-                              Country
-                            </div>
-                          </th>
-                          <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
-                            <div className="flex items-center gap-2">
-                              <Briefcase className="w-4 h-4" />
-                              Designation
-                            </div>
-                          </th>
-                          <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
-                            <div className="flex items-center gap-2">
-                              <Briefcase className="w-4 h-4" />
-                              Organization
-                            </div>
-                          </th>
-                          <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
-                            <div className="flex items-center gap-2">
-                              <Briefcase className="w-4 h-4" />
-                              Website
-                            </div>
-                          </th>
-                          <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
-                            <div className="flex items-center gap-2">
-                              <Briefcase className="w-4 h-4" />
-                              LinkedIn Profile
-                            </div>
-                          </th>
-                          <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
-                            <div className="flex items-center gap-2">
-                              <Briefcase className="w-4 h-4" />
-                              Address
-                            </div>
-                          </th>
-                          <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
-                            <div className="flex items-center gap-2">
-                              <Briefcase className="w-4 h-4" />
-                              Sheet
+                              Role
                             </div>
                           </th>
                         </tr>
@@ -246,54 +144,7 @@ function Iccd_Users() {
                               )}
                             </td>
                             <td className="px-6 py-4 text-sm text-gray-700 font-medium">
-                              {user?.contact_number || (
-                                <span className="text-rose-500">N/A</span>
-                              )}
-                            </td>
-                            <td className="px-6 py-4">
-                              {user?.country_name ? (
-                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-emerald-200 to-teal-200 text-emerald-800 border border-emerald-200">
-                                  {user.country_name.toUpperCase()}
-                                </span>
-                              ) : (
-                                <span className="text-rose-500 text-sm">
-                                  N/A
-                                </span>
-                              )}
-                            </td>
-                            <td className="px-6 py-4">
-                              {user?.designation ? (
-                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-emerald-200 to-teal-200 text-emerald-800 border border-emerald-200">
-                                  {user.designation}
-                                </span>
-                              ) : (
-                                <span className="text-rose-500 text-sm">
-                                  N/A
-                                </span>
-                              )}
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-700 font-medium">
-                              {user?.organization || (
-                                <span className="text-rose-500">N/A</span>
-                              )}
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-700 font-medium">
-                              {user?.website || (
-                                <span className="text-rose-500">N/A</span>
-                              )}
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-700 font-medium">
-                              {user?.linkedIn_profile || (
-                                <span className="text-rose-500">N/A</span>
-                              )}
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-700 font-medium">
-                              {user?.address || (
-                                <span className="text-rose-500">N/A</span>
-                              )}
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-700 font-medium">
-                              {user?.sheet || (
+                              {user?.role || (
                                 <span className="text-rose-500">N/A</span>
                               )}
                             </td>
