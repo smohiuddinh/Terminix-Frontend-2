@@ -4,8 +4,8 @@ import { removeUserDetails } from "../../redux/slices/userSlice";
 
 const api = axios.create({
   // live database
-  // baseURL: 'https://iccdinternalsystemserver.matzsolutions.com/',
-  baseURL: "http://localhost:22307/",
+  baseURL: 'https://iccdinternalsystemserver.matzsolutions.com',
+  // baseURL: "http://localhost:22307/",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
