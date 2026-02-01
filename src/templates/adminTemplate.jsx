@@ -1,18 +1,17 @@
 import { useState } from "react";
 import { Menu } from "lucide-react";
-import AdminSidebar from '../component/super_admin/SuperAdminSidebar';
+import AdminSidebar from "../component/super_admin/SuperAdminSidebar";
 
 function AdminTemplate({
   children,
   activeMenuItem = "Dashboard",
-  quickStats = null
+  quickStats = null,
 }) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-50">
-
       <header className="lg:hidden h-16 bg-white border-b border-gray-200  flex items-center px-4 shadow-sm">
         <button
           onClick={() => setShowMobileSidebar(true)}
@@ -45,8 +44,9 @@ function AdminTemplate({
 
       {/* Main Content */}
       <main
-        className={`transition-all duration-300 ${sidebarCollapsed ? "lg:ml-20" : "lg:ml-64"
-          }`}
+        className={`transition-all duration-300 ${
+          sidebarCollapsed ? "lg:ml-20" : "lg:ml-64"
+        }`}
       >
         {children}
       </main>

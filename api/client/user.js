@@ -97,7 +97,6 @@ export function useLogout() {
   });
 }
 
-
 export function useSignUp(options = {}) {
 
   const {
