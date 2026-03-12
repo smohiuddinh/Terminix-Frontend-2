@@ -1,7 +1,6 @@
 import axios from "axios";
-import { store } from "../../redux/store";
-import { removeUserDetails } from "../../redux/slices/userSlice";
 
+// Central axios instance used across the app
 const api = axios.create({
   // live database
   // baseURL: 'https://iccdinternalsystemserver.matzsolutions.com',
@@ -10,38 +9,34 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 10000, // optional timeout
+  timeout: 10000,
 });
 
-// Optional: Add interceptors for auth, logging, errors
+// Attach bearer token from localStorage on each request
 api.interceptors.request.use(
   (config) => {
-    // For example, attach auth token here
     const token = localStorage.getItem("token");
-    if (token) config.headers.Authorization = `Bearer ${token}`;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
-
-  (error) => {
-    console.log("err1: ", error)
-    Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
+// Handle common authentication errors in one place
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // console.log("error: ", error.response?.status)
-    if (error.response?.status === 401) {
-      const message = error.response?.data?.message;
-      if (message === "Token expired") {
-        deleteToken();
-        store.dispatch(resetUserProfile())
-        store.dispatch(removeUserDetails());
-        window.location.href = "/";
-      }
+    const status = error.response?.status;
+    const message = error.response?.data?.message;
+
+    if (status === 401 && message === "Token expired") {
+      // Clear token and force a fresh login
+      localStorage.removeItem("token");
+      window.location.href = "/login";
     }
-    // window.location.href = "/login";
+
     return Promise.reject(error);
   }
 );

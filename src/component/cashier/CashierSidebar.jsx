@@ -64,14 +64,15 @@ const CashierSidebar = ({
       {/* Sidebar */}
       <aside
         className={`
-           fixed top-0 left-0 h-screen 
           bg-gradient-to-b from-white via-white to-gray-50/80 
           backdrop-blur-xl border-r border-gray-200/80 shadow-2xl shadow-gray-200/50
-          z-50 transition-all duration-300 ease-in-out
-          ${collapsed ? "w-25" : "w-65"}
-          ${showMobile ? "translate-x-0" : "-translate-x-full"}
-          lg:translate-x-0
+          transition-all duration-300 ease-in-out
           flex flex-col
+          ${collapsed ? "w-20" : "w-64"}
+          h-screen
+          fixed top-0 left-0 z-50
+          ${showMobile ? "translate-x-0" : "-translate-x-full"}
+          lg:static lg:translate-x-0 lg:z-auto
         `}
       >
         {/* Header with modern spacing */}

@@ -17,62 +17,23 @@ import {
   ChevronRight,
   DollarSign,
 } from "lucide-react";
-// import { useGetAllFreelancers, useGetAllGigs, useGetAllProjects, useGetAllUsers, useGetStatisticsData } from "../../../api/client/superadmin";
-// import OverviewChart from '../../component/freelancer_dashboard/overview';
-import DataLoader from "../../component/dataLoader";
-
-// // Mock hooks for demonstration
-// const useGetAllOrderByAdmin = () => ({
-//   data: [
-//     { id: "ORD-001", buyer: { username: "John Doe" }, status: "paid", total_price: "299.99", createdAt: "2024-10-10" },
-//     { id: "ORD-002", buyer: { username: "Jane Smith" }, status: "pending", total_price: "149.50", createdAt: "2024-10-11" },
-//     { id: "ORD-003", buyer: { username: "Bob Wilson" }, status: "paid", total_price: "499.00", createdAt: "2024-10-12" },
-//   ],
-//   isLoading: false,
-//   isError: false,
-// });
-
-
+// This dashboard currently uses static values. When backend endpoints
+// for superadmin statistics are available, wire them in via a feature
+// hook (e.g. useSuperadminStats) and pass the data into this component.
 
 const SuperAdminDashboard = () => {
-  
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
-  const [selectedPeriod, setSelectedPeriod] = useState("month");
-
-  const { data=[], isSuccess, isPending, isError, isLoading } = useGetStatisticsData()
-  console.log("data: ", data)
-
-  const {
-    data: orders = [],
-   
-  } = useGetAllOrderByAdmin();
-
-  const {
-    data: users = [],
-   
-  } = useGetAllUsers();
-
-  const {
-    data: freelancers = [],
-   
-  } = useGetAllFreelancers();
-
-  const {
-    data: gigs = [],
-    
-  } = useGetAllGigs();
-
 
   const statsCards = [
     {
       title: "Total Users",
-      value: data[0]?.total_users || 0,
+      value: 0,
       icon: Users,
       gradient: "from-blue-500 to-cyan-500",
     },
     {
       title: "Total Projects",
-      value: data[0]?.total_projects || 0,
+      value: 0,
       change: 12.5,
       trend: "up",
       icon: ShoppingCart,
@@ -81,7 +42,7 @@ const SuperAdminDashboard = () => {
     },
      {
       title: "Total Jobs",
-      value: data[0]?.total_jobs || 0,
+      value: 0,
       change: 18.3,
       trend: "up",
       icon: DollarSign,
@@ -91,7 +52,7 @@ const SuperAdminDashboard = () => {
     },
     {
       title: "Total Gigs",
-      value: data[0]?.total_gigs || 0,
+      value: 0,
       change: 5.7,
       trend: "up",
       icon: Briefcase,
@@ -100,7 +61,7 @@ const SuperAdminDashboard = () => {
     },
     {
       title: "Awarded Jobs",
-      value: data[0]?.awarded_jobs || 0,
+      value: 0,
       change: 5.7,
       trend: "up",
       icon: Trophy,
@@ -108,8 +69,6 @@ const SuperAdminDashboard = () => {
       description: `${freelancers?.length} freelancers`
     },
   ];
-
-  if(isLoading) return <DataLoader />
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50">
@@ -269,32 +228,7 @@ const SuperAdminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
-                  {orders.slice(0, 5).map((order) => (
-                    <tr key={order.id} className="hover:bg-gray-50/50 transition-colors">
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900">{order.id}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600">
-                        {order.buyer?.username || order.customer || "N/A"}
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full ${
-                          order.status === "paid"
-                            ? "bg-green-100 text-green-700"
-                            : order.status === "pending"
-                            ? "bg-yellow-100 text-yellow-700"
-                            : "bg-blue-100 text-blue-700"
-                        }`}>
-                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-sm font-semibold text-gray-900">
-                        ${parseFloat(order.total_price || order.amount || 0).toFixed(2)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-500">
-                        {new Date(order.created_at || order.date).toLocaleDateString()}
-                      </td>
-                      {console.log(order)}
-                    </tr>
-                  ))}
+                  {/* When real order data is available, render rows here */}
                 </tbody>
               </table>
             </div>

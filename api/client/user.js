@@ -1,14 +1,22 @@
-import API_ROUTE from "../endpoints";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import api from "../axios/index";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "../../redux/slices/userSlice";
+import {
+  checkApiRequest,
+  loginRequest,
+  verifyUserRequest,
+  logoutRequest,
+  signUpRequest,
+  sendOtpRequest,
+  submitOtpRequest,
+  changePasswordRequest,
+} from "../services/authService";
 
 export function useCheck() {
   const { data, error, isSuccess, isPending, isError } = useQuery({
-    queryKey: [API_ROUTE.user.checkapi],
-    queryFn: () => api.get(API_ROUTE.user.checkapi),
+    queryKey: ["auth:check"],
+    queryFn: () => checkApiRequest(),
   });
   return {
     data: data?.data,
@@ -34,25 +42,30 @@ export function useLogin() {
     error,
     data,
   } = useMutation({
-    mutationFn: (data) => api.post(API_ROUTE.user.login, data, { withCredentials: true }),
+    mutationFn: (payload) => loginRequest(payload),
     onSuccess: async (response) => {
       const userData = response?.data?.data;
 
       // Save user data in Redux
       dispatch(setUserDetails(userData));
 
-      // Optional: Save token in localStorage if using header auth
-      localStorage.setItem("token", userData.token);
+      // Save token in localStorage for axios interceptor
+      if (userData?.token) {
+        localStorage.setItem("token", userData.token);
+      }
 
-      // ✅ Redirect based on role
-      if (userData.role === "cashier") {
+       // Keep React Query auth cache in sync immediately
+       queryClient.setQueryData(["authUser"], userData);
+
+      // Redirect based on role
+      if (userData?.role === "cashier") {
         navigate("/cashier/dashboard");
-      } else if (userData.role === "admin") {
+      } else if (userData?.role === "admin") {
         navigate("/superadmin/contacts");
-      }  else if (userData.role === "gm") {
+      } else if (userData?.role === "gm") {
         navigate("/gm/dashboard");
       } else {
-        navigate("/unauthorized"); // fallback if role is unknown
+        navigate("/unauthorized");
       }
     },
   });
@@ -73,10 +86,8 @@ export function useUser() {
   return useQuery({
     queryKey: ["authUser"],
     queryFn: async () => {
-      const res = await api.get("/auth/verify", {
-        withCredentials: true,
-      });
-      return res.data.user;  // backend reads cookie
+      const res = await verifyUserRequest();
+      return res.data.user; // backend reads cookie
     },
     retry: false,
     refetchOnWindowFocus: false
@@ -88,7 +99,7 @@ export function useLogout() {
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: () => api.post("/auth/logout", {}, { withCredentials: true }),
+    mutationFn: () => logoutRequest(),
     onSuccess: () => {
       queryClient.invalidateQueries(["authUser"]);
       navigate('/login')
@@ -106,7 +117,7 @@ export function useSignUp(options = {}) {
     error,
     data,
   } = useMutation({
-    mutationFn: (formData) => api.post(API_ROUTE.user.signUp, formData),
+    mutationFn: (formData) => signUpRequest(formData),
     ...options,
   });
 
@@ -133,9 +144,8 @@ export function useSendOtp(options = {}) {
     error,
     data,
   } = useMutation({
-    mutationFn: (data) => api.post(API_ROUTE.user.sendOtp, data),
+    mutationFn: (data) => sendOtpRequest(data),
     ...options,
-
   });
 
   return {
@@ -161,7 +171,7 @@ export function useSubmitOtp(options = {}) {
     error,
     data,
   } = useMutation({
-    mutationFn: (data) => api.post(API_ROUTE.user.submitOtp, data),
+    mutationFn: (data) => submitOtpRequest(data),
     ...options,
   });
 
@@ -188,7 +198,7 @@ export function useChangePassword(options = {}) {
     error,
     data,
   } = useMutation({
-    mutationFn: (data) => api.put(API_ROUTE.user.changePasword, data),
+    mutationFn: (data) => changePasswordRequest(data),
     ...options,
   });
 

@@ -1,14 +1,27 @@
 import { toast } from "react-toastify";
-import api from "../axios";
-import API_ROUTE from "../endpoints";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  addSaleRequest,
+  addExpenseRequest,
+  getAllSalesRequest,
+  getAllExpensesRequest,
+  getDashboardSummaryRequest,
+  getDepartmentSummaryRequest,
+  getDateSummaryRequest,
+  deleteSaleRequest,
+  deleteExpenseRequest,
+  getSalesByDepartmentRequest,
+  getExpensesByDepartmentRequest,
+  updateExpenseRequest,
+  updateSaleRequest,
+} from "../services/cashierService";
 
 // ======================
 // 1️⃣ Add Sale
 // ======================
 export function useAddSale() {
   const { mutate: addSale, isSuccess, isPending, isError, error } = useMutation({
-    mutationFn: async (data) => await api.post(API_ROUTE.cashier.addSale, data),
+    mutationFn: (data) => addSaleRequest(data),
     onSuccess: () => toast.success("Sale added successfully!"),
     onError: (error) => toast.error(error?.response?.data?.message || "Failed to add sale!"),
   });
@@ -20,7 +33,7 @@ export function useAddSale() {
 // ======================
 export function useAddExpense() {
   const { mutate: addExpense, isSuccess, isPending, isError, error } = useMutation({
-    mutationFn: async (data) => await api.post(API_ROUTE.cashier.addExpense, data),
+    mutationFn: (data) => addExpenseRequest(data),
     onSuccess: () => toast.success("Expense added successfully!"),
     onError: (error) => toast.error(error?.response?.data?.message || "Failed to add expense!"),
   });
@@ -32,9 +45,9 @@ export function useAddExpense() {
 // ======================
 export function useGetAllSales() {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["allSales"],
+    queryKey: ["cashier:allSales"],
     queryFn: async () => {
-      const res = await api.get(API_ROUTE.cashier.getAllSales);
+      const res = await getAllSalesRequest();
       return res.data.data;
     },
   });
@@ -46,9 +59,9 @@ export function useGetAllSales() {
 // ======================
 export function useGetAllExpenses() {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["allExpenses"],
+    queryKey: ["cashier:allExpenses"],
     queryFn: async () => {
-      const res = await api.get(API_ROUTE.cashier.getAllExpenses);
+      const res = await getAllExpensesRequest();
       return res.data.data;
     },
   });
@@ -60,9 +73,9 @@ export function useGetAllExpenses() {
 // ======================
 export function useDashboardSummary() {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["dashboardSummary"],
+    queryKey: ["cashier:dashboardSummary"],
     queryFn: async () => {
-      const res = await api.get(API_ROUTE.cashier.dashboardSummary);
+      const res = await getDashboardSummaryRequest();
       return res.data.data;
     },
   });
@@ -74,9 +87,9 @@ export function useDashboardSummary() {
 // ======================
 export function useDepartmentSummary() {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["departmentSummary"],
+    queryKey: ["cashier:departmentSummary"],
     queryFn: async () => {
-      const res = await api.get(API_ROUTE.cashier.departmentSummary);
+      const res = await getDepartmentSummaryRequest();
       return res.data.data;
     },
   });
@@ -88,9 +101,9 @@ export function useDepartmentSummary() {
 // ======================
 export function useDateSummary(start, end) {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["dateSummary", start, end],
+    queryKey: ["cashier:dateSummary", start, end],
     queryFn: async () => {
-      const res = await api.get(`${API_ROUTE.cashier.dateSummary}?start=${start}&end=${end}`);
+      const res = await getDateSummaryRequest(start, end);
       return res.data.data;
     },
     enabled: !!start && !!end, // only fetch if start & end are defined
@@ -100,7 +113,7 @@ export function useDateSummary(start, end) {
 
 export function useDeleteSale() {
   const { mutate: deleteSale, isPending, isSuccess, isError, error } = useMutation({
-    mutationFn: async (id) => await api.delete(`${API_ROUTE.cashier.deleteSale}/${id}`),
+    mutationFn: (id) => deleteSaleRequest(id),
     onSuccess: () => toast.success("Sale deleted successfully!"),
     onError: (error) => toast.error(error?.response?.data?.message || "Failed to delete sale!"),
   });
@@ -112,7 +125,7 @@ export function useDeleteSale() {
 // ======================
 export function useDeleteExpense() {
   const { mutate: deleteExpense, isPending, isSuccess, isError, error } = useMutation({
-    mutationFn: async (id) => await api.delete(`${API_ROUTE.cashier.deleteExpense}/${id}`),
+    mutationFn: (id) => deleteExpenseRequest(id),
     onSuccess: () => toast.success("Expense deleted successfully!"),
     onError: (error) => toast.error(error?.response?.data?.message || "Failed to delete expense!"),
   });
@@ -123,9 +136,9 @@ export function useDeleteExpense() {
 
 export function useGetSalesByDepartment(departmentId) {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["salesByDepartment", departmentId],
+    queryKey: ["cashier:salesByDepartment", departmentId],
     queryFn: async () => {
-      const res = await api.get(`${API_ROUTE.cashier.getSalesByDepartment}/${departmentId}`);
+      const res = await getSalesByDepartmentRequest(departmentId);
       return res.data.data;
     },
     enabled: !!departmentId, // only fetch if departmentId exists
@@ -135,9 +148,9 @@ export function useGetSalesByDepartment(departmentId) {
 
 export function useGetExpensesByDepartment(departmentId) {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["expensesByDepartment", departmentId],
+    queryKey: ["cashier:expensesByDepartment", departmentId],
     queryFn: async () => {
-      const res = await api.get(`${API_ROUTE.cashier.getExpensesByDepartment}/${departmentId}`);
+      const res = await getExpensesByDepartmentRequest(departmentId);
       return res.data.data;
     },
     enabled: !!departmentId,
@@ -148,8 +161,7 @@ export function useGetExpensesByDepartment(departmentId) {
 
 export function useUpdateExpense() {
   const { mutate: updateExpense, isSuccess, isPending, isError, error } = useMutation({
-    mutationFn: async ({ id, ...data }) =>
-      await api.put(`${API_ROUTE.cashier.updateExpense}/${id}`, data),
+    mutationFn: (payload) => updateExpenseRequest(payload),
     onSuccess: () => toast.success("Expense updated successfully!"),
     onError: (error) => toast.error(error?.response?.data?.message || "Failed to update expense!"),
   });
@@ -159,8 +171,7 @@ export function useUpdateExpense() {
 
 export function useUpdateSale() {
   const { mutate: updateSale, isSuccess, isPending, isError, error } = useMutation({
-    mutationFn: async ({ id, ...data }) =>
-      await api.put(`${API_ROUTE.cashier.updateSale}/${id}`, data),
+    mutationFn: (payload) => updateSaleRequest(payload),
     onSuccess: () => toast.success("Sale updated successfully!"),
     onError: (error) => toast.error(error?.response?.data?.message || "Failed to update sale!"),
   });

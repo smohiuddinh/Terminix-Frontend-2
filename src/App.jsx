@@ -1,17 +1,16 @@
-import './App.css'
-import { RouterProvider } from 'react-router-dom'
-import { router } from '../routes/router'
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import "./App.css";
+import { RouterProvider } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { router } from "./app/router";
 
 function App() {
-
   return (
-    <div >
+    <div>
       <ToastContainer position="top-center" autoClose={3000} />
-        <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -121,13 +121,13 @@ export default function CashierDashboard() {
   };
 
   const invalidateAll = () => {
-    queryClient.invalidateQueries({ queryKey: ['allSales'] });
-    queryClient.invalidateQueries({ queryKey: ['allExpenses'] });
-    queryClient.invalidateQueries({ queryKey: ['dashboardSummary'] });
-    queryClient.invalidateQueries({ queryKey: ['departmentSummary'] });
+    queryClient.invalidateQueries({ queryKey: ["cashier:allSales"] });
+    queryClient.invalidateQueries({ queryKey: ["cashier:allExpenses"] });
+    queryClient.invalidateQueries({ queryKey: ["cashier:dashboardSummary"] });
+    queryClient.invalidateQueries({ queryKey: ["cashier:departmentSummary"] });
     if (activeDeptId) {
-      queryClient.invalidateQueries({ queryKey: ['salesByDepartment', activeDeptId] });
-      queryClient.invalidateQueries({ queryKey: ['expensesByDepartment', activeDeptId] });
+      queryClient.invalidateQueries({ queryKey: ["cashier:salesByDepartment", activeDeptId] });
+      queryClient.invalidateQueries({ queryKey: ["cashier:expensesByDepartment", activeDeptId] });
     }
   };
 
@@ -176,7 +176,7 @@ export default function CashierDashboard() {
   const expensePending = editingItem ? updatingExpense : addingExpense;
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-50 flex-col lg:flex-row">
       <CashierSidebar
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}

@@ -1,8 +1,13 @@
 import { toast } from "react-toastify";
-import api from "../axios";
-import API_ROUTE from "../endpoints";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import {
+  addContactRequest,
+  addUserRequest,
+  getAllContactsRequest,
+  getAllIntOrgRequest,
+  getAllUserRequest,
+} from "../services/adminService";
 
 export function useAddContact() {
   const navigate = useNavigate();
@@ -13,15 +18,8 @@ export function useAddContact() {
     isError,
     error,
   } = useMutation({
-    mutationFn: async (data) =>
-      await api.post(`${API_ROUTE.admin.addContacts}`, data, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: api.defaults.headers.common["Authorization"],
-        },
-        timeout: 30000,
-      }),
-    onError: (error) => {
+    mutationFn: (data) => addContactRequest(data),
+    onError: () => {
       toast.error("Error while submitting form.");
     },
   });
@@ -37,19 +35,11 @@ export function useAddUser() {
     isError,
     error,
   } = useMutation({
-    mutationFn: async (data) =>
-      await api.post(`${API_ROUTE.admin.addUser}`, data, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: api.defaults.headers.common["Authorization"],
-        },
-        timeout: 30000,
-      }),
+    mutationFn: (data) => addUserRequest(data),
     onSuccess: () => {
-      toast.success("User added Successfully.")
+      toast.success("User added Successfully.");
     },
-    onError: (error) => {
-      console.log("error: ", error?.response?.data?.message)
+    onError: () => {
       toast.error("Error while submitting form.");
     },
   });
@@ -57,18 +47,10 @@ export function useAddUser() {
 }
 
 export function useGetAllContacts(params = {}) {
-  const constructQueryString = (params) => {
-    const query = new URLSearchParams(params).toString();
-    return query ? `&${query}` : "";
-  };
-  const queryKey = [API_ROUTE.admin.getAllContacts, params];
+  const queryKey = ["admin:getAllContacts", params];
   const { data, error, isLoading, isError } = useQuery({
     queryKey,
-    queryFn: () =>
-      api.get(
-        `${API_ROUTE.admin.getAllContacts}?${constructQueryString(params)}`,
-        { withCredentials: true }
-      ),
+    queryFn: () => getAllContactsRequest(params),
     retry: 1,
     refetchOnWindowFocus: false,
   });
@@ -82,18 +64,10 @@ export function useGetAllContacts(params = {}) {
 }
 
 export function useGetAllIntOrg(params = {}) {
-  const constructQueryString = (params) => {
-    const query = new URLSearchParams(params).toString();
-    return query ? `&${query}` : "";
-  };
-  const queryKey = [API_ROUTE.admin.getAllIntOrg, params];
+  const queryKey = ["admin:getAllIntOrg", params];
   const { data, error, isLoading, isError } = useQuery({
     queryKey,
-    queryFn: () =>
-      api.get(
-        `${API_ROUTE.admin.getAllIntOrg}?${constructQueryString(params)}`,
-        { withCredentials: true }
-      ),
+    queryFn: () => getAllIntOrgRequest(params),
     retry: 1,
     refetchOnWindowFocus: false,
   });
@@ -107,17 +81,10 @@ export function useGetAllIntOrg(params = {}) {
 }
 
 export function useGetAllUser(params = {}) {
-  const constructQueryString = (params) => {
-    const query = new URLSearchParams(params).toString();
-    return query ? `&${query}` : "";
-  };
-  const queryKey = [API_ROUTE.admin.getAllUser, params];
+  const queryKey = ["admin:getAllUser", params];
   const { data, error, isLoading, isError } = useQuery({
     queryKey,
-    queryFn: () =>
-      api.get(`${API_ROUTE.admin.getAllUser}?${constructQueryString(params)}`, {
-        withCredentials: true,
-      }),
+    queryFn: () => getAllUserRequest(params),
     retry: 1,
     refetchOnWindowFocus: false,
   });
