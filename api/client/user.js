@@ -1,4 +1,4 @@
-import API_ROUTE from "../endPoints";
+import API_ROUTE from "../endpoints";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../axios/index";
 import { useNavigate } from "react-router-dom";
@@ -19,20 +19,6 @@ export function useCheck() {
   };
 }
 
-export function useCheckIsFreelancer() {
-  const { data, error, isSuccess, isPending, isError } = useQuery({
-    queryKey: [API_ROUTE.freelancer.checkIsFreelancer],
-    queryFn: () => api.get(API_ROUTE.freelancer.checkIsFreelancer),
-    // staleTime: 7 * 24 * 60 * 60 * 1000 // 7 days
-  });
-  return {
-    data: data?.data?.data,
-    error,
-    isSuccess,
-    isPending,
-    isError,
-  };
-}
 
 export function useLogin() {
   const navigate = useNavigate();
@@ -49,14 +35,25 @@ export function useLogin() {
     data,
   } = useMutation({
     mutationFn: (data) => api.post(API_ROUTE.user.login, data, { withCredentials: true }),
-    onSuccess: async(response) => {
-      if (response?.data?.data?.email === 'admin@gmail.com') {
+    onSuccess: async (response) => {
+      const userData = response?.data?.data;
 
-        const userData = response?.data?.data;
-        dispatch(setUserDetails(userData));
-        await queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      // Save user data in Redux
+      dispatch(setUserDetails(userData));
+
+      // Optional: Save token in localStorage if using header auth
+      localStorage.setItem("token", userData.token);
+
+      // ✅ Redirect based on role
+      if (userData.role === "cashier") {
+        navigate("/cashier/dashboard");
+      } else if (userData.role === "admin") {
         navigate("/superadmin/contacts");
-      } 
+      }  else if (userData.role === "gm") {
+        navigate("/gm/dashboard");
+      } else {
+        navigate("/unauthorized"); // fallback if role is unknown
+      }
     },
   });
 
@@ -71,6 +68,7 @@ export function useLogin() {
   };
 }
 
+
 export function useUser() {
   return useQuery({
     queryKey: ["authUser"],
@@ -81,6 +79,7 @@ export function useUser() {
       return res.data.user;  // backend reads cookie
     },
     retry: false,
+    refetchOnWindowFocus: false
   });
 }
 
@@ -98,27 +97,26 @@ export function useLogout() {
 }
 
 export function useSignUp(options = {}) {
-
   const {
     mutate: userSignUp,
     isSuccess,
-    isPending,
+    isLoading, // React Query standard name instead of isPending
     isError,
     reset,
     error,
     data,
   } = useMutation({
-    mutationFn: (data) => api.post(API_ROUTE.user.signUp, data),
+    mutationFn: (formData) => api.post(API_ROUTE.user.signUp, formData),
     ...options,
   });
 
   return {
     userSignUp,
     isSuccess,
-    isPending,
+    isPending: isLoading, // keep your naming if needed
     isError,
     reset,
-    error: error?.response?.data?.message,
+    error: error?.response?.data?.message || error?.message,
     data,
   };
 }

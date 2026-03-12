@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-import logo from "../assets/ICCD-01.png";
+import logo from "../assets/logo.png";
 
-export default function ICCDLoader({ isLoading = true, onComplete }) {
+export default function Loader({ isLoading = true, onComplete }) {
   const [isVisible, setIsVisible] = useState(isLoading);
   const [fadeClass, setFadeClass] = useState("opacity-100");
 

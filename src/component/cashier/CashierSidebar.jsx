@@ -13,7 +13,7 @@ import {
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLogout } from "../../../api/client/user";
 
-const AdminSidebar = ({
+const CashierSidebar = ({
   collapsed,
   onToggleCollapse,
   showMobile,
@@ -30,13 +30,13 @@ const AdminSidebar = ({
      {
       icon: UsersRound,
       label: "Users",
-      path: "/superadmin/users",
+      path: "/cashier/dashboard",
     },
-    {
-      icon: UsersRound,
-      label: "Add Users",
-      path: "/superadmin/add-users",
-    },
+    // {
+    //   icon: UsersRound,
+    //   label: "Add Users",
+    //   path: "/cashier/add-users",
+    // },
   ];
 
   const currentPath = location.pathname;
@@ -78,12 +78,12 @@ const AdminSidebar = ({
         <div className="h-[72px] flex items-center justify-between px-6 border-b border-gray-200/60 flex-shrink-0">
           {!collapsed && (
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#1a3d26] via-[#29623A] to-[#0f2419]  flex items-center justify-center shadow-lg shadow-[#3C9299]/20">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#1a3d26] via-[#29623A] to-[#0f2419] flex items-center justify-center shadow-lg shadow-[#3C9299]/20">
                 <Settings className="w-5 h-5 text-white" />
               </div>
               <div>
                 <h2 className="text-base font-semibold text-gray-900">
-                  Admin Panel
+                  Cashier 
                 </h2>
                 <p className="text-[11px] text-gray-500 font-medium">
                   Management Console
@@ -235,4 +235,4 @@ const AdminSidebar = ({
   );
 };
 
-export default AdminSidebar;
+export default CashierSidebar;

@@ -2,7 +2,7 @@ import { memo } from "react";
 
 function TableHeader({ icon, title, description, buttonName, buttonIcon, setOpen }) {
     return (
-        <div className="mb-4 sm:mb-6 md:mb-8 bg-gradient-to-r from-[#47AAB3] via-[#2F7A80] to-[#1E4D52] rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 md:p-8 text-white">
+        <div className="mb-4 sm:mb-6 md:mb-8 bg-gradient-to-br from-[#1a3d26] via-[#29623A] to-[#0f2419] rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 md:p-8 text-white">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3 sm:gap-4">
                     <div className="p-2 sm:p-3 bg-white/20 rounded-xl sm:rounded-2xl backdrop-blur-sm">

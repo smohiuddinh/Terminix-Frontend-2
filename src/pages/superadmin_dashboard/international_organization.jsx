@@ -1,10 +1,10 @@
 import { useState, memo, useCallback } from "react";
-import DataLoader from "../../component/DataLoader";
-import { Users, User, UserPlus, Mail, Phone, Briefcase } from "lucide-react";
+import DataLoader from "../../component/dataLoader";
+import { Users, User, UserPlus, Mail, Phone, Briefcase, Building2, BookUser } from "lucide-react";
 import ICCDError from "../../component/ICCDError";
 import Pagination from "../../component/pagination";
 import useDebounce from "../../../hooks/useDebounce";
-import { useGetAllIntOrg } from "../../../api/client/contact";
+import { useGetAllIntOrg } from "../../../api/client/admin";
 import TableHeader from "../../component/super_admin/table_header";
 import Search_and_filters from "../../component/Search_and_filters";
 import {
@@ -14,7 +14,6 @@ import {
 } from "../../../data/flitersData";
 import ReactSelect from "../../component/buttonSelect";
 import Modal from "../../component/modal/modal2";
-import ContactForm from "../../component/forms/contactForm";
 
 function International_Organization() {
   const [page, setPage] = useState(1);
@@ -118,13 +117,13 @@ function International_Organization() {
           }
         />
 
-        <Modal
+        {/* <Modal
           isOpen={open}
           onClose={() => setOpen(false)}
           title="Add New Contacts"
         >
           <ContactForm />
-        </Modal>
+        </Modal> */}
 
         {/* Table */}
         {isLoading ? (
@@ -144,7 +143,7 @@ function International_Organization() {
                         <tr className="bg-gradient-to-r from-[#47AAB3] via-[#2F7A80] to-[#1E4D52] text-white">
                           <th scope="col" className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
                             <div className="flex items-center gap-2">
-                              <User className="w-4 h-4" aria-hidden="true" />
+                              <Building2 className="w-4 h-4" aria-hidden="true" />
                               Organization
                             </div>
                           </th>
@@ -166,6 +165,30 @@ function International_Organization() {
                               Designation
                             </div>
                           </th>
+                          <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                            <div className="flex items-center gap-2">
+                              <Building2 className="w-4 h-4" />
+                              Organization
+                            </div>
+                          </th>
+                          <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                            <div className="flex items-center gap-2">
+                              <Briefcase className="w-4 h-4" />
+                              Website
+                            </div>
+                          </th>
+                          <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                            <div className="flex items-center gap-2">
+                              <Briefcase className="w-4 h-4" />
+                              LinkedIn Profile
+                            </div>
+                          </th>
+                          <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">
+                            <div className="flex items-center gap-2">
+                              <BookUser className="w-4 h-4" />
+                              Address
+                            </div>
+                          </th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-teal-100">
@@ -175,32 +198,21 @@ function International_Organization() {
                             className="hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 transition-all duration-200"
                           >
                             <td className="px-6 py-4">
-                              <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-r from-[#47AAB3] via-[#2F7A80] to-[#1E4D52] flex items-center justify-center shadow-md">
-                                  <User className="w-6 h-6 text-white" aria-hidden="true" />
+                              <div className="flex items-center gap-3 max-w-xs">
+
+                                {/* Avatar */}
+                                <div className="w-12 h-12 flex-shrink-0 rounded-2xl bg-gradient-to-r from-[#47AAB3] via-[#2F7A80] to-[#1E4D52] flex items-center justify-center shadow-md">
+                                  <User className="w-6 h-6 text-white" />
                                 </div>
-                                <span className="text-sm font-semibold text-gray-800 group relative cursor-pointer">
-                                  {user?.organization ? (
-                                    <>
-                                      <span className="block">
-                                        {user.organization.slice(0, 30)}
-                                        {user.organization.length > 30 && "…"}
-                                      </span>
-                                      {user.organization.length > 30 && (
-                                        <span
-                                          className="absolute left-0 top-full mt-1 hidden group-hover:block 
-                                            bg-gray-900 text-white text-xs p-2 rounded shadow-lg z-50
-                                            whitespace-normal max-w-xs"
-                                          role="tooltip"
-                                        >
-                                          {user.organization}
-                                        </span>
-                                      )}
-                                    </>
-                                  ) : (
-                                    <span className="text-rose-500">N/A</span>
-                                  )}
-                                </span>
+
+                                {/* Name */}
+                                <p
+                                  className="text-sm font-medium text-gray-800 truncate max-w-[180px]"
+                                  title={user?.organization}
+                                >
+                                  {user?.organization || "N/A"}
+                                </p>
+
                               </div>
                             </td>
                             <td className="px-6 py-4 text-sm text-gray-700">
@@ -222,6 +234,26 @@ function International_Organization() {
                                 <span className="text-rose-500 text-sm">
                                   N/A
                                 </span>
+                              )}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-700 font-medium">
+                              {user?.organization || (
+                                <span className="text-rose-500">N/A</span>
+                              )}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-700 font-medium">
+                              {user?.website || (
+                                <span className="text-rose-500">N/A</span>
+                              )}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-700 font-medium">
+                              {user?.linkedIn_profile || (
+                                <span className="text-rose-500">N/A</span>
+                              )}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-700 font-medium">
+                              {user?.address || (
+                                <span className="text-rose-500">N/A</span>
                               )}
                             </td>
                           </tr>
@@ -308,7 +340,7 @@ function International_Organization() {
             )}
           </div>
         )}
-        
+
         {totalPages > 1 && (
           <Pagination
             currentPage={page}

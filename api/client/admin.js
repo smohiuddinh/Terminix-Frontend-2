@@ -1,0 +1,131 @@
+import { toast } from "react-toastify";
+import api from "../axios";
+import API_ROUTE from "../endpoints";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+
+export function useAddContact() {
+  const navigate = useNavigate();
+  const {
+    mutate: addContact,
+    isSuccess,
+    isPending,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: async (data) =>
+      await api.post(`${API_ROUTE.admin.addContacts}`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: api.defaults.headers.common["Authorization"],
+        },
+        timeout: 30000,
+      }),
+    onError: (error) => {
+      toast.error("Error while submitting form.");
+    },
+  });
+  return { addContact, isSuccess, isPending, isError, error };
+}
+
+export function useAddUser() {
+  const navigate = useNavigate();
+  const {
+    mutate: addUser,
+    isSuccess,
+    isPending,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: async (data) =>
+      await api.post(`${API_ROUTE.admin.addUser}`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: api.defaults.headers.common["Authorization"],
+        },
+        timeout: 30000,
+      }),
+    onSuccess: () => {
+      toast.success("User added Successfully.")
+    },
+    onError: (error) => {
+      console.log("error: ", error?.response?.data?.message)
+      toast.error("Error while submitting form.");
+    },
+  });
+  return { addUser, isSuccess, isPending, isError, error };
+}
+
+export function useGetAllContacts(params = {}) {
+  const constructQueryString = (params) => {
+    const query = new URLSearchParams(params).toString();
+    return query ? `&${query}` : "";
+  };
+  const queryKey = [API_ROUTE.admin.getAllContacts, params];
+  const { data, error, isLoading, isError } = useQuery({
+    queryKey,
+    queryFn: () =>
+      api.get(
+        `${API_ROUTE.admin.getAllContacts}?${constructQueryString(params)}`,
+        { withCredentials: true }
+      ),
+    retry: 1,
+    refetchOnWindowFocus: false,
+  });
+  return {
+    data: data?.data?.data,
+    totalPages: data?.data?.totalPages,
+    error,
+    isLoading,
+    isError,
+  };
+}
+
+export function useGetAllIntOrg(params = {}) {
+  const constructQueryString = (params) => {
+    const query = new URLSearchParams(params).toString();
+    return query ? `&${query}` : "";
+  };
+  const queryKey = [API_ROUTE.admin.getAllIntOrg, params];
+  const { data, error, isLoading, isError } = useQuery({
+    queryKey,
+    queryFn: () =>
+      api.get(
+        `${API_ROUTE.admin.getAllIntOrg}?${constructQueryString(params)}`,
+        { withCredentials: true }
+      ),
+    retry: 1,
+    refetchOnWindowFocus: false,
+  });
+  return {
+    data: data?.data?.data,
+    totalPages: data?.data?.totalPages,
+    error,
+    isLoading,
+    isError,
+  };
+}
+
+export function useGetAllUser(params = {}) {
+  const constructQueryString = (params) => {
+    const query = new URLSearchParams(params).toString();
+    return query ? `&${query}` : "";
+  };
+  const queryKey = [API_ROUTE.admin.getAllUser, params];
+  const { data, error, isLoading, isError } = useQuery({
+    queryKey,
+    queryFn: () =>
+      api.get(`${API_ROUTE.admin.getAllUser}?${constructQueryString(params)}`, {
+        withCredentials: true,
+      }),
+    retry: 1,
+    refetchOnWindowFocus: false,
+  });
+  return {
+    data: data?.data?.data,
+    totalPages: data?.data?.totalPages,
+    error,
+    isLoading,
+    isError,
+  };
+}

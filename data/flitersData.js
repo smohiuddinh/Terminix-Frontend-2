@@ -9,6 +9,10 @@ export const categoryFilter = [
   { label: "Government Invitiation", value: "Government Invitiation" },
 ];
 
+export const roleFilter = [
+  { label: "client", value: "client" },
+];
+
 export const departmentFilter = [
   { label: "E-commerce", value: "e-commerce" },
   { label: "Fintech", value: "fintech" },
@@ -84,5 +88,18 @@ export const countryFilter = [
   { label: "Iofs", value: "iofs" },
   { label: "Benin", value: "benin" }
 ]
+
+export const sheetFilter = [
+  { label: "BDD", value: "BDD" },
+  { label: "Finance", value: "Finance" },
+  { label: "first Congress", value: "first Congress" },
+  { label: "Bahrain", value: "Bahrain" },
+  { label: "Businessman", value: "Businessman" },
+  { label: "Final Chamber", value: "Final Chamber" },
+  { label: "general", value: "general" },
+  { label: "Government Invitiation", value: "Government Invitiation" },
+  { label: "International Organization", value: "International Organization" },
+  { label: "POC Companies", value: "POC Companies" },
+];
 
 

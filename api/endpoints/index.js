@@ -8,64 +8,23 @@ const API_ROUTE = {
     changePasword: "/auth/changePasword"
   },
 
-  superadmin: {
-    getAllOrders: '/superadmin/getAllOrder',
-    getAllFreelancers: '/superadmin/getAllFreelancers',
-    getAllGigs: '/superadmin/getAllGigs',
-    getAllProjects: '/superadmin/getAllProjects',
-    getAllUsers: '/superadmin/getAllUsers',
-    statisticData: '/superadmin/statisticData',
-    getAllJobs: '/superadmin/getAllJobs',
-    closeDispute: '/superadmin/closeDispute'
-
-  },
-  dispute: {
-    getAllDisputeByClient: '/dispute/getAllDisputeByClient',
-    getAllDisputeByFreelancer: '/dispute/getAllDisputeByFreelancer',
-    getDisputeById: '/dispute/getDisputeById',
-    addDispute: '/dispute/addDispute',
-    addResponseDispute: '/dispute/addResponseDispute',
-    getAllDisputeById: '/dispute/getAllDisputeById',
-    getAllDisputeByAdmin: '/dispute/getAllDisputeByAdmin',
-    getDisputeAdminById : '/dispute/getDisputeAdminById'
-  },
-  order: {
-    getAllOrderByFreelancer: '/order/getAllOrderByFreelancer',
-    getSingleOrderByFreelancer: '/order/getSingleOrderByFreelancer',
-    getAllOrderByClient: '/order/getAllOrderByClient',
-    getSingleOrderByClient: '/order/getSingleOrderByClient',
-    getAllOrderByAdmin: '/order/getAllOrderByAdmin',
-
+ cashier: {
+    addSale: "/cashier/sales",
+    getAllSales: "/cashier/sales",
+    addExpense: "/cashier/expenses",
+    getAllExpenses: "/cashier/expenses",
+    deleteSale: "/cashier/sales",       // DELETE /cashier/sales/:id
+    deleteExpense: "/cashier/expenses", // DELETE /cashier/expenses/:id
+    dashboardSummary: "/cashier/dashboard/summary",
+    departmentSummary: "/cashier/dashboard/department-summary",
+    dateSummary: "/cashier/dashboard/date-summary",
+    getSalesByDepartment: "/cashier/sales/department", // GET /cashier/sales/department/:departmentId
+    getExpensesByDepartment: "/cashier/expenses/department", 
+    updateSale:     '/cashier/sales',      // PUT /cashier/sales/:id
+    updateExpense:  '/cashier/expenses',   // PUT /cashier/expenses/:id
   },
 
-  messages: {
-    addMessageByUser: '/messages/addMessageByUser',
-    getAllMessageByUser: '/messages/getAllMessageByUser',
-    getMessageByUserWithRecipitant: '/messages/getMessageByUserWithRecipitant',
-  },
-  notifications: {
-    getNofication: '/notifications/getNotification',
-    unread_count: '/notifications/unread-count',
-    mark_read: '/notifications/mark-read'
-  },
-  rating: {
-    addFreelancerRating: '/rating/addFreelancerRating',
-    getFreelancerGigRatings: '/rating/getFreelancerGigRatings',
-    useFreelancerAverageRating : '/rating/getFreelancerAverageRating'
-  },
-  feedback: {
-    getAllFeedback: '/feedback/getAllFeedback',
-    addFeedback: '/feedback/addFeedback'
-  },
-   issue: {
-    getAllIssue: '/issue/getAllIssue',
-    addIssue: '/issue/addIssue'
-  },
-   contact: {
-    getAllContacts: '/api/contact/getAllContact',
-    getAllIntOrg: '/api/contact/getAllInterOrg',
-    addContacts: '/api/contact/addContacts'
-  } 
+
 };
 
 export default API_ROUTE;

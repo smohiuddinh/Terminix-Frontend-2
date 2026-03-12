@@ -1,29 +1,26 @@
-const Input = ({
-    field,
-    error,
-    type = "text",
-    placeholder = "",
-}) => {
-    return (
-        <input
-            {...field}
-            type={type}
-            placeholder={placeholder}
-            className={`w-full 
-                px-3 py-2               /* mobile padding */
-                sm:px-4 sm:py-3       /* larger padding for tablets/desktops */
+import React from 'react'
 
-                bg-gray-50 border-2 rounded-xl 
-                text-sm sm:text-base     /* responsive text size */
-                focus:outline-none focus:bg-white transition-all duration-300 text-gray-800
+export const inputCls = {
+  width: '100%',
+  padding: '10px 12px',
+  fontSize: 13,
+  borderRadius: 12,
+  border: '1px solid #e5e7eb',
+  background: '#f9fafb',
+  outline: 'none',
+  boxSizing: 'border-box',
+  color: '#111827',
+  transition: 'border-color 0.15s, background 0.15s',
+}
 
-                ${error
-                    ? "border-red-500 focus:border-red-500 focus:ring-4 focus:ring-red-100"
-                    : "border-gray-200 focus:border-[#44A4AD] focus:ring-4 focus:ring-[#44A4AD]/30"
-                }
-            `}
-        />
-    );
-};
-
-export default Input;
+export default function InputField({ label, required, error, children }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+      <label style={{ fontSize: 11, fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        {label}{required && <span style={{ color: '#f87171', marginLeft: 2 }}>*</span>}
+      </label>
+      {children}
+      {error && <p style={{ margin: 0, fontSize: 11, color: '#ef4444' }}>{error}</p>}
+    </div>
+  )
+}
