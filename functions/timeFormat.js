@@ -1,5 +1,14 @@
+function _parseLocalOrIso(dateInput) {
+  if (!dateInput) return new Date(NaN);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateInput)) {
+    const [y,m,d] = dateInput.split('-').map(s => parseInt(s,10));
+    return new Date(y, m-1, d);
+  }
+  return new Date(dateInput);
+}
+
 export function formatSingleDate(dateInput) {
-  const date = new Date(dateInput);
+  const date = _parseLocalOrIso(dateInput);
   const optionsStart =  { day: 'numeric', month: 'long' };
   const optionsEnd = { day: 'numeric', month: 'long', year: 'numeric' };
   const startMonth = new Intl.DateTimeFormat('en-US', optionsStart).format(date);
@@ -8,7 +17,7 @@ export function formatSingleDate(dateInput) {
 }
 
 export function formatDate(dateString) {
-  const date = new Date(dateString);
+  const date = _parseLocalOrIso(dateString);
   const day = date.getDate();
   const month = date.toLocaleString('en-US', { month: 'long' });
   const year = date.getFullYear();
@@ -16,7 +25,7 @@ export function formatDate(dateString) {
 }
 
 export function getDateLabel(timestamp) {
-  const msgDate = new Date(timestamp);
+  const msgDate = _parseLocalOrIso(timestamp);
   const today = new Date();
   const yesterday = new Date();
   yesterday.setDate(today.getDate() - 1);
@@ -33,7 +42,7 @@ export function getDateLabel(timestamp) {
 }
 
 export function formatTo12HourTime(dateInput) {
-  const date = new Date(dateInput);
+  const date = _parseLocalOrIso(dateInput);
   return date.toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
@@ -53,7 +62,7 @@ export function formatTo12HourTime(dateInput) {
 
   export const getRelativeTime = (dateString) => {
     const now = new Date();
-    const date = new Date(dateString);
+    const date = _parseLocalOrIso(dateString);
     const diffInMs = now - date;
     const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 

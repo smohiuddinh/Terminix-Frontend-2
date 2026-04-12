@@ -1,42 +1,70 @@
 import api from "../axios";
 import API_ROUTE from "../endpoints";
 
-export const addSaleRequest = (data) =>
-  api.post(API_ROUTE.cashier.addSale, data);
+// ═══════════════════════════════════════════════════════════════════
+// SHEETS
+// ═══════════════════════════════════════════════════════════════════
 
-export const addExpenseRequest = (data) =>
-  api.post(API_ROUTE.cashier.addExpense, data);
+// GET /sheets?page=1&limit=20&date=2025-01-15&search=keyword
+export const getSheetListRequest = (params = {}) =>
+  api.get(API_ROUTE.cashier.getSheetList, { params });
 
-export const getAllSalesRequest = () =>
-  api.get(API_ROUTE.cashier.getAllSales);
+// GET /sheets/date/:date
+export const getSheetsByDateRequest = (date) =>
+  api.get(`${API_ROUTE.cashier.getSheetsByDate}/${date}`);
 
-export const getAllExpensesRequest = () =>
-  api.get(API_ROUTE.cashier.getAllExpenses);
+// GET /sheets/:id
+export const getSheetByIdRequest = (id) =>
+  api.get(`${API_ROUTE.cashier.getSheetById}/${id}`);
 
-export const getDashboardSummaryRequest = () =>
-  api.get(API_ROUTE.cashier.dashboardSummary);
+// POST /sheets
+export const createSheetRequest = (sheetData) =>
+  api.post(API_ROUTE.cashier.createSheet, sheetData);
 
-export const getDepartmentSummaryRequest = () =>
-  api.get(API_ROUTE.cashier.departmentSummary);
+// PUT /sheets/:id
+export const updateSheetRequest = ({ id, ...sheetData }) =>
+  api.put(`${API_ROUTE.cashier.updateSheet}/${id}`, sheetData);
 
-export const getDateSummaryRequest = (start, end) =>
-  api.get(`${API_ROUTE.cashier.dateSummary}?start=${start}&end=${end}`);
+// DELETE /sheets/:id
+export const deleteSheetRequest = (id) =>
+  api.delete(`${API_ROUTE.cashier.deleteSheet}/${id}`);
 
-export const deleteSaleRequest = (id) =>
-  api.delete(`${API_ROUTE.cashier.deleteSale}/${id}`);
+// ═══════════════════════════════════════════════════════════════════
+// PAGINATED ENTRY LISTS
+// ═══════════════════════════════════════════════════════════════════
 
-export const deleteExpenseRequest = (id) =>
-  api.delete(`${API_ROUTE.cashier.deleteExpense}/${id}`);
+// GET /sheets/:id/opening-entries?page=1&limit=10
+export const getOpeningEntriesRequest = (sheetId, params = {}) =>
+  api.get(`${API_ROUTE.cashier.getOpeningEntries}/${sheetId}/opening-entries`, { params });
 
-export const getSalesByDepartmentRequest = (departmentId) =>
-  api.get(`${API_ROUTE.cashier.getSalesByDepartment}/${departmentId}`);
+// GET /sheets/:id/collections?page=1&limit=10
+export const getCollectionsRequest = (sheetId, params = {}) =>
+  api.get(`${API_ROUTE.cashier.getCollections}/${sheetId}/collections`, { params });
 
-export const getExpensesByDepartmentRequest = (departmentId) =>
-  api.get(`${API_ROUTE.cashier.getExpensesByDepartment}/${departmentId}`);
+// GET /sheets/:id/expenses?page=1&limit=10
+export const getSheetExpensesRequest = (sheetId, params = {}) =>
+  api.get(`${API_ROUTE.cashier.getExpenses}/${sheetId}/expenses`, { params });
 
-export const updateExpenseRequest = ({ id, ...data }) =>
-  api.put(`${API_ROUTE.cashier.updateExpense}/${id}`, data);
+// GET /sheets/:id/department-sales?department=HLD&page=1&limit=10
+export const getDepartmentSalesRequest = (sheetId, params = {}) =>
+  api.get(`${API_ROUTE.cashier.getDepartmentSales}/${sheetId}/department-sales`, { params });
 
-export const updateSaleRequest = ({ id, ...data }) =>
-  api.put(`${API_ROUTE.cashier.updateSale}/${id}`, data);
+// ═══════════════════════════════════════════════════════════════════
+// DASHBOARD & SUMMARY
+// ═══════════════════════════════════════════════════════════════════
 
+// GET /dashboard/summary?date=2025-01-15
+export const getDashboardSummaryRequest = (date) =>
+  api.get(API_ROUTE.cashier.dashboardSummary, { params: date ? { date } : {} });
+
+// GET /dashboard/departments?sheetId=2025-01-15-1
+export const getDepartmentSummaryRequest = (sheetId) =>
+  api.get(API_ROUTE.cashier.departmentSummary, { params: { sheetId } });
+
+// GET /dashboard/sheet-summary/:id
+export const getSheetSummaryRequest = (id) =>
+  api.get(`${API_ROUTE.cashier.sheetSummary}/${id}`);
+
+// GET /dashboard/history?start=&end=&page=1&limit=20
+export const getHistorySummaryRequest = (params = {}) =>
+  api.get(API_ROUTE.cashier.historySummary, { params });

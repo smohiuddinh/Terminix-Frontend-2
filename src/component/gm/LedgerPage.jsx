@@ -93,10 +93,10 @@ export default function LedgerPage({ ledgerType, initialData }) {
   const formTitle     = ledgerType === 'banker' ? (editItem ? 'Edit Bank Account' : 'Add Bank Account') : (editItem ? 'Edit Party' : 'Create New Party')
 
   return (
-    <div>
+    <div className="space-y-5">
       <SummaryCards parties={items} ledgerType={ledgerType} />
 
-      <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+      <div className="flex flex-col lg:flex-row gap-5 lg:gap-6 items-start">
         <PartyList
           parties={items}
           selectedId={selectedId}
@@ -128,8 +128,12 @@ export default function LedgerPage({ ledgerType, initialData }) {
       <Modal open={showForm} onClose={() => { setShowForm(false); setEditItem(null) }}
         title={formTitle}
         subtitle={editItem ? `Editing: ${editItem.name}` : `Add a new ${ledgerType === 'banker' ? 'bank account' : 'party'}`}>
-        <PartyForm initial={editItem ?? undefined} onSave={handleSaveItem} onClose={() => { setShowForm(false); setEditItem(null) }} />
-      </Modal>
+<PartyForm
+  initial={editItem ?? undefined}
+  ledgerType={ledgerType}         
+  onSave={handleSaveItem}
+  onClose={() => { setShowForm(false); setEditItem(null) }}
+/>      </Modal>
 
       <Modal open={showTxnForm} onClose={() => { setShowTxnForm(false); setEditTxn(null) }}
         title={editTxn ? 'Edit Transaction' : 'Add Transaction'}

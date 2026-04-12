@@ -61,7 +61,7 @@ export function useLogin() {
       if (userData?.role === "cashier") {
         navigate("/cashier/dashboard");
       } else if (userData?.role === "admin") {
-        navigate("/superadmin/contacts");
+        navigate("/superadmin/users");
       } else if (userData?.role === "gm") {
         navigate("/gm/dashboard");
       } else {

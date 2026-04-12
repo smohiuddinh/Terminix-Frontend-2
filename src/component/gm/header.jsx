@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { BRAND } from '../../../utils/helper';
 
 export default function Header({ activeLedger, onLogout, onToggleSidebar }) {
@@ -5,6 +6,7 @@ export default function Header({ activeLedger, onLogout, onToggleSidebar }) {
   const subtitle = activeLedger === 'party'
     ? 'Payment records · Clearance tracking · Balance history'
     : 'Bank accounts · Deposits · Withdrawals · Account balances'
+  const user = useSelector((state) => state.user.userDetails);
 
   return (
     <header style={{
@@ -51,8 +53,8 @@ export default function Header({ activeLedger, onLogout, onToggleSidebar }) {
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <div style={{ textAlign: 'right' }}>
-          <p style={{ margin: 0, fontSize: 12, fontWeight: 600, color: '#111827' }}>admin@gm.com</p>
-          <p style={{ margin: 0, fontSize: 11, color: '#9ca3af' }}>General Manager</p>
+          <p style={{ margin: 0, fontSize: 12, fontWeight: 600, color: '#111827' }}>{user?.email || 'admin@gm.com'}</p>
+          <p style={{ margin: 0, fontSize: 11, color: '#9ca3af' }}>{user.name}</p>
         </div>
         <div style={{
           width: 36, height: 36, borderRadius: 10, background: BRAND,

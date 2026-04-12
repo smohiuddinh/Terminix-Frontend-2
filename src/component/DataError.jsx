@@ -15,6 +15,7 @@ import {
   Bell,
   ChevronRight,
 } from "lucide-react";
+import { parseLocalDate } from '../../utils/helper';
 // import { useGetAllOrderByAdmin } from "../../../api/client/order";
 // import OverviewChart from "../../component/freelancer_dashboard/overview";
 // import { useGetAllFreelancers, useGetAllGigs, useGetAllProjects, useGetAllUsers } from "../../../api/client/superadmin";
@@ -257,7 +258,7 @@ const SuperAdminDashboard = () => {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm font-semibold text-gray-900">${order.amount}</td>
-                      <td className="px-6 py-4 text-sm text-gray-500">{new Date(order.date).toLocaleDateString()}</td>
+                      <td className="px-6 py-4 text-sm text-gray-500">{parseLocalDate(order.date).toLocaleDateString()}</td>
                     </tr>
                   ))}
                 </tbody>

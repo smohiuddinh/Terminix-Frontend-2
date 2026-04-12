@@ -38,7 +38,7 @@ export const getAllIntOrgRequest = (params = {}) =>
 
 export const getAllUserRequest = (params = {}) =>
   api.get(
-    `${API_ROUTE.admin.getAllUser}?${buildQueryString(params)}`,
+    `${API_ROUTE.user.getAllUsers}?${buildQueryString(params)}`,
     { withCredentials: true }
   );
 

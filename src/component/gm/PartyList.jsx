@@ -21,6 +21,26 @@ export default function PartyList({ parties, selectedId, onSelect, onEdit, onDel
             border: '1px solid #e5e7eb', background: '#f9fafb', outline: 'none', boxSizing: 'border-box', color: '#111827',
           }} placeholder="Search…" value={search} onChange={e => onSearchChange(e.target.value)} />
         </div>
+        {onAdd && (
+          <button
+            type="button"
+            onClick={onAdd}
+            style={{
+              marginTop: 10,
+              width: '100%',
+              padding: '8px 10px',
+              fontSize: 12,
+              fontWeight: 600,
+              borderRadius: 10,
+              border: '1px dashed #d1d5db',
+              background: '#f9fafb',
+              color: BRAND,
+              cursor: 'pointer',
+            }}
+          >
+            {addLabel}
+          </button>
+        )}
       </div>
 
       <div style={{ flex: 1, overflowY: 'auto', maxHeight: 420 }}>

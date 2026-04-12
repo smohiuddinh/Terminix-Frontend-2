@@ -7,8 +7,9 @@ import CashierTemplate from "@/templates/cashierTemplate";
 import GmTemplate from "@/templates/gmTemplate";
 
 import Login5 from "@/component/login/login5";
+import SuperAdminDashboard from "@/pages/superadmin_dashboard/dashboard";
 import International_Organization from "@/pages/superadmin_dashboard/international_organization";
-import Iccd_Users from "@/pages/superadmin_dashboard/user";
+import Terminix_Users from "@/pages/superadmin_dashboard/user";
 import SignupAdmin from "@/pages/superadmin_dashboard/add_new_user";
 import CashierDashboard from "@/component/cashier/CashierDashboard";
 import GmDashboard from "@/component/gm/GmDashboard";
@@ -41,6 +42,16 @@ export const router = createBrowserRouter([
     ),
   },
   {
+    path: "/superadmin/dashboard",
+    element: withSuspense(
+      <AuthRoute allowedRoles={["admin"]}>
+        <AdminTemplate isShowFooter={false}>
+          <SuperAdminDashboard />
+        </AdminTemplate>
+      </AuthRoute>
+    ),
+  },
+  {
     path: "/superadmin/international-organization",
     element: withSuspense(
       <AuthRoute allowedRoles={["admin"]}>
@@ -55,7 +66,7 @@ export const router = createBrowserRouter([
     element: withSuspense(
       <AuthRoute allowedRoles={["admin"]}>
         <AdminTemplate isShowFooter={false}>
-          <Iccd_Users />
+          <Terminix_Users />
         </AdminTemplate>
       </AuthRoute>
     ),

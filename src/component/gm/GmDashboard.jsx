@@ -6,7 +6,7 @@ import Sidebar from "./GmSidebar";
 import { useLogout } from "../../../api/client/user";
 
 export default function GmDashboard() {
-  const [activeLedger, setActiveLedger] = useState<"party" | "banker">("party");
+  const [activeLedger, setActiveLedger] = useState("party");
   const [collapsed, setCollapsed] = useState(false);
 
   const { mutate: logout } = useLogout();
