@@ -7,6 +7,7 @@ const MONO = "'DM Mono', monospace"
 
 export default function DetailPanel({ party, filterStatus, onFilterChange, onEdit, onAddTxn, onEditTxn, onDeleteTxn, onDeleteParty, ledgerType }) {
   const [tab, setTab] = useState('ledger')
+  const [search, setSearch] = useState('')
 
   if (!party) return null
 
@@ -67,16 +68,58 @@ export default function DetailPanel({ party, filterStatus, onFilterChange, onEdi
           ))}
         </div>
 
-        <div style={{ display: 'flex', background: '#f9fafb' }}>
-          {[['ledger', 'Transaction Ledger'], ['info', 'Account Info']].map(([t, label]) => (
-            <button key={t} onClick={() => setTab(t)} style={{
-              padding: '10px 20px', fontSize: 12, fontWeight: 600, cursor: 'pointer',
-              background: 'transparent', border: 'none', borderBottom: `2px solid ${tab === t ? BRAND : 'transparent'}`,
-              color: tab === t ? BRAND : '#9ca3af', transition: 'all 0.15s',
-            }}>
-              {label}
-            </button>
-          ))}
+        {/* ── Tab bar + search ── */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#f9fafb', paddingRight: 12 }}>
+          <div style={{ display: 'flex' }}>
+            {[['ledger', 'Transaction Ledger'], ['info', 'Account Info']].map(([t, label]) => (
+              <button key={t} onClick={() => setTab(t)} style={{
+                padding: '10px 20px', fontSize: 12, fontWeight: 600, cursor: 'pointer',
+                background: 'transparent', border: 'none', borderBottom: `2px solid ${tab === t ? BRAND : 'transparent'}`,
+                color: tab === t ? BRAND : '#9ca3af', transition: 'all 0.15s',
+              }}>
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {tab === 'ledger' && (
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+              <svg
+                width="13" height="13" fill="none" stroke="#9ca3af" viewBox="0 0 24 24"
+                style={{ position: 'absolute', left: 9, pointerEvents: 'none' }}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search entries…"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                style={{
+                  paddingLeft: 28, paddingRight: search ? 28 : 10, paddingTop: 5, paddingBottom: 5,
+                  fontSize: 12, borderRadius: 8, border: '1px solid #e5e7eb',
+                  background: '#fff', color: '#111827', outline: 'none', width: 160,
+                  transition: 'border-color 0.15s',
+                }}
+                onFocus={e => e.target.style.borderColor = BRAND}
+                onBlur={e => e.target.style.borderColor = '#e5e7eb'}
+              />
+              {search && (
+                <button
+                  onClick={() => setSearch('')}
+                  style={{
+                    position: 'absolute', right: 7, background: 'none', border: 'none',
+                    cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', color: '#9ca3af',
+                  }}
+                >
+                  <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -87,6 +130,7 @@ export default function DetailPanel({ party, filterStatus, onFilterChange, onEdi
           onFilterChange={onFilterChange}
           onEditTxn={onEditTxn}
           onDeleteTxn={onDeleteTxn}
+          search={search}           // ← new prop
         />
       )}
 

@@ -4,7 +4,7 @@ import { BRAND, fmt } from '../../../utils/helper'
 
 const MONO = "'DM Mono', monospace"
 
-export default function TransactionTable({ party, ledgerType, filterStatus, onFilterChange, onEditTxn, onDeleteTxn, columnLabels }) {
+export default function TransactionTable({ party, ledgerType, filterStatus, onFilterChange, onEditTxn, onDeleteTxn, columnLabels, search }) {
   const isBanker = ledgerType === 'banker'
 
   const labels = columnLabels ?? {
@@ -18,9 +18,17 @@ export default function TransactionTable({ party, ledgerType, filterStatus, onFi
     { key: 'paid',    label: 'Cleared' },
   ]
 
-  const filteredTxns = party.transactions.filter(
-    t => filterStatus === 'all' || t.status === filterStatus
-  )
+  const q = search?.trim().toLowerCase() ?? ''
+
+  const filteredTxns = party.transactions.filter(t => {
+    const matchesStatus = filterStatus === 'all' || t.status === filterStatus
+    const matchesSearch = !q || [t.description, t.note, t.date, t.type].some(
+      v => v?.toLowerCase().includes(q)
+    )
+    return matchesStatus && matchesSearch
+  })
+
+  const noResults = filteredTxns.length === 0
 
   return (
     <>
@@ -49,17 +57,26 @@ export default function TransactionTable({ party, ledgerType, filterStatus, onFi
             </button>
           )
         })}
+
+        {/* Live result count when searching */}
+        {q && (
+          <span style={{ marginLeft: 'auto', fontSize: 11, color: '#9ca3af', fontWeight: 500 }}>
+            {filteredTxns.length} result{filteredTxns.length !== 1 ? 's' : ''} for "{search.trim()}"
+          </span>
+        )}
       </div>
 
       <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e5e7eb', overflow: 'hidden' }}>
-        {filteredTxns.length === 0 ? (
+        {noResults ? (
           <div style={{ padding: '64px 24px', textAlign: 'center' }}>
             <svg width="36" height="36" fill="none" stroke="#d1d5db" viewBox="0 0 24 24" style={{ margin: '0 auto 12px', display: 'block' }}>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-            <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#9ca3af' }}>No transactions</p>
+            <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#9ca3af' }}>
+              {q ? 'No matching entries' : 'No transactions'}
+            </p>
             <p style={{ margin: '4px 0 0', fontSize: 12, color: '#d1d5db' }}>
-              {filterStatus !== 'all' ? 'Change the filter above' : 'Click "Add Entry" to begin'}
+              {q ? `No results for "${search.trim()}"` : filterStatus !== 'all' ? 'Change the filter above' : 'Click "Add Entry" to begin'}
             </p>
           </div>
         ) : (
@@ -88,16 +105,19 @@ export default function TransactionTable({ party, ledgerType, filterStatus, onFi
               <tbody>
                 {filteredTxns.map(txn => (
                   <tr key={txn.id} style={{ borderBottom: '1px solid #f9fafb', transition: 'background 0.1s' }} className="txn-row">
-                    {/* Date */}
                     <td style={{ padding: '11px 14px', color: '#9ca3af', fontFamily: MONO, fontSize: 12, whiteSpace: 'nowrap' }}>{txn.date}</td>
 
-                    {/* Particulars / Description */}
                     <td style={{ padding: '11px 14px' }}>
-                      <p style={{ margin: 0, color: '#111827', fontWeight: 500 }}>{txn.description}</p>
-                      {txn.note && <p style={{ margin: '2px 0 0', fontSize: 11, color: '#9ca3af' }}>{txn.note}</p>}
+                      <p style={{ margin: 0, color: '#111827', fontWeight: 500 }}>
+                        {highlight(txn.description, q)}
+                      </p>
+                      {txn.note && (
+                        <p style={{ margin: '2px 0 0', fontSize: 11, color: '#9ca3af' }}>
+                          {highlight(txn.note, q)}
+                        </p>
+                      )}
                     </td>
 
-                    {/* Type — party ledger only */}
                     {!isBanker && (
                       <td style={{ padding: '11px 14px' }}>
                         <span style={{
@@ -111,25 +131,20 @@ export default function TransactionTable({ party, ledgerType, filterStatus, onFi
                       </td>
                     )}
 
-                    {/* Debit */}
                     <td style={{ padding: '11px 14px', fontFamily: MONO, fontWeight: 600, color: txn.debit > 0 ? '#dc2626' : '#d1d5db', whiteSpace: 'nowrap' }}>
                       {txn.debit > 0 ? fmt(txn.debit) : '—'}
                     </td>
 
-                    {/* Credit */}
                     <td style={{ padding: '11px 14px', fontFamily: MONO, fontWeight: 600, color: txn.credit > 0 ? '#16a34a' : '#d1d5db', whiteSpace: 'nowrap' }}>
                       {txn.credit > 0 ? fmt(txn.credit) : '—'}
                     </td>
 
-                    {/* Balance */}
                     <td style={{ padding: '11px 14px', fontFamily: MONO, fontWeight: 700, color: '#111827', whiteSpace: 'nowrap' }}>{fmt(txn.balance)}</td>
 
-                    {/* Status — party ledger only */}
                     {!isBanker && (
                       <td style={{ padding: '11px 14px' }}><StatusBadge status={txn.status} /></td>
                     )}
 
-                    {/* Actions */}
                     <td style={{ padding: '11px 14px' }}>
                       <div className="txn-actions" style={{ display: 'flex', gap: 2 }}>
                         <button onClick={() => onEditTxn(txn)} style={{ width: 28, height: 28, borderRadius: 8, border: 'none', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9ca3af' }} title="Edit">
@@ -160,6 +175,22 @@ export default function TransactionTable({ party, ledgerType, filterStatus, onFi
           </div>
         )}
       </div>
+    </>
+  )
+}
+
+// Highlights matching text in a string — returns plain string spans as React nodes
+function highlight(text, q) {
+  if (!text || !q) return text
+  const idx = text.toLowerCase().indexOf(q)
+  if (idx === -1) return text
+  return (
+    <>
+      {text.slice(0, idx)}
+      <mark style={{ background: '#fef08a', color: '#111827', borderRadius: 3, padding: '0 1px' }}>
+        {text.slice(idx, idx + q.length)}
+      </mark>
+      {text.slice(idx + q.length)}
     </>
   )
 }

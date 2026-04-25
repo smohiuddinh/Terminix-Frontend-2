@@ -59,7 +59,7 @@ const Login5 = () => {
                         {/* Email */}
                         <div>
                             <label className="block text-xs font-medium text-gray-500 mb-1.5">
-                                User ID or phone number
+                                User ID
                             </label>
                             <input
                                 type="email"
@@ -165,7 +165,7 @@ const Login5 = () => {
                 {/* Watermark top-right */}
                 <div className="absolute top-6 right-8 opacity-15 flex items-center gap-2">
                     <img src={logo} alt="" className="w-10 h-10 object-contain brightness-200 invert" />
-                    <span className="text-white text-2xl font-bold tracking-tight">Terminix</span>
+                    {/* <span className="text-white text-2xl font-bold tracking-tight">Terminix</span> */}
                 </div>
 
                 {/* Cityscape SVG */}

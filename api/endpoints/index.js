@@ -30,6 +30,23 @@ cashier: {
     historySummary:       "/cashier/dashboard/history",            // GET ?start=&end=&page=&limit=
   },
 
+  ledger: {
+    // ── Accounts (Party + Banker) ──────────────────────────────────────────
+    getAccounts:    "/ledger/accounts",   // GET    ?ledgerType=party&search=&status=&page=&limit=
+    getAccountById: "/ledger/accounts",   // GET    /ledger/accounts/:id
+    createAccount:  "/ledger/accounts",   // POST
+    updateAccount:  "/ledger/accounts",   // PUT    /ledger/accounts/:id
+    deleteAccount:  "/ledger/accounts",   // DELETE /ledger/accounts/:id
+ 
+    // ── Transactions (nested under account) ───────────────────────────────
+    getTransactions:    "/ledger/accounts",   // GET    /ledger/accounts/:id/transactions
+    addTransaction:     "/ledger/accounts",   // POST   /ledger/accounts/:id/transactions
+    updateTransaction:  "/ledger/accounts",   // PUT    /ledger/accounts/:accountId/transactions/:txnId
+    deleteTransaction:  "/ledger/accounts",   // DELETE /ledger/accounts/:accountId/transactions/:txnId
+ 
+    // ── Summary / Dashboard ────────────────────────────────────────────────
+    summary: "/ledger/summary",   // GET    ?ledgerType=party
+  },
 
 };
 

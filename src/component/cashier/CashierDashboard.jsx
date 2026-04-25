@@ -450,155 +450,245 @@ function ReportView({ sheet }) {
 function doPrint(sheet) {
   const c = calcSheet(sheet);
 
-  const doc = new jsPDF({
-    orientation: "portrait",
-    unit: "mm",
-    format: "a4",
-  });
+  // ─── Page setup ───────────────────────────────────────────
+  const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+  const PW = 210, M = 14, W = PW - M * 2;
 
-  const PAGE_W = 210;
-  const MARGIN = 10;
-  const W = PAGE_W - MARGIN * 2;
+  // ─── Color palette ────────────────────────────────────────
+  const INK     = [18, 24, 38];       // near-black text
+  const NAVY    = [6, 78, 59];       // header bg / shield fill
+  const TEAL    = [14, 118, 94];      // totals / "collection" accent
+  const CRIMSON = [185, 28, 28];      // deduction accent
+  const GOLD    = [202, 138, 4];      // logo shield highlight
+  const MUTED   = [100, 110, 130];    // secondary text
+  const RULE    = [220, 224, 235];    // hairline dividers
+  const WHITE   = [255, 255, 255];
 
-  const DARK = [20, 20, 20];
-  const GREEN = [0, 150, 100];
-  const RED = [220, 60, 60];
-  const GRAY = [120, 120, 120];
+  let y = 0;
 
-  let y = 14;
-
-  // ── Header (minimal) ──
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(12);
-  doc.setTextColor(...DARK);
-  doc.text("TERMINIX CASH REPORT", MARGIN, y);
-
-  doc.setFontSize(9);
-  doc.setTextColor(...GRAY);
-  doc.text(
-    `Sheet #${sheet.sheetNum} | ${formatDisplayDate(sheet.date)}`,
-    PAGE_W - MARGIN,
-    y,
-    { align: "right" }
-  );
-
-  y += 10;
-
-  function title(text) {
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(9);
-    doc.setTextColor(...DARK);
-    doc.text(text, MARGIN, y);
-    y += 4;
+  // ─── Helper: fill rect ────────────────────────────────────
+  function fillRect(x, yy, w, h, color) {
+    doc.setFillColor(...color);
+    doc.rect(x, yy, w, h, "F");
   }
 
-  function table(head, body, foot) {
+  // ─── HEADER BAND ──────────────────────────────────────────
+  fillRect(0, 0, PW, 36, NAVY);
+
+  // Gold accent strip at bottom of header
+  fillRect(0, 36, PW, 1.5, GOLD);
+
+  // ─── Shield logo (drawn programmatically) ─────────────────
+  // Outer shield shape
+  doc.setFillColor(...GOLD);
+  doc.setDrawColor(...GOLD);
+  // Shield path: top rect with rounded bottom-point
+  const sx = 14, sy = 4, sw = 14, sh = 16;
+  doc.roundedRect(sx, sy, sw, sh - 2, 2, 2, "F");
+  // Shield pointed bottom triangle
+  doc.triangle(
+    sx, sy + sh - 4,
+    sx + sw, sy + sh - 4,
+    sx + sw / 2, sy + sh + 2,
+    "F"
+  );
+  // Inner shield (navy inset)
+  doc.setFillColor(...NAVY);
+  doc.roundedRect(sx + 1.5, sy + 1.5, sw - 3, sh - 5, 1.5, 1.5, "F");
+  // "T" monogram on shield
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(10);
+  doc.setTextColor(...GOLD);
+  doc.text("T", sx + sw / 2, sy + 9, { align: "center" });
+
+  // ─── Company name ─────────────────────────────────────────
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(15);
+  doc.setTextColor(...WHITE);
+  doc.text("TERMINIX PAKISTAN", 32, 15);
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(7.5);
+  doc.setTextColor(180, 195, 220);
+  doc.text("PEST MANAGEMENT PROFESSIONALS", 32, 20.5);
+
+  // ─── Date badge (right side of header) ────────────────────
+  fillRect(PW - M - 44, 7, 44, 18, [255, 255, 255, 0.08]);
+  doc.setDrawColor(255, 255, 255, 0.2);
+  doc.roundedRect(PW - M - 44, 7, 44, 18, 2, 2);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.setTextColor(...WHITE);
+  doc.text(formatDisplayDate(sheet.date), PW - M - 22, 14, { align: "center" });
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(7);
+  doc.setTextColor(180, 195, 220);
+  doc.text(`SHEET #${sheet.sheetNum}`, PW - M - 22, 21, { align: "center" });
+
+  y = 45;
+
+  // ─── Summary KPI strip ────────────────────────────────────
+  const kpis = [
+    { label: "Total Collections", val: fPKR(c.totalOpening),  color: TEAL    },
+    { label: "Total Deductions",  val: fPKR(c.totalDeductions), color: CRIMSON },
+    { label: "Gross Balance",     val: fPKR(c.grossBalance),  color: NAVY    },
+  ];
+  const kW = W / 3 - 2;
+  kpis.forEach((k, i) => {
+    const kx = M + i * (kW + 3);
+    doc.setDrawColor(...k.color);
+    doc.setLineWidth(0.5);
+    doc.roundedRect(kx, y, kW, 17, 2, 2);
+    fillRect(kx, y, 3, 17, k.color);   // left colour bar
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(6.5);
+    doc.setTextColor(...MUTED);
+    doc.text(k.label.toUpperCase(), kx + 6, y + 5.5);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
+    doc.setTextColor(...INK);
+    doc.text(`PKR ${k.val}`, kx + 6, y + 12);
+  });
+  y += 23;
+
+  // ─── Section title helper ─────────────────────────────────
+  function sectionTitle(label, accentColor) {
+    doc.setFillColor(...accentColor);
+    doc.rect(M, y, 2, 5, "F");
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(8.5);
+    doc.setTextColor(...INK);
+    doc.text(label, M + 4, y + 4);
+    y += 7;
+  }
+
+  // ─── Table helper ─────────────────────────────────────────
+  function table(head, body, foot, footColor = TEAL) {
     autoTable(doc, {
       startY: y,
-      margin: { left: MARGIN, right: MARGIN },
-      head,
-      body,
-      foot,
+      margin: { left: M, right: M },
+      tableWidth: W,
+      head, body, foot,
       theme: "plain",
       styles: {
         fontSize: 8,
-        cellPadding: 2,
+        cellPadding: { top: 3, bottom: 3, left: 5, right: 5 },
+        textColor: INK,
+        lineColor: RULE,
+        lineWidth: 0.2,
+        font: "helvetica",
       },
       headStyles: {
-        fillColor: DARK,
-        textColor: 255,
-        fontSize: 8,
+        fillColor: [240, 243, 250],
+        textColor: MUTED,
+        fontSize: 6.5,
+        fontStyle: "bold",
+        cellPadding: { top: 2.5, bottom: 2.5, left: 5, right: 5 },
       },
       footStyles: {
+        fillColor: footColor,
+        textColor: WHITE,
         fontStyle: "bold",
-        textColor: 255,
-        fillColor: GREEN,
+        fontSize: 8.5,
       },
-      columnStyles: {
-        1: { halign: "right" },
-      },
+      alternateRowStyles: { fillColor: [250, 251, 253] },
+      columnStyles: { 1: { halign: "right" } },
     });
-
-    y = doc.lastAutoTable.finalY + 5;
+    y = doc.lastAutoTable.finalY + 6;
   }
 
-  // ── Collections ──
-  title("Collections");
-
-  const coll = [
-    ...sheet.openingEntries.map(e => [
-      e.description || "Opening",
-      `PKR ${fPKR(e.amount)}`,
-    ]),
-    ...sheet.otherCollections.map(e => [
-      e.description || "Other",
-      `PKR ${fPKR(e.amount)}`,
-    ]),
-  ];
-
+  // ─── Collections section ──────────────────────────────────
+  sectionTitle("COLLECTIONS", TEAL);
   table(
-    [["Particulars", "Amount"]],
-    coll,
-    [["Total", `PKR ${fPKR(c.totalOpening)}`]]
-  );
-
-  // ── Sales ──
-  title("Sales");
-
-  table(
-    [["Dept", "Sales"]],
-    DEPARTMENTS.map(d => [d, `PKR ${fPKR(c.deptTotals[d])}`]),
-    [["Total Sales", `PKR ${fPKR(c.totalSales)}`]]
-  );
-
-  // ── Deductions ──
-  title("Deductions");
-
-  table(
-    [["Particulars", "Amount"]],
-    sheet.expenses.map(e => [
-      e.description || "Expense",
-      `PKR ${fPKR(e.amount)}`,
-    ]),
-    [["Total", `PKR ${fPKR(c.totalDeductions)}`]],
-    RED
-  );
-
-  // ── Summary ──
-  title("Summary");
-
-  table(
-    [["Particulars", "Amount"]],
+    [["PARTICULARS", "AMOUNT (PKR)"]],
     [
-      ["Cash in Hand", `PKR ${fPKR(c.cashInHandVal)}`],
-      ["Pending", `PKR ${fPKR(c.pendingAmtVal)}`],
-      ["Total", `PKR ${fPKR(c.totalBalance)}`],
-      [
-        "Difference",
-        c.isMatched ? "0" : `PKR ${fPKR(Math.abs(c.difference))}`,
-      ],
+      ...sheet.openingEntries.map(e  => [e.description || "Opening", fPKR(e.amount)]),
+      ...sheet.otherCollections.map(e => [e.description || "Other",   fPKR(e.amount)]),
     ],
-    []
+    [["TOTAL COLLECTION", fPKR(c.totalOpening)]],
+    TEAL
   );
 
-  // ── Status (tiny) ──
-  doc.setFontSize(9);
-  doc.setTextColor(...(c.isMatched ? GREEN : RED));
+  // ─── Sales section ────────────────────────────────────────
+  sectionTitle("SALES", NAVY);
+  table(
+    [["DEPARTMENT", "SALES (PKR)"]],
+    DEPARTMENTS.map(d => [d, fPKR(c.deptTotals[d])]),
+    [["TOTAL SALES", fPKR(c.totalSales)]],
+    NAVY
+  );
+
+  // ─── Deductions section ───────────────────────────────────
+  sectionTitle("DEDUCTIONS", CRIMSON);
+  table(
+    [["PARTICULARS", "AMOUNT (PKR)"]],
+    sheet.expenses.map(e => [e.description || "Expense", fPKR(e.amount)]),
+    [["TOTAL DEDUCTIONS", fPKR(c.totalDeductions)]],
+    CRIMSON
+  );
+
+  // ─── Summary box ──────────────────────────────────────────
+  fillRect(M, y, W, 34, [245, 248, 255]);
+  doc.setDrawColor(...NAVY);
+  doc.setLineWidth(0.3);
+  doc.roundedRect(M, y, W, 34, 2, 2);
+
+  const sumItems = [
+    { label: "Gross Balance",  val: c.grossBalance  },
+    { label: "Cash in Hand",   val: c.cashInHandVal },
+    { label: "Pending Amount", val: c.pendingAmtVal },
+    { label: "Total Balance",  val: c.totalBalance  },
+  ];
+  const colW = W / 4;
+  sumItems.forEach((s, i) => {
+    const cx = M + i * colW + colW / 2;
+    if (i > 0) {
+      doc.setDrawColor(...RULE);
+      doc.setLineWidth(0.2);
+      doc.line(M + i * colW, y + 4, M + i * colW, y + 30);
+    }
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(6);
+    doc.setTextColor(...MUTED);
+    doc.text(s.label.toUpperCase(), cx, y + 11, { align: "center" });
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(i === 3 ? 10 : 9);
+    doc.setTextColor(...(i === 3 ? NAVY : INK));
+    doc.text(`PKR ${fPKR(s.val)}`, cx, y + 21, { align: "center" });
+  });
+  y += 40;
+
+  // ─── Difference badge ─────────────────────────────────────
+  const matched    = c.isMatched;
+  const badgeColor = matched ? TEAL : CRIMSON;
+  fillRect(M, y, W, 8, badgeColor);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(7.5);
+  doc.setTextColor(...WHITE);
   doc.text(
-    c.isMatched ? "MATCHED ✓" : "UNMATCHED ✗",
-    PAGE_W - MARGIN,
-    y + 2,
+    matched
+      ? "✓  BALANCED — No difference"
+      : `✗  DIFFERENCE: PKR ${fPKR(Math.abs(c.difference))}`,
+    PW / 2, y + 5,
+    { align: "center" }
+  );
+  y += 14;
+
+  // ─── FOOTER ───────────────────────────────────────────────
+  fillRect(0, 281, PW, 16, NAVY);
+  fillRect(0, 281, PW, 1, GOLD);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(6.5);
+  doc.setTextColor(180, 195, 220);
+  doc.text("Terminix Pakistan | Cash Management System", M, 289);
+  doc.text(
+    `Generated: ${new Date().toLocaleString()}`,
+    PW - M, 289,
     { align: "right" }
   );
 
-  // ── Footer ──
-  doc.setFontSize(7);
-  doc.setTextColor(...GRAY);
-  doc.text("Terminix Cash System", MARGIN, 287);
-
   doc.save(`Terminix-${sheet.date}-S${sheet.sheetNum}.pdf`);
 }
-
 // ══════════════════════════════════════════════════════════════════════════════
 // HISTORY TAB — infinite scroll sidebar
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1081,7 +1171,7 @@ export default function CashierDashboard() {
 </div>
     {!isMobile && (
       <div>
-        <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: -0.3 }}>TERMINIX PAKISTAN</div>
+        <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: -0.3 }}>TERMINIX, PAKISTAN</div>
         <div style={{ fontSize: 10, color: T.textMuted, letterSpacing: 0.5, marginTop: -1 }}>CASHIER </div>
       </div>
     )}

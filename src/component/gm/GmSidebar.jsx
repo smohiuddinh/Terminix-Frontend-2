@@ -51,7 +51,7 @@ export default function Sidebar({ active, onChange, collapsed }) {
               </svg>
             </div>
             <div>
-              <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#111827' }}>GM Ledger</p>
+              <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#111827' }}>Ledger Accounts</p>
               <p style={{ margin: 0, fontSize: 11, color: '#9ca3af' }}>Finance Portal</p>
             </div>
           </div>

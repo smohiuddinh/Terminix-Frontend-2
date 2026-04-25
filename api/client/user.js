@@ -64,7 +64,9 @@ export function useLogin() {
         navigate("/superadmin/users");
       } else if (userData?.role === "gm") {
         navigate("/gm/dashboard");
-      } else {
+      }  else if (userData?.role === "fs") {
+        navigate("/fs/dashboard");
+      }else {
         navigate("/unauthorized");
       }
     },

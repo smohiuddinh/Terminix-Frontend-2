@@ -15,6 +15,7 @@ import CashierDashboard from "@/component/cashier/CashierDashboard";
 import GmDashboard from "@/component/gm/GmDashboard";
 import PageNotFound from "@/component/pageNotFound";
 import Unauthorized from "@/pages/Unauthorize";
+import FumigationDashboard from "../component/fs/FumigationDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +31,14 @@ export const router = createBrowserRouter([
     element: withSuspense(
       <AuthRoute allowedRoles={["cashier"]}>
         <CashierDashboard />
+      </AuthRoute>
+    ),
+  },
+    {
+    path: "/fs/dashboard",
+    element: withSuspense(
+      <AuthRoute allowedRoles={["fs"]}>
+        <FumigationDashboard />
       </AuthRoute>
     ),
   },
